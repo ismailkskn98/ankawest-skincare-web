@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useForm } from "react-hook-form";
 
+import PasswordInput from "@/components/ui/password-input";
 import { clientApiRequest } from "@/lib/api/client";
 import { resetPasswordSchema } from "@/lib/validation/auth";
 
@@ -103,41 +104,52 @@ function ResetPasswordContent() {
         <label className="form-label" htmlFor="new-password">
           Yeni şifre
         </label>
-        <input
-          className="form-control"
+        <PasswordInput
           id="new-password"
-          type="password"
           autoComplete="new-password"
           aria-invalid={Boolean(errors.password)}
-          aria-describedby="new-password-hint"
+          aria-describedby={
+            errors.password
+              ? "new-password-hint new-password-error"
+              : "new-password-hint"
+          }
+          visibilityLabel="Yeni şifreyi"
           {...register("password")}
         />
         <p className="form-hint" id="new-password-hint">
           En az 12 karakter; küçük ve büyük harf, rakam ve özel karakter içermeli.
           UTF-8 olarak en fazla 72 bayt olabilir.
         </p>
-        {errors.password ? <p className="form-error">{errors.password.message}</p> : null}
+        {errors.password ? (
+          <p className="form-error" id="new-password-error">
+            {errors.password.message}
+          </p>
+        ) : null}
       </div>
 
       <div className="form-field">
         <label className="form-label" htmlFor="password-confirmation">
           Yeni şifre tekrar
         </label>
-        <input
-          className="form-control"
+        <PasswordInput
           id="password-confirmation"
-          type="password"
           autoComplete="new-password"
           aria-invalid={Boolean(errors.passwordConfirmation)}
+          aria-describedby={
+            errors.passwordConfirmation ? "password-confirmation-error" : undefined
+          }
+          visibilityLabel="Şifre tekrarını"
           {...register("passwordConfirmation")}
         />
         {errors.passwordConfirmation ? (
-          <p className="form-error">{errors.passwordConfirmation.message}</p>
+          <p className="form-error" id="password-confirmation-error">
+            {errors.passwordConfirmation.message}
+          </p>
         ) : null}
       </div>
 
       <button className="button button-primary" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Güncelleniyor..." : "Şifreyi güncelle"}
+        {isSubmitting ? "Güncelleniyor…" : "Şifreyi güncelle"}
       </button>
     </form>
   );
@@ -151,7 +163,7 @@ export default function ResetPasswordForm() {
   );
 
   if (!isClient) {
-    return <p className="form-hint" role="status">Bağlantı doğrulanıyor...</p>;
+    return <p className="form-hint" role="status">Bağlantı doğrulanıyor…</p>;
   }
 
   return <ResetPasswordContent />;

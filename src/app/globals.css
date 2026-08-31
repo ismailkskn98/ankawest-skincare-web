@@ -343,6 +343,52 @@ img {
   border-color: var(--danger);
 }
 
+.password-control {
+  position: relative;
+}
+
+.password-control .form-control {
+  padding-inline-end: 50px;
+}
+
+.password-control .form-control::-ms-reveal,
+.password-control .form-control::-ms-clear {
+  display: none;
+}
+
+.password-control:focus-within .form-control {
+  box-shadow: 0 0 0 3px rgb(236 103 45 / 0.12);
+}
+
+.password-toggle {
+  position: absolute;
+  inset-block: 1px;
+  inset-inline-end: 1px;
+  display: grid;
+  width: 40px;
+  place-items: center;
+  border: 0;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: transparent;
+  color: var(--muted);
+  touch-action: manipulation;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.password-toggle:hover:not(:disabled) {
+  background: var(--surface-muted);
+  color: var(--foreground);
+}
+
+.password-toggle:focus-visible {
+  outline-offset: 0;
+}
+
+.password-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .checkbox-field {
   display: flex;
   align-items: flex-start;
@@ -832,6 +878,22 @@ img {
   margin: 0;
   font-size: 0.92rem;
   font-weight: 640;
+}
+
+.panel-heading {
+  display: grid;
+  gap: 5px;
+}
+
+.panel-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.account-settings-layout {
+  width: min(100%, 680px);
 }
 
 .panel-footer {

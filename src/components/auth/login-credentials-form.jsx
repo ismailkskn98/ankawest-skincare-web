@@ -5,6 +5,7 @@ import { WarningCircle } from "@phosphor-icons/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import PasswordInput from "@/components/ui/password-input";
 import { clientApiRequest } from "@/lib/api/client";
 import { loginSchema } from "@/lib/validation/auth";
 
@@ -72,13 +73,12 @@ export default function LoginCredentialsForm({ onNextStep }) {
             Şifremi unuttum
           </Link>
         </div>
-        <input
-          className="form-control"
+        <PasswordInput
           id="password"
-          type="password"
           autoComplete="current-password"
           aria-invalid={Boolean(errors.password)}
           aria-describedby={errors.password ? "password-error" : undefined}
+          visibilityLabel="Şifreyi"
           {...register("password")}
         />
         {errors.password ? (
@@ -93,7 +93,7 @@ export default function LoginCredentialsForm({ onNextStep }) {
         type="submit"
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Doğrulanıyor..." : "Devam et"}
+        {isSubmitting ? "Doğrulanıyor…" : "Devam et"}
       </button>
     </form>
   );

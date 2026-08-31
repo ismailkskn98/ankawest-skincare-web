@@ -61,6 +61,7 @@ npm run start
 - Ürün listeleme, filtreleme, yayınlama, düzenleme ve görsel yönetimi
 - Kategori ve site içeriği yönetimi
 - Yalnızca `admin` rolüne açık kullanıcı, rol, erişim durumu ve TOTP sıfırlama işlemleri
+- Admin ve editör için mevcut şifre doğrulamalı hesap şifresi değiştirme
 
 Tarayıcı doğrudan API erişim tokenı tutmaz. Kısa ömürlü giriş doğrulama tokenı ve oturum tokenı ayrı `HttpOnly`, `SameSite=Strict` cookie alanlarında saklanır. Yönetim istekleri izin listeli Next.js Route Handler üzerinden API servisine iletilir. Korunan sayfalar gerçek oturum doğrulamasını sunucu tarafındaki `/auth/me` çağrısıyla yapar.
 

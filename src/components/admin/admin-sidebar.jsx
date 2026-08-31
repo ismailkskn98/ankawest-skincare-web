@@ -2,6 +2,7 @@
 
 import {
   Article,
+  GearSix,
   House,
   Package,
   SquaresFour,
@@ -18,6 +19,7 @@ const icons = {
   article: Article,
   house: House,
   package: Package,
+  settings: GearSix,
   squares: SquaresFour,
   users: UsersThree,
 };

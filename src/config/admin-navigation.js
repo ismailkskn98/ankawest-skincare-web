@@ -9,4 +9,5 @@ export const adminNavigation = [
     icon: "users",
     adminOnly: true,
   },
+  { href: "/admin/account", label: "Hesap ayarları", icon: "settings" },
 ];

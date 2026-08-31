@@ -12,13 +12,19 @@ export const strongPasswordSchema = z
   .regex(/[0-9]/, "Şifre en az bir rakam içermelidir.")
   .regex(/[^a-zA-Z0-9]/, "Şifre en az bir özel karakter içermelidir.");
 
+const createPasswordCredentialSchema = (requiredMessage) => z
+  .string()
+  .min(1, requiredMessage)
+  .max(128, "Şifre en fazla 128 karakter olabilir.")
+  .refine(fitsBcryptByteLimit, "Şifre UTF-8 olarak en fazla 72 bayt olabilir.");
+
+const currentPasswordSchema = createPasswordCredentialSchema(
+  "Mevcut şifrenizi girin.",
+);
+
 export const loginSchema = z.object({
   email: z.email("Geçerli bir e-posta adresi girin.").trim().toLowerCase(),
-  password: z
-    .string()
-    .min(1, "Şifrenizi girin.")
-    .max(128)
-    .refine(fitsBcryptByteLimit, "Şifre en fazla 72 bayt olabilir."),
+  password: createPasswordCredentialSchema("Şifrenizi girin."),
 });
 
 export const forgotPasswordSchema = z.object({
@@ -36,6 +42,24 @@ export const resetPasswordSchema = z
   .refine((values) => values.password === values.passwordConfirmation, {
     message: "Şifreler eşleşmiyor.",
     path: ["passwordConfirmation"],
+  });
+
+export const changePasswordSchema = z
+  .object({
+    currentPassword: currentPasswordSchema,
+    newPassword: strongPasswordSchema,
+    newPasswordConfirmation: z.string(),
+  })
+  .refine(
+    (values) => values.newPassword === values.newPasswordConfirmation,
+    {
+      message: "Yeni şifreler eşleşmiyor.",
+      path: ["newPasswordConfirmation"],
+    },
+  )
+  .refine((values) => values.currentPassword !== values.newPassword, {
+    message: "Yeni şifre mevcut şifreden farklı olmalıdır.",
+    path: ["newPassword"],
   });
 
 export const verificationCodeSchema = z.object({

@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 import EmptyState from "@/components/ui/empty-state";
+import PasswordInput from "@/components/ui/password-input";
 import StatusBadge from "@/components/ui/status-badge";
 import { clientApiRequest } from "@/lib/api/client";
 import {
@@ -95,9 +96,16 @@ export default function UserManager({ currentUserId, initialRecords }) {
 
       if (!createResult.success) {
         const fieldErrors = createResult.error.flatten().fieldErrors;
+        let shouldFocus = true;
+
         Object.entries(fieldErrors).forEach(([fieldName, messages]) => {
           if (messages?.[0]) {
-            setError(fieldName, { message: messages[0] });
+            setError(
+              fieldName,
+              { message: messages[0] },
+              { shouldFocus },
+            );
+            shouldFocus = false;
           }
         });
         return;
@@ -306,19 +314,27 @@ export default function UserManager({ currentUserId, initialRecords }) {
             {!editingUser ? (
               <div className="form-field">
                 <label className="form-label" htmlFor="user-password">Geçici şifre</label>
-                <input
-                  className="form-control"
+                <PasswordInput
                   id="user-password"
-                  type="password"
                   autoComplete="new-password"
                   aria-invalid={Boolean(errors.password)}
+                  aria-describedby={
+                    errors.password
+                      ? "user-password-hint user-password-error"
+                      : "user-password-hint"
+                  }
+                  visibilityLabel="Geçici şifreyi"
                   {...register("password")}
                 />
-                <p className="form-hint">
+                <p className="form-hint" id="user-password-hint">
                   En az 12 karakter; büyük/küçük harf, rakam ve özel karakter. UTF-8
                   olarak en fazla 72 bayt.
                 </p>
-                {errors.password ? <p className="form-error">{errors.password.message}</p> : null}
+                {errors.password ? (
+                  <p className="form-error" id="user-password-error">
+                    {errors.password.message}
+                  </p>
+                ) : null}
               </div>
             ) : null}
             <div className="form-field">
@@ -382,7 +398,7 @@ export default function UserManager({ currentUserId, initialRecords }) {
               </button>
             ) : null}
             <button className="button button-primary" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Kaydediliyor..." : "Kaydet"}
+              {isSubmitting ? "Kaydediliyor…" : "Kaydet"}
             </button>
           </footer>
         </form>

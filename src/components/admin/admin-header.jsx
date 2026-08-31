@@ -10,6 +10,7 @@ const routeTitles = [
   { prefix: "/admin/categories", title: "Kategoriler" },
   { prefix: "/admin/content", title: "Site içerikleri" },
   { prefix: "/admin/users", title: "Yöneticiler" },
+  { prefix: "/admin/account", title: "Hesap ayarları" },
   { prefix: "/admin", title: "Genel bakış" },
 ];
 
