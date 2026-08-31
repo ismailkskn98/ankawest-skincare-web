@@ -1,0 +1,60 @@
+@import "tailwindcss" source("../");
+
+:root {
+  color-scheme: light;
+  --page-background: #f3f0ea;
+  --surface: #fbfaf7;
+  --ink: #1f2923;
+  --muted: #5f6a63;
+  --line: #d4dbd5;
+  --accent: #526d5e;
+}
+
+@utility gridContainer {
+  display: grid;
+  grid-template-columns: 1fr min(92%, 90rem) 1fr;
+
+  & > * {
+    grid-column: 2;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 20rem;
+  background: var(--page-background);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--page-background);
+  color: var(--ink);
+  font-family:
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a,
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
