@@ -10,13 +10,22 @@ Anka West Skincare için Next.js 16 tabanlı tanıtım sayfası ve güvenli yön
 
 ## Kurulum
 
-Ortam değişkeni örneğini kopyalayın:
+Ortam dosyalarını tek şablondan oluşturun:
 
 ```powershell
-Copy-Item .env.example .env.local
+Copy-Item .env.example .env.development
+Copy-Item .env.example .env.production
 ```
 
-API adresini `.env.local` içinde ortamınıza göre düzenleyin:
+Geliştirme API adresini `.env.development`, canlı API adresini
+`.env.production` içinde düzenleyin. `.env.example` yerel geliştirme adresini
+örnek olarak içerir; production dosyasında bunu gerçek API adresiyle değiştirin.
+
+Bu projede `.env.local` kullanmayın; Next.js yükleme sırasında bu dosyaya mod
+dosyalarından daha yüksek öncelik verir ve development/production ayrımını
+ezebilir.
+
+Geliştirme örneği:
 
 ```env
 ANKAWEST_SKINCARE_API_BASE_URL=http://localhost:4000/api/ankawest-skincare/v1
@@ -39,6 +48,11 @@ npm run lint
 npm run build
 npm run start
 ```
+
+- `npm run dev`, `.env.development` dosyasını yükler.
+- `npm run build` ve `npm start`, `.env.production` dosyasını yükler.
+- `.env.production` değiştirildikten sonra production çıktısını yeniden
+  oluşturmak için `npm run build` komutunu tekrar çalıştırın.
 
 ## Yönetim paneli
 
