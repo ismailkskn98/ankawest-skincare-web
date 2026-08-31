@@ -1,75 +1,36 @@
-# ankawest-skincare-web
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Anka West Skincare için hazırlanan bağımsız Next.js frontend projesidir.
+## Getting Started
 
-## İlk teknik faz
-
-Bu faz yalnızca çalışan ve kolayca genişletilebilen frontend temelini içerir:
-
-- Next.js App Router ve TypeScript
-- Tailwind CSS v4 ve PostCSS
-- ESLint flat config
-- Server Component tabanlı tek `/` rotası
-- Ortak semantic header ve footer
-- Merkezi, typed site metni ve navigasyon yapılandırması
-- Responsive ve klavye erişilebilir başlangıç arayüzü
-
-Ürün envanteri, ürün detayları, e-ticaret, iletişim formları, admin, API, Cloudflare R2, Akademi ve ana Anka West sitesi bu fazın kapsamında değildir.
-
-## Geçici varsayımlar
-
-- Skincare sitesinin ilk yayın dili henüz kesinleşmedi. Kolay değiştirilebilir başlangıç kabuğu Türkiye hedefiyle `html lang="tr"` kullanır. `/en` rotası veya i18n yönlendirmesi eklenmemiştir.
-- Üretim domaini doğrulanmadığı için canonical URL tanımlanmamıştır.
-- Sayfa, doğrulanmış gerçek içerik eklenene kadar yanlışlıkla indekslenmemesi için geçici olarak `noindex, nofollow` metadata kullanır.
-- Ürün adları, kategoriler, içerikler, medikal/bilimsel beyanlar ve satış özellikleri kaynakları doğrulanmadan eklenmeyecektir.
-
-Bu varsayımlar içerik, domain ve yayın planı kesinleştiğinde yeniden değerlendirilmelidir.
-
-## Gereksinimler
-
-- Node.js `>=20.9.0`
-- npm
-
-## Kurulum ve çalışma
+First, run the development server:
 
 ```bash
-npm install
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Uygulama geliştirme ortamında `http://localhost:3000` adresinde açılır.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Doğrulama komutları
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-```bash
-npm run lint
-npm run typecheck
-npm run build
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Temel yapı
+## Learn More
 
-```text
-src/
-├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/
-│   └── layout/
-│       ├── site-footer.tsx
-│       └── site-header.tsx
-└── config/
-    └── site.ts
-```
+To learn more about Next.js, take a look at the following resources:
 
-Kullanıcıya görünen başlangıç metinleri ve navigasyon bağlantıları `src/config/site.ts` içinde merkezi olarak yönetilir.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Ortam değişkenleri
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-İlk teknik fazda ortam değişkeni kullanılmaz. İleride yalnızca doğrulanmış servis ve domain bilgileri `.env.example` üzerinden belgelenecektir.
+## Deploy on Vercel
 
-## Proje belgeleri
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- [Ürün pazarlama bağlamı](.agents/product-marketing.md)
-- [Site mimarisi](docs/site-architecture.md)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
