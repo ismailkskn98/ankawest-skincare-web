@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Anka West Skincare Web
 
-## Getting Started
+Anka West Skincare için Next.js 16 tabanlı tanıtım sayfası ve güvenli yönetim panelidir. Ana sayfa marka logosuyla hazırlanıyor durumunu gösterir; ürün, kategori, site içeriği ve panel kullanıcı yönetimi `/admin` altında yer alır.
 
-First, run the development server:
+## Gereksinimler
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 20.9 veya üzeri
+- Çalışan Anka West API servisi
+- Skincare veritabanı migration ve seed işlemlerinin tamamlanmış olması
+
+## Kurulum
+
+Ortam değişkeni örneğini kopyalayın:
+
+```powershell
+Copy-Item .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+API adresini `.env.local` içinde ortamınıza göre düzenleyin:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```env
+ANKAWEST_SKINCARE_API_BASE_URL=http://localhost:4000/api/ankawest-skincare/v1
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ardından bağımlılıkları kurup geliştirme sunucusunu başlatın:
 
-## Learn More
+```powershell
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Uygulama varsayılan olarak [http://localhost:3001](http://localhost:3001) adresinde açılır. Yönetim girişi `/admin/login` rotasındadır. Ana AnkaWest web projesi için `3000` portu boş bırakılır.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Komutlar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```powershell
+npm run dev
+npm run lint
+npm run build
+npm run start
+```
 
-## Deploy on Vercel
+## Yönetim paneli
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- E-posta ve şifre girişinden sonra TOTP kurulum veya doğrulama akışı
+- URL fragment içindeki tek kullanımlık token ile şifre sıfırlama
+- Ürün listeleme, filtreleme, yayınlama, düzenleme ve görsel yönetimi
+- Kategori ve site içeriği yönetimi
+- Yalnızca `admin` rolüne açık kullanıcı, rol, erişim durumu ve TOTP sıfırlama işlemleri
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tarayıcı doğrudan API erişim tokenı tutmaz. Kısa ömürlü giriş doğrulama tokenı ve oturum tokenı ayrı `HttpOnly`, `SameSite=Strict` cookie alanlarında saklanır. Yönetim istekleri izin listeli Next.js Route Handler üzerinden API servisine iletilir. Korunan sayfalar gerçek oturum doğrulamasını sunucu tarafındaki `/auth/me` çağrısıyla yapar.
+
+## Üretim notları
+
+- `ANKAWEST_SKINCARE_API_BASE_URL` değerini üretim API adresine ayarlayın.
+- HTTPS altında oturum cookie alanları otomatik olarak `Secure` işaretlenir.
+- API CORS ve parola sıfırlama URL ayarlarına web uygulamasının üretim adresini ekleyin.
+- Dağıtımdan önce `npm run lint` ve `npm run build` komutlarını çalıştırın.
