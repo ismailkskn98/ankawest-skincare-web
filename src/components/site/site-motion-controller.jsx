@@ -2,9 +2,12 @@
 
 import { useEffect } from "react";
 
+const HEADER_SCROLL_THRESHOLD = 70;
+
 export function SiteMotionController() {
   useEffect(() => {
     const root = document.querySelector("[data-site-root]");
+    const header = root?.querySelector("[data-header]");
     const video = root?.querySelector("[data-hero-video]");
     const reduceMotionQuery = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -17,6 +20,69 @@ export function SiteMotionController() {
 
     let cancelled = false;
     let animationContext = null;
+    let gsapInstance = null;
+    let lenisInstance = null;
+    let removeLenisScroll = null;
+    let isHeaderVisible = true;
+
+    const setHeaderTheme = (isScrolled) => {
+      if (!header) {
+        return;
+      }
+
+      header.dataset.scrolled = isScrolled ? "true" : "false";
+    };
+
+    const setHeaderVisibility = (
+      isVisible,
+      { animate = true, force = false } = {},
+    ) => {
+      if (!header || (!force && isHeaderVisible === isVisible)) {
+        return;
+      }
+
+      isHeaderVisible = isVisible;
+      header.dataset.hidden = isVisible ? "false" : "true";
+
+      if (!animate || reduceMotionQuery.matches || !gsapInstance) {
+        gsapInstance?.killTweensOf(header);
+
+        if (gsapInstance) {
+          gsapInstance.set(header, {
+            yPercent: isVisible ? 0 : -125,
+            autoAlpha: isVisible ? 1 : 0,
+          });
+        } else {
+          header.style.transform = isVisible
+            ? "translate3d(0, 0, 0)"
+            : "translate3d(0, -125%, 0)";
+          header.style.opacity = isVisible ? "1" : "0";
+          header.style.visibility = isVisible ? "visible" : "hidden";
+        }
+
+        header.style.pointerEvents = isVisible ? "auto" : "none";
+        return;
+      }
+
+      gsapInstance.killTweensOf(header);
+
+      if (isVisible) {
+        header.style.pointerEvents = "auto";
+      }
+
+      gsapInstance.to(header, {
+        yPercent: isVisible ? 0 : -125,
+        autoAlpha: isVisible ? 1 : 0,
+        duration: isVisible ? 0.56 : 0.42,
+        ease: isVisible ? "power3.out" : "power2.in",
+        overwrite: true,
+        onComplete: () => {
+          if (!isVisible) {
+            header.style.pointerEvents = "none";
+          }
+        },
+      });
+    };
 
     const pauseAtStart = () => {
       if (!video) {
@@ -31,17 +97,20 @@ export function SiteMotionController() {
     };
 
     const syncVideoPlayback = () => {
+      if (document.hidden) {
+        video?.pause();
+        lenisInstance?.stop();
+        return;
+      }
+
+      lenisInstance?.start();
+
       if (!video) {
         return;
       }
 
       if (reduceMotionQuery.matches || saveData) {
         pauseAtStart();
-        return;
-      }
-
-      if (document.hidden) {
-        video.pause();
         return;
       }
 
@@ -61,6 +130,11 @@ export function SiteMotionController() {
         animationContext?.revert();
         animationContext = null;
       }
+
+      setHeaderVisibility(isHeaderVisible, {
+        animate: false,
+        force: true,
+      });
     };
 
     video?.addEventListener("loadedmetadata", syncVideoPlayback, { once: true });
@@ -69,30 +143,84 @@ export function SiteMotionController() {
     syncVideoPlayback();
 
     async function setupExperience() {
-      if (reduceMotionQuery.matches) {
+      const [lenisModule, gsapModule] = await Promise.all([
+        import("lenis"),
+        reduceMotionQuery.matches ? Promise.resolve(null) : import("gsap"),
+      ]);
+
+      if (cancelled) {
         return;
       }
 
-      const { gsap } = await import("gsap");
+      const Lenis = lenisModule.default;
+      gsapInstance = gsapModule?.gsap ?? null;
+      lenisInstance = new Lenis({
+        anchors: true,
+        autoRaf: true,
+        duration: 1.05,
+        respectReducedMotion: true,
+        smoothWheel: !saveData,
+        syncTouch: false,
+        wheelMultiplier: 0.9,
+      });
 
-      if (cancelled || reduceMotionQuery.matches) {
+      const initialScroll = lenisInstance.scroll;
+      setHeaderTheme(initialScroll > HEADER_SCROLL_THRESHOLD);
+      setHeaderVisibility(true, {
+        animate: false,
+        force: true,
+      });
+
+      removeLenisScroll = lenisInstance.on("scroll", (lenis) => {
+        const isAtTop = lenis.scroll <= HEADER_SCROLL_THRESHOLD;
+
+        setHeaderTheme(!isAtTop);
+
+        if (isAtTop) {
+          setHeaderVisibility(true);
+          return;
+        }
+
+        if (Math.abs(lenis.velocity) < 0.05) {
+          return;
+        }
+
+        if (lenis.direction > 0) {
+          setHeaderVisibility(false);
+        } else if (lenis.direction < 0) {
+          setHeaderVisibility(true);
+        }
+      });
+
+      syncVideoPlayback();
+
+      if (!gsapInstance || reduceMotionQuery.matches) {
         return;
       }
 
-      animationContext = gsap.context(() => {
-        const timeline = gsap.timeline({
+      animationContext = gsapInstance.context(() => {
+        const timeline = gsapInstance.timeline({
           defaults: {
             ease: "power3.out",
           },
         });
 
+        if (initialScroll <= HEADER_SCROLL_THRESHOLD) {
+          timeline.fromTo(
+            "[data-header-reveal]",
+            {
+              yPercent: -115,
+              autoAlpha: 0,
+            },
+            {
+              yPercent: 0,
+              autoAlpha: 1,
+              duration: 0.82,
+            },
+          );
+        }
+
         timeline
-          .from("[data-header-reveal]", {
-            y: -18,
-            autoAlpha: 0,
-            duration: 0.82,
-            clearProps: "transform,opacity,visibility",
-          })
           .from(
             "[data-hero-line]",
             {
@@ -103,7 +231,7 @@ export function SiteMotionController() {
               ease: "expo.out",
               clearProps: "transform,opacity,visibility",
             },
-            "-=0.5",
+            initialScroll <= HEADER_SCROLL_THRESHOLD ? "-=0.5" : 0,
           )
           .from(
             "[data-hero-support]",
@@ -128,10 +256,19 @@ export function SiteMotionController() {
       }, root);
     }
 
-    setupExperience();
+    setupExperience().catch(() => {
+      setHeaderTheme(window.scrollY > HEADER_SCROLL_THRESHOLD);
+      setHeaderVisibility(true, {
+        animate: false,
+        force: true,
+      });
+    });
 
     return () => {
       cancelled = true;
+      removeLenisScroll?.();
+      lenisInstance?.destroy();
+      gsapInstance?.killTweensOf(header);
       animationContext?.revert();
       video?.removeEventListener("loadedmetadata", syncVideoPlayback);
       document.removeEventListener("visibilitychange", handleVisibilityChange);

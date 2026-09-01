@@ -34,6 +34,45 @@
   --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-ppmori: var(--font-pp-mori);
+  --font-editorial: var(--font-pp-editorial);
+}
+
+@theme {
+  --animate-mobile-menu-enter: mobile-menu-enter 520ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-mobile-link-enter: mobile-link-enter 620ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes mobile-menu-enter {
+    from {
+      opacity: 0;
+      transform: translateY(-18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes mobile-link-enter {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@custom-variant short-desktop {
+  @media (max-height: 700px) and (min-width: 901px) {
+    @slot;
+  }
 }
 
 *,

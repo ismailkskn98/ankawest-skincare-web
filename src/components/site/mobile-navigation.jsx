@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import styles from "./home-shell.module.css";
+const navigationDelayClasses = [
+  "[animation-delay:110ms]",
+  "[animation-delay:175ms]",
+  "[animation-delay:240ms]",
+];
 
 export function MobileNavigation({ items, storeUrl }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,24 +77,30 @@ export function MobileNavigation({ items, storeUrl }) {
     <>
       <button
         ref={triggerRef}
-        className={styles.menuTrigger}
+        className="inline-flex min-h-[50px] items-center gap-3 rounded-full border-0 bg-[rgba(250,249,246,0.96)] py-[5px] pr-[7px] pl-[17px] text-[#2f322f] max-[390px]:pl-3.5 min-[901px]:hidden"
         type="button"
         aria-label="Menüyü aç"
         aria-controls="site-mobile-menu"
         aria-expanded={isOpen}
         onClick={openMenu}
       >
-        <span className={styles.menuTriggerLabel}>Menü</span>
-        <span className={styles.menuTriggerGlyph} aria-hidden="true">
-          <span />
-          <span />
+        <span className="text-[0.68rem] font-semibold tracking-[0.035em] uppercase">
+          Menü
+        </span>
+        <span
+          className="relative grid size-[38px] place-items-center rounded-full bg-[#2f322f]"
+          aria-hidden="true"
+        >
+          <span className="absolute h-px w-3.5 -translate-y-[3px] bg-[#f7f6f1]" />
+          <span className="absolute h-px w-3.5 translate-y-[3px] bg-[#f7f6f1]" />
         </span>
       </button>
 
       <dialog
         ref={dialogRef}
         id="site-mobile-menu"
-        className={styles.mobileDialog}
+        className="group fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-[#f0eee7] p-0 text-[#252825] open:animate-mobile-menu-enter backdrop:bg-[rgba(9,13,10,0.58)] motion-reduce:open:animate-none"
+        data-lenis-prevent
         aria-labelledby="mobile-menu-title"
         onCancel={(event) => {
           event.preventDefault();
@@ -101,21 +111,35 @@ export function MobileNavigation({ items, storeUrl }) {
           unlockPage();
         }}
       >
-        <div className={styles.mobileDialogInner}>
-          <div className={styles.mobileMenuTopline}>
-            <p id="mobile-menu-title">Anka West Skincare</p>
+        <div className="flex min-h-full flex-col px-[clamp(20px,7vw,34px)] pt-[18px] pb-7">
+          <div className="flex min-h-[58px] items-center justify-between gap-5 border-b border-[rgba(37,40,37,0.16)] pb-3.5">
+            <p
+              id="mobile-menu-title"
+              className="text-[0.71rem] font-semibold tracking-[0.05em] uppercase"
+            >
+              Anka West Skincare
+            </p>
             <button
-              className={styles.menuClose}
+              className="inline-flex min-h-11 items-center gap-2.5 border-0 bg-transparent p-0 text-[0.72rem] text-inherit uppercase"
               type="button"
               aria-label="Menüyü kapat"
               onClick={() => closeMenu()}
             >
               <span aria-hidden="true">Kapat</span>
-              <span className={styles.closeGlyph} aria-hidden="true" />
+              <span
+                className="relative inline-block size-[38px] rounded-full bg-[#252825] text-[#f0eee7]"
+                aria-hidden="true"
+              >
+                <span className="absolute top-1/2 left-1/2 h-px w-3.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-current" />
+                <span className="absolute top-1/2 left-1/2 h-px w-3.5 -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-current" />
+              </span>
             </button>
           </div>
 
-          <nav className={styles.mobileNav} aria-label="Mobil ana menü">
+          <nav
+            className="mt-[clamp(48px,10vh,88px)] grid"
+            aria-label="Mobil ana menü"
+          >
             {items.map((item, index) => (
               <a
                 key={item.href}
@@ -124,27 +148,30 @@ export function MobileNavigation({ items, storeUrl }) {
                 target={item.external ? "_blank" : undefined}
                 rel={item.external ? "noreferrer" : undefined}
                 onClick={() => closeMenu()}
-                className={styles.mobileNavLink}
-                style={{ "--nav-delay": `${110 + index * 65}ms` }}
+                className={`flex min-h-[82px] items-center gap-[18px] border-b border-[rgba(37,40,37,0.16)] font-editorial text-[clamp(2rem,10vw,3.15rem)] leading-none font-normal tracking-[-0.04em] group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${navigationDelayClasses[index] ?? navigationDelayClasses.at(-1)}`}
               >
-                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span className="font-ppmori text-[0.64rem] font-semibold tracking-[0.08em] text-[rgba(37,40,37,0.48)]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 {item.label}
               </a>
             ))}
           </nav>
 
           <a
-            className={styles.mobileStoreLink}
+            className="mt-[34px] flex min-h-[58px] items-center justify-between rounded-full bg-[#252825] px-[22px] text-[0.75rem] font-semibold tracking-[0.02em] uppercase"
             href={storeUrl}
             target="_blank"
             rel="noreferrer"
             onClick={() => closeMenu()}
           >
-            Ürün seçkisini keşfet
-            <span aria-hidden="true">↗</span>
+            <span className="text-[#f0eee7]">Ürün seçkisini keşfet</span>
+            <span className="text-[#f0eee7]" aria-hidden="true">
+              ↗
+            </span>
           </a>
 
-          <p className={styles.mobileMenuNote}>
+          <p className="mt-auto pt-[34px] text-[0.76rem] text-[rgba(37,40,37,0.52)]">
             Cildini dinleyen bakım, sana özgü.
           </p>
         </div>
