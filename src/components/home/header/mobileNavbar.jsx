@@ -8,7 +8,7 @@ const navigationDelayClasses = [
   "[animation-delay:240ms]",
 ];
 
-export function MobileNavigation({ items, storeUrl }) {
+export function MobileNavbar({ items, storeUrl }) {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
