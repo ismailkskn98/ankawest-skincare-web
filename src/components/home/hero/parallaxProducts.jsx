@@ -48,7 +48,7 @@ const products = [
 export function ParallaxProducts() {
   return (
     <div
-      className="pointer-events-none absolute inset-0 z-1 hidden overflow-hidden min-[1024px]:block"
+      className="fluid pointer-events-none absolute inset-0 z-1 hidden overflow-hidden min-[1024px]:block"
       aria-hidden="true"
     >
       {products.map((product) => (

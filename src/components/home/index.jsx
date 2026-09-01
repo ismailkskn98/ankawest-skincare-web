@@ -5,7 +5,7 @@ import { MotionController } from "./motionController";
 export function Home() {
   return (
     <div
-      className="relative min-h-dvh w-full max-w-[100vw] overflow-x-clip bg-[#72786f] font-ppmori text-[#f7f6f1] [font-synthesis:none] selection:bg-[#f7f6f1] selection:text-[#2f322f]"
+      className="gridContainer relative min-h-dvh w-full max-w-[100vw] overflow-x-clip bg-[#72786f] font-ppmori text-[#f7f6f1] [font-synthesis:none] selection:bg-[#f7f6f1] selection:text-[#2f322f]"
       data-site-root
     >
       <MotionController />
@@ -19,11 +19,11 @@ export function Home() {
 
       <Header />
 
-      <main id="main-content" className="min-w-0">
+      <main id="main-content" className="fluid gridContainer min-w-0">
         <Hero />
+        <div className="fluid h-dvh w-full bg-pink-500"></div>
+        <div className="fluid h-dvh w-full bg-purple-800"></div>
       </main>
-      <div className="h-dvh w-full bg-pink-500"></div>
-      <div className="h-dvh w-full bg-purple-800"></div>
     </div>
   );
 }

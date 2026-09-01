@@ -1,7 +1,7 @@
 export function BgVideo() {
   return (
     <div
-      className="absolute inset-0 -z-1 h-full w-full overflow-hidden bg-[#737a70]"
+      className="fluid absolute inset-0 -z-1 h-full w-full overflow-hidden bg-[#737a70]"
       aria-hidden="true"
     >
       <video
