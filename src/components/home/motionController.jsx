@@ -240,7 +240,15 @@ export function MotionController() {
       }
 
       if (scrollTriggerInstance && !saveData) {
-        const parallaxSection = root.querySelector("[data-parallax-section]");
+        const heroParallaxSection = root.querySelector(
+          "[data-parallax-section]",
+        );
+        const scrollParallaxSections = Array.from(
+          root.querySelectorAll("[data-scroll-parallax-section]"),
+        );
+        const motionGroups = Array.from(
+          root.querySelectorAll("[data-motion-group]"),
+        );
 
         parallaxMediaContext = gsapInstance.matchMedia();
         parallaxMediaContext.add(
@@ -253,53 +261,115 @@ export function MotionController() {
             const { isDesktop, hasFinePointer, reduceMotion } =
               mediaContext.conditions;
 
-            if (!parallaxSection || !isDesktop || reduceMotion) {
+            if (!isDesktop || reduceMotion) {
               return undefined;
             }
 
-            const scrollLayers = Array.from(
-              parallaxSection.querySelectorAll("[data-parallax-scroll]"),
-            );
-            const pointerLayers = Array.from(
-              parallaxSection.querySelectorAll("[data-parallax-pointer]"),
-            );
+            if (heroParallaxSection) {
+              const heroScrollLayers = Array.from(
+                heroParallaxSection.querySelectorAll(
+                  "[data-parallax-scroll]",
+                ),
+              );
 
-            scrollLayers.forEach((layer) => {
-              const distance = Number(layer.dataset.parallaxDistance) || 0;
+              if (heroScrollLayers.length > 0) {
+                gsapInstance.to(heroScrollLayers, {
+                  y: (_, layer) =>
+                    Number(layer.dataset.parallaxDistance) || 0,
+                  force3D: true,
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: heroParallaxSection,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 0.8,
+                    invalidateOnRefresh: true,
+                  },
+                });
+              }
+            }
 
-              gsapInstance.to(layer, {
-                y: distance,
+            scrollParallaxSections.forEach((section) => {
+              const layers = Array.from(
+                section.querySelectorAll("[data-scroll-parallax-layer]"),
+              );
+
+              if (layers.length === 0) {
+                return;
+              }
+
+              gsapInstance.to(layers, {
+                y: (_, layer) =>
+                  Number(layer.dataset.parallaxDistance) || 0,
                 force3D: true,
                 ease: "none",
                 scrollTrigger: {
-                  trigger: parallaxSection,
-                  start: "top top",
+                  trigger: section,
+                  start: "top bottom",
                   end: "bottom top",
-                  scrub: 0.8,
+                  scrub: 0.9,
                   invalidateOnRefresh: true,
                 },
               });
             });
 
-            if (!hasFinePointer || pointerLayers.length === 0) {
-              return undefined;
-            }
+            motionGroups.forEach((group) => {
+              const revealItems = Array.from(
+                group.querySelectorAll("[data-section-reveal]"),
+              );
 
-            const pointerSetters = pointerLayers.map((layer) => {
-              const depth = Number(layer.dataset.parallaxDepth) || 0;
+              if (group.matches("[data-section-reveal]")) {
+                revealItems.unshift(group);
+              }
 
-              return {
-                depth,
-                x: gsapInstance.quickTo(layer, "x", {
-                  duration: 0.58,
-                  ease: "power3.out",
-                }),
-                y: gsapInstance.quickTo(layer, "y", {
-                  duration: 0.58,
-                  ease: "power3.out",
-                }),
-              };
+              if (revealItems.length === 0) {
+                return;
+              }
+
+              gsapInstance.from(revealItems, {
+                y: 26,
+                autoAlpha: 0,
+                duration: 0.78,
+                stagger: 0.065,
+                ease: "power3.out",
+                clearProps: "transform,opacity,visibility",
+                scrollTrigger: {
+                  trigger: group,
+                  start: "top 78%",
+                  once: true,
+                },
+              });
             });
+
+            const pointerLayers = heroParallaxSection
+              ? Array.from(
+                  heroParallaxSection.querySelectorAll(
+                    "[data-parallax-pointer]",
+                  ),
+                )
+              : [];
+            const canUsePointerParallax =
+              hasFinePointer &&
+              heroParallaxSection &&
+              pointerLayers.length > 0;
+
+            const pointerSetters = canUsePointerParallax
+              ? pointerLayers.map((layer) => {
+                  const depth = Number(layer.dataset.parallaxDepth) || 0;
+
+                  return {
+                    depth,
+                    x: gsapInstance.quickTo(layer, "x", {
+                      duration: 0.58,
+                      ease: "power3.out",
+                    }),
+                    y: gsapInstance.quickTo(layer, "y", {
+                      duration: 0.58,
+                      ease: "power3.out",
+                    }),
+                  };
+                })
+              : [];
 
             const resetPointerPosition = () => {
               pointerSetters.forEach((setter) => {
@@ -324,35 +394,41 @@ export function MotionController() {
               }
             };
 
-            parallaxSection.addEventListener("pointermove", handlePointerMove, {
-              passive: true,
-            });
-            parallaxSection.addEventListener(
-              "pointerleave",
-              resetPointerPosition,
-            );
-            window.addEventListener("blur", resetPointerPosition);
-            document.addEventListener(
-              "visibilitychange",
-              handleParallaxVisibilityChange,
-            );
-
-            return () => {
-              parallaxSection.removeEventListener(
+            if (canUsePointerParallax) {
+              heroParallaxSection.addEventListener(
                 "pointermove",
                 handlePointerMove,
+                { passive: true },
               );
-              parallaxSection.removeEventListener(
+              heroParallaxSection.addEventListener(
                 "pointerleave",
                 resetPointerPosition,
               );
-              window.removeEventListener("blur", resetPointerPosition);
-              document.removeEventListener(
+              window.addEventListener("blur", resetPointerPosition);
+              document.addEventListener(
                 "visibilitychange",
                 handleParallaxVisibilityChange,
               );
-              gsapInstance.killTweensOf(pointerLayers);
-              gsapInstance.set(pointerLayers, { clearProps: "transform" });
+            }
+
+            return () => {
+              if (canUsePointerParallax) {
+                heroParallaxSection.removeEventListener(
+                  "pointermove",
+                  handlePointerMove,
+                );
+                heroParallaxSection.removeEventListener(
+                  "pointerleave",
+                  resetPointerPosition,
+                );
+                window.removeEventListener("blur", resetPointerPosition);
+                document.removeEventListener(
+                  "visibilitychange",
+                  handleParallaxVisibilityChange,
+                );
+                gsapInstance.killTweensOf(pointerLayers);
+                gsapInstance.set(pointerLayers, { clearProps: "transform" });
+              }
             };
           },
         );

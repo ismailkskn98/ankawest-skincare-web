@@ -3,6 +3,8 @@ export const TRENDYOL_STORE_URL =
 
 export const INSTAGRAM_URL = "https://www.instagram.com/ankawest_skincare/";
 
+export const ANKAWEST_URL = "https://www.ankawest.com/";
+
 export const siteNavigation = [
   { label: "Bakım ihtiyacı", href: "#ihtiyaclar" },
   { label: "Ürünler", href: "#urunler" },

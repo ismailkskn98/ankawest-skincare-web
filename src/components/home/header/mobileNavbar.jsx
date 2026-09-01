@@ -77,7 +77,7 @@ export function MobileNavbar({ items, storeUrl }) {
     <>
       <button
         ref={triggerRef}
-        className="inline-flex min-h-[50px] items-center gap-3 rounded-full border-0 bg-[rgba(250,249,246,0.96)] py-[5px] pr-[7px] pl-[17px] text-[#2f322f] max-[390px]:pl-3.5 min-[901px]:hidden"
+        className="inline-flex min-h-[50px] items-center gap-3 rounded-full border-0 bg-[rgba(250,249,246,0.96)] py-[5px] pr-[7px] pl-[17px] text-[#2f322f] transition-[background-color,color] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[#2f322f] group-data-[scrolled=true]/header:text-[#f7f6f1] motion-reduce:transition-none max-[390px]:pl-3.5 min-[901px]:hidden"
         type="button"
         aria-label="Menüyü aç"
         aria-controls="site-mobile-menu"
@@ -88,7 +88,7 @@ export function MobileNavbar({ items, storeUrl }) {
           Menü
         </span>
         <span
-          className="relative grid size-[38px] place-items-center rounded-full bg-[#2f322f]"
+          className="relative grid size-[38px] place-items-center rounded-full bg-[#2f322f] transition-colors duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[rgba(247,246,241,0.12)] motion-reduce:transition-none"
           aria-hidden="true"
         >
           <span className="absolute h-px w-3.5 -translate-y-[3px] bg-[#f7f6f1]" />

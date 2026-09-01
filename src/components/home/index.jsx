@@ -1,6 +1,9 @@
+import { Approach } from "./approach";
+import { Footer } from "./footer";
 import { Header } from "./header";
 import { Hero } from "./hero";
 import { MotionController } from "./motionController";
+import { ProductSelection } from "./productSelection";
 
 export function Home() {
   return (
@@ -21,9 +24,11 @@ export function Home() {
 
       <main id="main-content" className="fluid gridContainer min-w-0">
         <Hero />
-        <div className="fluid h-dvh w-full bg-pink-500"></div>
-        <div className="fluid h-dvh w-full bg-purple-800"></div>
+        <Approach />
+        <ProductSelection />
       </main>
+
+      <Footer />
     </div>
   );
 }

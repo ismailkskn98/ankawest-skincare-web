@@ -1,4 +1,5 @@
 import {
+  ANKAWEST_URL,
   INSTAGRAM_URL,
   TRENDYOL_STORE_URL,
 } from "@/config/site-content";
@@ -16,7 +17,7 @@ const navigationItems = [
   },
   {
     label: "Anka West",
-    href: "https://www.ankawest.com/",
+    href: ANKAWEST_URL,
     external: true,
   },
   {
@@ -29,7 +30,7 @@ const navigationItems = [
 export function Header() {
   return (
     <header
-      className="fluid gridContainer group/header fixed inset-x-0 top-0 z-20 box-border bg-transparent py-3.5 transition-[background-color,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform data-[scrolled=true]:bg-[#faf9f6] data-[scrolled=true]:shadow-[0_12px_34px_rgba(17,20,18,0.1)] motion-reduce:transition-none min-[901px]:py-[clamp(16px,2.2vw,30px)]"
+      className="fluid gridContainer group/header fixed inset-x-0 top-0 z-20 box-border bg-transparent py-3.5 transition-[background-color,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform data-[scrolled=true]:bg-[#faf9f6] data-[scrolled=true]:py-2.5 data-[scrolled=true]:shadow-[0_12px_34px_rgba(17,20,18,0.1)] motion-reduce:transition-none min-[901px]:py-[clamp(16px,2.2vw,30px)] min-[901px]:data-[scrolled=true]:py-3"
       data-header
       data-header-reveal
       data-scrolled="false"

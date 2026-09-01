@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -9,6 +10,42 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const ppMori = localFont({
+  src: [
+    {
+      path: "../fonts/ppmori-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ppmori-semibold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+  ],
+  variable: "--font-pp-mori",
+  display: "swap",
+  preload: true,
+});
+
+const ppEditorial = localFont({
+  src: [
+    {
+      path: "../fonts/ppeditorialold-ultralight.woff2",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ppeditorialold-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-pp-editorial",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata = {
@@ -28,7 +65,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="tr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${ppMori.variable} ${ppEditorial.variable} h-full antialiased`}
     >
       <body>{children}</body>
     </html>
