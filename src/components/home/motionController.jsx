@@ -334,6 +334,63 @@ export function MotionController() {
             return undefined;
           },
         );
+        const setupScrollParallax = (strengthScale, scrubValue) => {
+          scrollParallaxSections.forEach((section) => {
+            const layers = Array.from(
+              section.querySelectorAll("[data-scroll-parallax-layer]"),
+            );
+            const sectionStrength =
+              Number(section.dataset.parallaxStrength) ||
+              PARALLAX_SCROLL_STRENGTH;
+            const sectionDirection =
+              Number(section.dataset.parallaxDirection) || 1;
+            const isCenteredParallax =
+              section.dataset.parallaxCentered === "true";
+
+            if (layers.length === 0) {
+              return;
+            }
+
+            const getLayerTravel = (layer) =>
+              (Number(layer.dataset.parallaxDistance) || 0) *
+              sectionStrength *
+              sectionDirection *
+              strengthScale;
+
+            const scrollTrigger = {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: scrubValue,
+              invalidateOnRefresh: true,
+            };
+
+            if (isCenteredParallax) {
+              gsapInstance.fromTo(
+                layers,
+                {
+                  y: (_, layer) => -getLayerTravel(layer) * 0.56,
+                },
+                {
+                  y: (_, layer) => getLayerTravel(layer) * 0.56,
+                  force3D: true,
+                  ease: "none",
+                  scrollTrigger,
+                },
+              );
+
+              return;
+            }
+
+            gsapInstance.to(layers, {
+              y: (_, layer) => getLayerTravel(layer),
+              force3D: true,
+              ease: "none",
+              scrollTrigger,
+            });
+          });
+        };
+
         parallaxMediaContext.add(
           {
             isDesktop: "(min-width: 1024px)",
@@ -373,59 +430,7 @@ export function MotionController() {
               }
             }
 
-            scrollParallaxSections.forEach((section) => {
-              const layers = Array.from(
-                section.querySelectorAll("[data-scroll-parallax-layer]"),
-              );
-              const sectionStrength =
-                Number(section.dataset.parallaxStrength) ||
-                PARALLAX_SCROLL_STRENGTH;
-              const sectionDirection =
-                Number(section.dataset.parallaxDirection) || 1;
-              const isCenteredParallax =
-                section.dataset.parallaxCentered === "true";
-
-              if (layers.length === 0) {
-                return;
-              }
-
-              const getLayerTravel = (layer) =>
-                (Number(layer.dataset.parallaxDistance) || 0) *
-                sectionStrength *
-                sectionDirection;
-
-              const scrollTrigger = {
-                trigger: section,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.9,
-                invalidateOnRefresh: true,
-              };
-
-              if (isCenteredParallax) {
-                gsapInstance.fromTo(
-                  layers,
-                  {
-                    y: (_, layer) => -getLayerTravel(layer) * 0.56,
-                  },
-                  {
-                    y: (_, layer) => getLayerTravel(layer) * 0.56,
-                    force3D: true,
-                    ease: "none",
-                    scrollTrigger,
-                  },
-                );
-
-                return;
-              }
-
-              gsapInstance.to(layers, {
-                y: (_, layer) => getLayerTravel(layer),
-                force3D: true,
-                ease: "none",
-                scrollTrigger,
-              });
-            });
+            setupScrollParallax(1, 0.9);
 
             motionGroups.forEach((group) => {
               const revealItems = Array.from(
@@ -544,6 +549,36 @@ export function MotionController() {
                 gsapInstance.set(pointerLayers, { clearProps: "transform" });
               }
             };
+          },
+        );
+        parallaxMediaContext.add(
+          {
+            isTablet: "(min-width: 768px) and (max-width: 1023px)",
+            reduceMotion: "(prefers-reduced-motion: reduce)",
+          },
+          (mediaContext) => {
+            if (!mediaContext.conditions.isTablet || mediaContext.conditions.reduceMotion) {
+              return undefined;
+            }
+
+            setupScrollParallax(0.78, 0.82);
+
+            return undefined;
+          },
+        );
+        parallaxMediaContext.add(
+          {
+            isMobile: "(max-width: 767px)",
+            reduceMotion: "(prefers-reduced-motion: reduce)",
+          },
+          (mediaContext) => {
+            if (!mediaContext.conditions.isMobile || mediaContext.conditions.reduceMotion) {
+              return undefined;
+            }
+
+            setupScrollParallax(0.58, 0.74);
+
+            return undefined;
           },
         );
 

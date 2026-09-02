@@ -1,22 +1,8 @@
 export function CreamTrail() {
   return (
-    <svg
-      className="pointer-events-none absolute inset-0 z-[1] h-full w-full"
-      viewBox="0 0 1944.2 7600"
-      preserveAspectRatio="none"
-      overflow="visible"
-      focusable="false"
-      aria-hidden="true"
-    >
+    <svg className="pointer-events-none absolute inset-0 z-[1] h-full w-full" viewBox="0 0 1944.2 7600" preserveAspectRatio="none" overflow="visible" focusable="false" aria-hidden="true">
       <defs>
-        <linearGradient
-          id="story-cream-paint"
-          gradientUnits="userSpaceOnUse"
-          x1="250"
-          y1="250"
-          x2="1690"
-          y2="7350"
-        >
+        <linearGradient id="story-cream-paint" gradientUnits="userSpaceOnUse" x1="250" y1="250" x2="1690" y2="7350">
           <stop offset="0%" stopColor="#e5e0d7" />
           <stop offset="12%" stopColor="#f8f5ef" />
           <stop offset="27%" stopColor="#fffdf9" />
@@ -27,46 +13,17 @@ export function CreamTrail() {
           <stop offset="100%" stopColor="#ded8ce" />
         </linearGradient>
 
-        <filter
-          id="story-cream-volume"
-          x="-25%"
-          y="-8%"
-          width="150%"
-          height="120%"
-          colorInterpolationFilters="sRGB"
-        >
+        <filter id="story-cream-volume" x="-25%" y="-8%" width="150%" height="120%" colorInterpolationFilters="sRGB">
           <feGaussianBlur in="SourceAlpha" stdDeviation="16" result="shadow" />
           <feOffset in="shadow" dx="8" dy="14" result="offset-shadow" />
           <feFlood floodColor="#79736a" floodOpacity="0.16" result="shadow-color" />
-          <feComposite
-            in="shadow-color"
-            in2="offset-shadow"
-            operator="in"
-            result="cream-shadow"
-          />
+          <feComposite in="shadow-color" in2="offset-shadow" operator="in" result="cream-shadow" />
           <feGaussianBlur in="SourceAlpha" stdDeviation="7" result="surface" />
-          <feSpecularLighting
-            in="surface"
-            surfaceScale="8"
-            specularConstant="0.64"
-            specularExponent="24"
-            lightingColor="#ffffff"
-            result="specular"
-          >
+          <feSpecularLighting in="surface" surfaceScale="8" specularConstant="0.64" specularExponent="24" lightingColor="#ffffff" result="specular">
             <feDistantLight azimuth="225" elevation="55" />
           </feSpecularLighting>
-          <feComposite
-            in="specular"
-            in2="SourceAlpha"
-            operator="in"
-            result="specular-cut"
-          />
-          <feBlend
-            in="SourceGraphic"
-            in2="specular-cut"
-            mode="screen"
-            result="cream-surface"
-          />
+          <feComposite in="specular" in2="SourceAlpha" operator="in" result="specular-cut" />
+          <feBlend in="SourceGraphic" in2="specular-cut" mode="screen" result="cream-surface" />
           <feMerge>
             <feMergeNode in="cream-shadow" />
             <feMergeNode in="cream-surface" />

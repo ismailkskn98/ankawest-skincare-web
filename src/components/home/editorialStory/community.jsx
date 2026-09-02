@@ -31,7 +31,7 @@ export function Community() {
           <div
             className="relative mt-14 min-h-[620px] min-[768px]:mt-20 min-[768px]:min-h-[860px] min-[1024px]:min-h-[980px]"
             data-scroll-parallax-section
-            data-parallax-strength="1.35"
+            data-parallax-strength="1.58"
           >
             <figure className="absolute top-0 left-1/2 aspect-[4/5] w-[min(78vw,760px)] -translate-x-1/2 overflow-hidden rounded-[48%_52%_8%_8%/18%_20%_5%_5%] bg-[#d9e0db]">
               <Image
@@ -46,7 +46,7 @@ export function Community() {
             <figure
               className="absolute top-[12%] left-0 aspect-square w-[clamp(110px,17vw,260px)] overflow-hidden rounded-[1.5rem] bg-[#edf0ec]"
               data-scroll-parallax-layer
-              data-parallax-distance="-108"
+              data-parallax-distance="-142"
             >
               <Image
                 className="object-cover object-[50%_24%]"
@@ -60,7 +60,7 @@ export function Community() {
             <figure
               className="absolute right-0 bottom-[29%] aspect-[5/4] w-[clamp(130px,19vw,300px)] overflow-hidden rounded-[1.5rem] bg-[#eee7df] min-[768px]:bottom-[7%]"
               data-scroll-parallax-layer
-              data-parallax-distance="126"
+              data-parallax-distance="168"
             >
               <Image
                 className="object-cover object-[50%_22%]"
