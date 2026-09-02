@@ -290,7 +290,7 @@ export function MotionController() {
               return undefined;
             }
 
-            const initialReveal = Number(scrollDrawPath.dataset.scrollDrawInitial) || 0.1;
+            const initialReveal = Number(scrollDrawPath.dataset.scrollDrawInitial) || 0.03;
             const initialOffset = pathLength * (1 - initialReveal);
 
             gsapInstance.set(scrollDrawPath, {
@@ -305,9 +305,10 @@ export function MotionController() {
                 ease: "none",
                 scrollTrigger: {
                   trigger: scrollDrawSection,
-                  start: "top 25%",
-                  end: "bottom 42%",
+                  start: "top 35%",
+                  end: "bottom 50%",
                   scrub: 0.55,
+                  markers: true,
                 },
               },
             );
