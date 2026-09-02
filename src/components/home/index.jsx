@@ -1,4 +1,5 @@
 import { Approach } from "./approach";
+import { EditorialStory } from "./editorialStory";
 import { Footer } from "./footer";
 import { Header } from "./header";
 import { Hero } from "./hero";
@@ -26,6 +27,7 @@ export function Home() {
         <Hero />
         <Approach />
         <ProductSelection />
+        <EditorialStory />
       </main>
 
       <Footer />

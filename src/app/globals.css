@@ -180,6 +180,24 @@ html[data-motion-intro="pending"] [data-hero-cta] {
   background-size: cover;
 }
 
+.story-cream-path {
+  stroke-width: 340px;
+  opacity: 0.36;
+}
+
+@media (min-width: 768px) {
+  .story-cream-path {
+    stroke-width: 470px;
+    opacity: 0.58;
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .story-cream-path {
+    filter: url("#story-cream-volume");
+  }
+}
+
 @media (min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
   .approach-fixed-visual {
     background-attachment: fixed;

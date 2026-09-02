@@ -9,7 +9,7 @@ export const productCollections = [
     parallaxStrength: "1.2",
     reverseAutoplay: false,
     showcase: {
-      image: "/images/home/glutanex-carousel-big.jpg",
+      image: "/images/home/glutanex-carousel-big/image-1.jpg",
       alt: "GLUTANEX günlük koruma ve bakım ürünleri",
       label: "Günlük koruma / seçilmiş bakım",
       distance: -116,
@@ -91,7 +91,7 @@ export const productCollections = [
     parallaxStrength: "1.28",
     reverseAutoplay: true,
     showcase: {
-      image: "/images/home/glutanex-carousel-big-2.jpg",
+      image: "/images/home/glutanex-carousel-2-big/image-1.jpg",
       alt: "GLUTANEX ton eşitleme ve güneş koruma ürünleri",
       label: "Ton eşitleme / güneş bakımı",
       distance: -132,

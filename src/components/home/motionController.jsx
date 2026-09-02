@@ -25,6 +25,17 @@ export function MotionController() {
       return undefined;
     }
 
+    const revealScrollDrawPath = () => {
+      const scrollDrawPath = root.querySelector("[data-scroll-draw-path]");
+
+      if (!scrollDrawPath) {
+        return;
+      }
+
+      scrollDrawPath.style.strokeDasharray = "none";
+      scrollDrawPath.style.strokeDashoffset = "0";
+    };
+
     let cancelled = false;
     let animationContext = null;
     let parallaxMediaContext = null;
@@ -147,6 +158,7 @@ export function MotionController() {
         clearMotionIntroGuard();
         animationContext?.revert();
         animationContext = null;
+        revealScrollDrawPath();
       }
 
       setHeaderVisibility(isHeaderVisible, {
@@ -262,6 +274,7 @@ export function MotionController() {
       syncVideoPlayback();
 
       if (!gsapInstance || reduceMotionQuery.matches) {
+        revealScrollDrawPath();
         clearMotionIntroGuard();
         return;
       }
@@ -276,8 +289,51 @@ export function MotionController() {
         const motionGroups = Array.from(
           root.querySelectorAll("[data-motion-group]"),
         );
+        const scrollDrawSection = root.querySelector(
+          "[data-scroll-draw-section]",
+        );
+        const scrollDrawPath = scrollDrawSection?.querySelector(
+          "[data-scroll-draw-path]",
+        );
 
         parallaxMediaContext = gsapInstance.matchMedia();
+        parallaxMediaContext.add(
+          {
+            canDraw: "(prefers-reduced-motion: no-preference)",
+          },
+          (drawContext) => {
+            if (
+              !drawContext.conditions.canDraw ||
+              !scrollDrawSection ||
+              !scrollDrawPath
+            ) {
+              return undefined;
+            }
+
+            const pathLength = Math.ceil(scrollDrawPath.getTotalLength());
+
+            if (!Number.isFinite(pathLength) || pathLength <= 0) {
+              return undefined;
+            }
+
+            gsapInstance.set(scrollDrawPath, {
+              strokeDasharray: `${pathLength} ${pathLength}`,
+              strokeDashoffset: pathLength,
+            });
+            gsapInstance.to(scrollDrawPath, {
+              strokeDashoffset: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: scrollDrawSection,
+                start: "top 68%",
+                end: "bottom 5%",
+                scrub: 0.75,
+              },
+            });
+
+            return undefined;
+          },
+        );
         parallaxMediaContext.add(
           {
             isDesktop: "(min-width: 1024px)",
@@ -497,6 +553,8 @@ export function MotionController() {
             scrollTriggerInstance?.refresh();
           }
         });
+      } else {
+        revealScrollDrawPath();
       }
 
       animationContext = gsapInstance.context(() => {
@@ -585,6 +643,7 @@ export function MotionController() {
     }
 
     setupExperience().catch(() => {
+      revealScrollDrawPath();
       clearMotionIntroGuard();
       setHeaderTheme(window.scrollY > HEADER_SCROLL_THRESHOLD);
       setHeaderVisibility(true, {
