@@ -22,7 +22,7 @@ export function Transparency() {
   return (
     <section
       id="icerikler"
-      className="fluid gridContainer relative overflow-hidden bg-[#f2f2ef]/88 py-20 min-[901px]:py-32"
+      className="fluid gridContainer relative overflow-hidden bg-[#f2f2ef] py-20 min-[901px]:py-32"
       aria-labelledby="transparency-title"
     >
       <div className="relative z-2" data-motion-group>

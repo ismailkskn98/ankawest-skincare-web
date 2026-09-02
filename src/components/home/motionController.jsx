@@ -326,8 +326,8 @@ export function MotionController() {
               scrollTrigger: {
                 trigger: scrollDrawSection,
                 start: "top 68%",
-                end: "bottom 5%",
-                scrub: 0.75,
+                end: "bottom 42%",
+                scrub: 0.55,
               },
             });
 

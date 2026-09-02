@@ -5,7 +5,7 @@ export function ProductSelection() {
   return (
     <section
       id="urunler"
-      className="fluid overflow-hidden bg-site-mist py-20 text-site-ink min-[901px]:py-32"
+      className="fluid overflow-hidden bg-site-mist pt-20 pb-0 text-site-ink min-[901px]:pt-32"
       aria-labelledby="selection-title"
     >
       <div
