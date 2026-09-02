@@ -21,26 +21,28 @@ export function ValueCard({
 
   return (
     <article
-      className={`relative z-2 min-[1024px]:absolute min-[1024px]:w-[clamp(238px,18.5vw,292px)] ${className}`}
+      className={`relative z-2 mx-auto w-full max-w-[430px] min-[768px]:mx-0 min-[1024px]:absolute min-[1024px]:aspect-[430/500] min-[1024px]:w-[clamp(300px,21vw,410px)] min-[1024px]:will-change-transform ${className}`}
       data-scroll-parallax-layer
       data-parallax-distance={distance}
     >
       <div
-        className="group h-full rounded-[2rem] bg-black/[0.035] p-1.5 ring-1 ring-black/[0.045] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 motion-reduce:transition-none"
+        className="group flex min-h-[230px] flex-col rounded-[1.35rem] bg-[#f1f1ee]/95 px-5 py-5 shadow-[0_30px_76px_rgba(31,35,32,0.042)] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 motion-reduce:transition-none min-[640px]:min-h-[260px] min-[768px]:min-h-[300px] min-[1024px]:h-full min-[1024px]:min-h-0 min-[1024px]:rounded-[1.75rem] min-[1024px]:px-8 min-[1024px]:py-8"
         data-section-reveal
       >
-        <div className="flex min-h-[286px] h-full flex-col rounded-[calc(2rem-0.375rem)] bg-[#f1f1ee] px-7 py-7 shadow-[inset_0_1px_1px_rgba(255,255,255,0.72)] min-[1024px]:min-h-[320px] min-[1024px]:px-8 min-[1024px]:py-8">
-          <span className="grid size-14 place-items-center rounded-full bg-site-paper text-site-ink shadow-[0_10px_28px_rgba(34,37,34,0.06)]">
-            <Icon size={25} weight="thin" aria-hidden="true" />
-          </span>
+        <span className="grid size-12 place-items-center rounded-full bg-site-paper text-site-ink shadow-[0_10px_28px_rgba(34,37,34,0.06)] min-[1024px]:size-14">
+          <Icon
+            className="size-5 min-[1024px]:size-6"
+            weight="thin"
+            aria-hidden="true"
+          />
+        </span>
 
-          <h3 className="mt-10 max-w-[12ch] text-[clamp(1.3rem,2vw,1.65rem)] leading-[1.02] font-normal tracking-[-0.045em] text-site-ink">
-            {title}
-          </h3>
-          <p className="mt-auto pt-8 text-[0.9rem] leading-[1.45] tracking-[-0.018em] text-site-copy">
-            {description}
-          </p>
-        </div>
+        <h3 className="mt-6 max-w-[12ch] text-[clamp(1.35rem,5.5vw,1.7rem)] leading-[1.02] font-light text-site-ink min-[1024px]:mt-8 min-[1024px]:text-[clamp(1.55rem,2.05vw,1.9rem)]">
+          {title}
+        </h3>
+        <p className="mt-auto max-w-[30ch] pt-5 text-[clamp(0.86rem,3.5vw,0.96rem)] leading-[1.48] text-site-copy min-[1024px]:pt-6 min-[1024px]:text-[clamp(0.9rem,1.05vw,1rem)]">
+          {description}
+        </p>
       </div>
     </article>
   );

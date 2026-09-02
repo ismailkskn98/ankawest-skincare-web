@@ -1,5 +1,4 @@
 import {
-  ANKAWEST_URL,
   INSTAGRAM_URL,
   TRENDYOL_STORE_URL,
 } from "@/config/site-content";
@@ -14,17 +13,17 @@ const navigationGroups = [
     ],
   },
   {
-    title: "Bizi takip et",
+    title: "Takip et",
     links: [
       { label: "Instagram", href: INSTAGRAM_URL, external: true },
       { label: "Trendyol", href: TRENDYOL_STORE_URL, external: true },
     ],
   },
   {
-    title: "Anka West",
+    title: "İletişim",
     links: [
-      { label: "Kurumsal site", href: ANKAWEST_URL, external: true },
-      { label: "Ana sayfaya dön", href: "#top" },
+      { label: "info@ankawest.com", href: "mailto:info@ankawest.com" },
+      { label: "+90 533 213 99 01", href: "tel:+905332139901" },
     ],
   },
 ];
@@ -32,20 +31,20 @@ const navigationGroups = [
 export function FooterNavigation() {
   return (
     <nav
-      className="grid gap-12 border-t border-black/15 pt-10 min-[640px]:grid-cols-3 min-[901px]:max-w-[62%] min-[901px]:gap-[clamp(36px,5vw,88px)]"
+      className="grid gap-10 min-[640px]:grid-cols-3 min-[640px]:gap-7 min-[901px]:gap-[clamp(28px,3vw,52px)]"
       aria-label="Footer menüsü"
       data-motion-group
     >
       {navigationGroups.map((group) => (
         <section key={group.title} data-section-reveal>
-          <h3 className="text-[0.65rem] font-semibold tracking-[0.14em] text-site-copy uppercase">
+          <h3 className="text-[0.63rem] font-semibold tracking-[0.12em] text-site-copy/60 uppercase">
             {group.title}
           </h3>
-          <ul className="mt-5 grid gap-3.5">
+          <ul className="mt-5 grid gap-3">
             {group.links.map((link) => (
               <li key={link.label}>
                 <a
-                  className="group relative inline-flex min-h-7 items-center text-[0.95rem] tracking-[-0.025em] text-site-ink"
+                  className="group relative inline-flex min-h-7 items-center text-[0.94rem] leading-[1.35] tracking-[-0.022em] text-site-ink"
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noreferrer" : undefined}

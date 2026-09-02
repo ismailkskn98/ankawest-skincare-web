@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 const ppMori = localFont({
   src: [
     {
+      path: "../fonts/ppmori-extralight.woff2",
+      weight: "200",
+      style: "normal",
+    },
+    {
       path: "../fonts/ppmori-regular.woff2",
       weight: "400",
       style: "normal",
@@ -61,12 +66,21 @@ export const metadata = {
   },
 };
 
+const motionIntroGuardScript =
+  "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.dataset.motionIntro='pending';}}catch{}";
+
 export default function RootLayout({ children }) {
   return (
     <html
       lang="tr"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${ppMori.variable} ${ppEditorial.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: motionIntroGuardScript }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

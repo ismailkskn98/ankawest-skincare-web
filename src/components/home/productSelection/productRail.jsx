@@ -1,66 +1,82 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { A11y, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+
 import { ProductCard } from "./productCard";
 
-const products = [
-  {
-    index: "01",
-    name: "Glow Booster",
-    category: "Yüz kremi",
-    size: "50 ml",
-    image: "/images/urunler/cutouts/glutanex-glow-booster.png",
-    imageAlt: "GLUTANEX Glow Booster kapsüllü yüz kremi",
-    width: 737,
-    height: 726,
-    imageClassName: "w-[68%]",
-    tone: "bg-[#dbe5e9]",
-  },
-  {
-    index: "02",
-    name: "Glow Therapy Eye Cream",
-    category: "Göz çevresi",
-    size: "30 ml",
-    image: "/images/urunler/cutouts/glutanex-eye-cream.png",
-    imageAlt: "GLUTANEX Glow Therapy Eye Cream",
-    width: 229,
-    height: 983,
-    imageClassName: "w-[30%]",
-    tone: "bg-[#e8dfd9]",
-  },
-  {
-    index: "03",
-    name: "Glow Balm",
-    category: "Bakım balmı",
-    size: "10 g",
-    image: "/images/urunler/cutouts/glutanex-glow-balm.png",
-    imageAlt: "GLUTANEX Glow Balm",
-    width: 231,
-    height: 918,
-    imageClassName: "w-[31%]",
-    tone: "bg-[#dce7df]",
-  },
-  {
-    index: "04",
-    name: "Body Cream",
-    category: "Vücut bakımı",
-    size: "200 ml",
-    image: "/images/urunler/cutouts/glutanex-body-cream.png",
-    imageAlt: "GLUTANEX vücut bakım kremi",
-    width: 362,
-    height: 892,
-    imageClassName: "w-[39%]",
-    tone: "bg-[#e4dfe8]",
-  },
-];
+export function ProductRail({ products, ariaLabel, reverseAutoplay = false }) {
+  const swiperRef = useRef(null);
 
-export function ProductRail() {
+  useEffect(() => {
+    const reducedMotionQuery = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+    const connection = navigator.connection;
+
+    const syncAutoplay = () => {
+      const swiper = swiperRef.current;
+
+      if (!swiper?.autoplay) return;
+
+      if (reducedMotionQuery.matches || connection?.saveData) {
+        swiper.autoplay.stop();
+        return;
+      }
+
+      swiper.autoplay.start();
+    };
+
+    syncAutoplay();
+    reducedMotionQuery.addEventListener("change", syncAutoplay);
+
+    return () => {
+      reducedMotionQuery.removeEventListener("change", syncAutoplay);
+    };
+  }, []);
+
   return (
-    <ul
-      className="mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[901px]:mt-14"
-      tabIndex={0}
-      aria-label="GLUTANEX ürün seçkisi"
+    <Swiper
+      className="mt-10 cursor-grab active:cursor-grabbing min-[901px]:mt-14"
+      style={{
+        "--swiper-wrapper-transition-timing-function":
+          "cubic-bezier(0.22, 1, 0.36, 1)",
+      }}
+      modules={[Autoplay, A11y]}
+      slidesPerView={1.08}
+      spaceBetween={12}
+      speed={820}
+      loop
+      grabCursor
+      watchSlidesProgress
+      autoplay={{
+        delay: 3000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+        reverseDirection: reverseAutoplay,
+      }}
+      breakpoints={{
+        520: { slidesPerView: 1.28, spaceBetween: 14 },
+        768: { slidesPerView: 1.65, spaceBetween: 14 },
+        1024: { slidesPerView: 1.45, spaceBetween: 16 },
+        1280: { slidesPerView: 1.9, spaceBetween: 18 },
+        1536: { slidesPerView: 2.18, spaceBetween: 20 },
+      }}
+      onSwiper={(swiper) => {
+        swiperRef.current = swiper;
+      }}
+      wrapperTag="ul"
+      aria-label={ariaLabel}
+      data-section-reveal
     >
       {products.map((product) => (
-        <ProductCard key={product.name} product={product} />
+        <SwiperSlide key={product.name} tag="li" className="h-auto">
+          <ProductCard product={product} />
+        </SwiperSlide>
       ))}
-    </ul>
+    </Swiper>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 const HEADER_SCROLL_THRESHOLD = 70;
+const PARALLAX_SCROLL_STRENGTH = 1.32;
 
 export function MotionController() {
   useEffect(() => {
@@ -13,8 +14,14 @@ export function MotionController() {
       "(prefers-reduced-motion: reduce)",
     );
     const saveData = navigator.connection?.saveData === true;
+    const clearMotionIntroGuard = () => {
+      if (document.documentElement.dataset.motionIntro === "pending") {
+        delete document.documentElement.dataset.motionIntro;
+      }
+    };
 
     if (!root) {
+      clearMotionIntroGuard();
       return undefined;
     }
 
@@ -28,6 +35,7 @@ export function MotionController() {
     let removeLenisMotionScroll = null;
     let removeGsapTicker = null;
     let isHeaderVisible = true;
+    let introStarted = false;
 
     const setHeaderTheme = (isScrolled) => {
       if (!header) {
@@ -136,6 +144,7 @@ export function MotionController() {
       syncVideoPlayback();
 
       if (reduceMotionQuery.matches) {
+        clearMotionIntroGuard();
         animationContext?.revert();
         animationContext = null;
       }
@@ -206,11 +215,28 @@ export function MotionController() {
       }
 
       const initialScroll = lenisInstance.scroll;
+      const shouldRunIntro =
+        document.documentElement.dataset.motionIntro === "pending" &&
+        initialScroll <= HEADER_SCROLL_THRESHOLD &&
+        !reduceMotionQuery.matches;
+
       setHeaderTheme(initialScroll > HEADER_SCROLL_THRESHOLD);
-      setHeaderVisibility(true, {
-        animate: false,
-        force: true,
-      });
+
+      if (shouldRunIntro && header && gsapInstance) {
+        isHeaderVisible = true;
+        header.dataset.hidden = "false";
+        header.style.pointerEvents = "auto";
+        gsapInstance.set(header, {
+          yPercent: -115,
+          autoAlpha: 0,
+        });
+      } else {
+        clearMotionIntroGuard();
+        setHeaderVisibility(true, {
+          animate: false,
+          force: true,
+        });
+      }
 
       removeLenisScroll = lenisInstance.on("scroll", (lenis) => {
         const isAtTop = lenis.scroll <= HEADER_SCROLL_THRESHOLD;
@@ -236,6 +262,7 @@ export function MotionController() {
       syncVideoPlayback();
 
       if (!gsapInstance || reduceMotionQuery.matches) {
+        clearMotionIntroGuard();
         return;
       }
 
@@ -275,7 +302,8 @@ export function MotionController() {
               if (heroScrollLayers.length > 0) {
                 gsapInstance.to(heroScrollLayers, {
                   y: (_, layer) =>
-                    Number(layer.dataset.parallaxDistance) || 0,
+                    (Number(layer.dataset.parallaxDistance) || 0) *
+                    PARALLAX_SCROLL_STRENGTH,
                   force3D: true,
                   ease: "none",
                   scrollTrigger: {
@@ -293,23 +321,53 @@ export function MotionController() {
               const layers = Array.from(
                 section.querySelectorAll("[data-scroll-parallax-layer]"),
               );
+              const sectionStrength =
+                Number(section.dataset.parallaxStrength) ||
+                PARALLAX_SCROLL_STRENGTH;
+              const sectionDirection =
+                Number(section.dataset.parallaxDirection) || 1;
+              const isCenteredParallax =
+                section.dataset.parallaxCentered === "true";
 
               if (layers.length === 0) {
                 return;
               }
 
+              const getLayerTravel = (layer) =>
+                (Number(layer.dataset.parallaxDistance) || 0) *
+                sectionStrength *
+                sectionDirection;
+
+              const scrollTrigger = {
+                trigger: section,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.9,
+                invalidateOnRefresh: true,
+              };
+
+              if (isCenteredParallax) {
+                gsapInstance.fromTo(
+                  layers,
+                  {
+                    y: (_, layer) => -getLayerTravel(layer) * 0.56,
+                  },
+                  {
+                    y: (_, layer) => getLayerTravel(layer) * 0.56,
+                    force3D: true,
+                    ease: "none",
+                    scrollTrigger,
+                  },
+                );
+
+                return;
+              }
+
               gsapInstance.to(layers, {
-                y: (_, layer) =>
-                  Number(layer.dataset.parallaxDistance) || 0,
+                y: (_, layer) => getLayerTravel(layer),
                 force3D: true,
                 ease: "none",
-                scrollTrigger: {
-                  trigger: section,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: 0.9,
-                  invalidateOnRefresh: true,
-                },
+                scrollTrigger,
               });
             });
 
@@ -442,14 +500,35 @@ export function MotionController() {
       }
 
       animationContext = gsapInstance.context(() => {
+        if (!shouldRunIntro) {
+          clearMotionIntroGuard();
+          return;
+        }
+
+        introStarted = true;
+
         const timeline = gsapInstance.timeline({
           defaults: {
             ease: "power3.out",
           },
+          onComplete: () => {
+            clearMotionIntroGuard();
+            gsapInstance.set(
+              [
+                "[data-header-reveal]",
+                "[data-hero-line]",
+                "[data-hero-support]",
+                "[data-hero-cta]",
+              ],
+              {
+                clearProps: "transform,opacity,visibility",
+              },
+            );
+          },
         });
 
-        if (initialScroll <= HEADER_SCROLL_THRESHOLD) {
-          timeline.fromTo(
+        timeline
+          .fromTo(
             "[data-header-reveal]",
             {
               yPercent: -115,
@@ -460,39 +539,45 @@ export function MotionController() {
               autoAlpha: 1,
               duration: 0.82,
             },
-          );
-        }
-
-        timeline
-          .from(
+          )
+          .fromTo(
             "[data-hero-line]",
             {
               yPercent: 112,
               autoAlpha: 0,
+            },
+            {
+              yPercent: 0,
+              autoAlpha: 1,
               duration: 1.05,
               stagger: 0.08,
               ease: "expo.out",
-              clearProps: "transform,opacity,visibility",
             },
-            initialScroll <= HEADER_SCROLL_THRESHOLD ? "-=0.5" : 0,
+            "-=0.5",
           )
-          .from(
+          .fromTo(
             "[data-hero-support]",
             {
               y: 20,
               autoAlpha: 0,
+            },
+            {
+              y: 0,
+              autoAlpha: 1,
               duration: 0.72,
-              clearProps: "transform,opacity,visibility",
             },
             "-=0.58",
           )
-          .from(
+          .fromTo(
             "[data-hero-cta]",
             {
               y: 18,
               autoAlpha: 0,
+            },
+            {
+              y: 0,
+              autoAlpha: 1,
               duration: 0.78,
-              clearProps: "transform,opacity,visibility",
             },
             "-=0.5",
           );
@@ -500,6 +585,7 @@ export function MotionController() {
     }
 
     setupExperience().catch(() => {
+      clearMotionIntroGuard();
       setHeaderTheme(window.scrollY > HEADER_SCROLL_THRESHOLD);
       setHeaderVisibility(true, {
         animate: false,
@@ -509,6 +595,12 @@ export function MotionController() {
 
     return () => {
       cancelled = true;
+
+      // React Strict Mode'un ilk deneme effect'i intro başlamadan temizlenebilir.
+      // Bu durumda işareti koruyarak ikinci ve gerçek kurulumun animasyonu çalıştırmasını sağlıyoruz.
+      if (introStarted) {
+        clearMotionIntroGuard();
+      }
       removeLenisScroll?.();
       removeLenisMotionScroll?.();
       removeGsapTicker?.();

@@ -2,9 +2,10 @@ import Image from "next/image";
 
 const products = [
   {
-    src: "/images/urunler/cutouts/glutanex-eye-cream.png",
-    width: 229,
-    height: 983,
+    id: "left-foreground",
+    src: "/images/deney.png",
+    width: 444,
+    height: 1221,
     distance: -96,
     depth: 12,
     className:
@@ -13,9 +14,10 @@ const products = [
       "(min-width: 1280px) 128px, (min-width: 1024px) 105px, 0px",
   },
   {
-    src: "/images/urunler/cutouts/glutanex-glow-balm.png",
-    width: 231,
-    height: 918,
+    id: "right-foreground",
+    src: "/images/deney.png",
+    width: 444,
+    height: 1221,
     distance: 84,
     depth: -10,
     className:
@@ -24,9 +26,10 @@ const products = [
       "(min-width: 1280px) 105px, (min-width: 1024px) 88px, 0px",
   },
   {
-    src: "/images/urunler/cutouts/glutanex-glow-booster.png",
-    width: 737,
-    height: 726,
+    id: "left-background",
+    src: "/images/deney.png",
+    width: 444,
+    height: 1221,
     distance: -64,
     depth: 16,
     className:
@@ -34,9 +37,10 @@ const products = [
     sizes: "(min-width: 1280px) 152px, 0px",
   },
   {
-    src: "/images/urunler/cutouts/glutanex-body-cream.png",
-    width: 362,
-    height: 892,
+    id: "right-background",
+    src: "/images/deney.png",
+    width: 444,
+    height: 1221,
     distance: 110,
     depth: -14,
     className:
@@ -53,7 +57,7 @@ export function ParallaxProducts() {
     >
       {products.map((product) => (
         <div
-          key={product.src}
+          key={product.id}
           className={`absolute will-change-transform ${product.className}`}
           data-parallax-scroll
           data-parallax-distance={product.distance}

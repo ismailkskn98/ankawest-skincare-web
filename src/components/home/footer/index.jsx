@@ -1,9 +1,6 @@
-import Image from "next/image";
-
+import { BrandBar } from "./brandBar";
 import { CtaCard } from "./ctaCard";
 import { FooterNavigation } from "./navigation";
-
-const currentYear = new Date().getFullYear();
 
 export function Footer() {
   return (
@@ -12,7 +9,7 @@ export function Footer() {
       className="fluid gridContainer bg-site-paper text-site-ink"
     >
       <section
-        className="fluid gridContainer relative isolate min-h-[560px] overflow-hidden min-[901px]:min-h-[820px]"
+        className="fluid gridContainer relative isolate min-h-[520px] overflow-hidden min-[901px]:min-h-[760px]"
         aria-label="GLUTANEX bakım ürünleri"
       >
         <div
@@ -24,63 +21,26 @@ export function Footer() {
           className="fluid pointer-events-none absolute inset-0 -z-1 bg-[linear-gradient(180deg,rgba(26,29,27,0.02)_45%,rgba(26,29,27,0.3)_100%)]"
           aria-hidden="true"
         />
-
-        <div className="flex min-h-[560px] items-end pb-8 min-[901px]:min-h-[820px] min-[901px]:pb-12">
-          <p className="max-w-[25ch] rounded-full bg-[#f7f6f1]/90 px-5 py-3 text-[0.65rem] font-semibold tracking-[0.13em] text-[#2f322f] uppercase shadow-[0_12px_36px_rgba(20,24,21,0.1)]">
-            Bakımın farklı dokuları, tek seçkide
-          </p>
-        </div>
       </section>
 
       <section
         id="footer-links"
-        className="fluid gridContainer bg-site-paper pb-10 min-[901px]:pb-14"
+        className="fluid gridContainer bg-site-paper pb-9 min-[901px]:pb-12"
       >
-        <div className="relative">
+        <div className="grid gap-y-16 min-[901px]:grid-cols-12 min-[901px]:gap-x-[clamp(32px,4vw,72px)] min-[901px]:gap-y-0">
           <div
-            className="pt-5 min-[901px]:absolute min-[901px]:top-[-390px] min-[901px]:right-0 min-[901px]:w-[min(42vw,570px)] min-[901px]:pt-0"
+            className="order-1 -mt-20 min-[901px]:order-2 min-[901px]:col-span-6 min-[901px]:col-start-7 min-[901px]:row-start-1 min-[901px]:-mt-[430px]"
             data-motion-group
           >
             <CtaCard />
           </div>
 
-          <div className="pt-16 min-[901px]:pt-[310px]">
+          <div className="order-2 min-[901px]:order-1 min-[901px]:col-span-5 min-[901px]:row-start-1 min-[901px]:pt-16">
             <FooterNavigation />
+          </div>
 
-            <div
-              className="mt-20 grid gap-12 border-t border-black/15 pt-10 min-[768px]:mt-28 min-[768px]:grid-cols-[1fr_auto] min-[768px]:items-end min-[901px]:mt-36"
-              data-motion-group
-            >
-              <div data-section-reveal>
-                <a
-                  className="inline-flex min-h-14 w-fit items-center"
-                  href="#top"
-                  aria-label="Anka West Skincare anasayfa"
-                >
-                  <span className="relative block h-[58px] w-[184px] overflow-hidden">
-                    <Image
-                      className="absolute top-[-27px] left-0 h-auto w-[184px] max-w-none"
-                      src="/images/logo/ankawestskincare-logo.png"
-                      alt="Anka West Skincare"
-                      width={465}
-                      height={287}
-                      sizes="184px"
-                    />
-                  </span>
-                </a>
-                <p className="mt-5 max-w-[28ch] text-[0.85rem] leading-[1.5] text-site-copy">
-                  Cildini dinleyen bakım, sana özgü.
-                </p>
-              </div>
-
-              <div
-                className="grid gap-3 text-left text-[0.72rem] tracking-[0.01em] text-site-copy min-[768px]:text-right"
-                data-section-reveal
-              >
-                <p>© {currentYear} Anka West Skincare. Tüm hakları saklıdır.</p>
-                <p className="tracking-[0.12em] uppercase">GLUTANEX · EXOME</p>
-              </div>
-            </div>
+          <div className="order-3 min-[901px]:col-span-12 min-[901px]:row-start-2 min-[901px]:mt-28">
+            <BrandBar />
           </div>
         </div>
       </section>

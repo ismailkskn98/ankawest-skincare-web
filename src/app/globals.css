@@ -161,6 +161,32 @@
   border: 0;
 }
 
+.focus-ring:focus-visible {
+  outline: 2px solid color-mix(in srgb, currentColor 45%, transparent);
+  outline-offset: 4px;
+}
+
+html[data-motion-intro="pending"] [data-header-reveal],
+html[data-motion-intro="pending"] [data-hero-line],
+html[data-motion-intro="pending"] [data-hero-support],
+html[data-motion-intro="pending"] [data-hero-cta] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.approach-fixed-visual {
+  background-position: 50% 48%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .approach-fixed-visual {
+    background-attachment: fixed;
+    background-size: clamp(980px, 70vw, 1420px) auto;
+  }
+}
+
 .eyebrow {
   margin: 0;
   color: var(--accent);
@@ -1445,6 +1471,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
+  html[data-motion-intro="pending"] [data-header-reveal],
+  html[data-motion-intro="pending"] [data-hero-line],
+  html[data-motion-intro="pending"] [data-hero-support],
+  html[data-motion-intro="pending"] [data-hero-cta] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
 
   *,
   *::before,
