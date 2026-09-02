@@ -10,9 +10,7 @@ export function MotionController() {
     const root = document.querySelector("[data-site-root]");
     const header = root?.querySelector("[data-header]");
     const video = root?.querySelector("[data-hero-video]");
-    const reduceMotionQuery = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
+    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const saveData = navigator.connection?.saveData === true;
     const clearMotionIntroGuard = () => {
       if (document.documentElement.dataset.motionIntro === "pending") {
@@ -56,10 +54,7 @@ export function MotionController() {
       header.dataset.scrolled = isScrolled ? "true" : "false";
     };
 
-    const setHeaderVisibility = (
-      isVisible,
-      { animate = true, force = false } = {},
-    ) => {
+    const setHeaderVisibility = (isVisible, { animate = true, force = false } = {}) => {
       if (!header || (!force && isHeaderVisible === isVisible)) {
         return;
       }
@@ -76,9 +71,7 @@ export function MotionController() {
             autoAlpha: isVisible ? 1 : 0,
           });
         } else {
-          header.style.transform = isVisible
-            ? "translate3d(0, 0, 0)"
-            : "translate3d(0, -125%, 0)";
+          header.style.transform = isVisible ? "translate3d(0, 0, 0)" : "translate3d(0, -125%, 0)";
           header.style.opacity = isVisible ? "1" : "0";
           header.style.visibility = isVisible ? "visible" : "hidden";
         }
@@ -180,9 +173,7 @@ export function MotionController() {
       const [lenisModule, gsapModule, scrollTriggerModule] = await Promise.all([
         import("lenis"),
         shouldLoadMotion ? import("gsap") : Promise.resolve(null),
-        shouldLoadParallax
-          ? import("gsap/ScrollTrigger")
-          : Promise.resolve(null),
+        shouldLoadParallax ? import("gsap/ScrollTrigger") : Promise.resolve(null),
       ]);
 
       if (cancelled) {
@@ -227,10 +218,7 @@ export function MotionController() {
       }
 
       const initialScroll = lenisInstance.scroll;
-      const shouldRunIntro =
-        document.documentElement.dataset.motionIntro === "pending" &&
-        initialScroll <= HEADER_SCROLL_THRESHOLD &&
-        !reduceMotionQuery.matches;
+      const shouldRunIntro = document.documentElement.dataset.motionIntro === "pending" && initialScroll <= HEADER_SCROLL_THRESHOLD && !reduceMotionQuery.matches;
 
       setHeaderTheme(initialScroll > HEADER_SCROLL_THRESHOLD);
 
@@ -280,21 +268,11 @@ export function MotionController() {
       }
 
       if (scrollTriggerInstance && !saveData) {
-        const heroParallaxSection = root.querySelector(
-          "[data-parallax-section]",
-        );
-        const scrollParallaxSections = Array.from(
-          root.querySelectorAll("[data-scroll-parallax-section]"),
-        );
-        const motionGroups = Array.from(
-          root.querySelectorAll("[data-motion-group]"),
-        );
-        const scrollDrawSection = root.querySelector(
-          "[data-scroll-draw-section]",
-        );
-        const scrollDrawPath = scrollDrawSection?.querySelector(
-          "[data-scroll-draw-path]",
-        );
+        const heroParallaxSection = root.querySelector("[data-parallax-section]");
+        const scrollParallaxSections = Array.from(root.querySelectorAll("[data-scroll-parallax-section]"));
+        const motionGroups = Array.from(root.querySelectorAll("[data-motion-group]"));
+        const scrollDrawSection = root.querySelector("[data-scroll-draw-section]");
+        const scrollDrawPath = scrollDrawSection?.querySelector("[data-scroll-draw-path]");
 
         parallaxMediaContext = gsapInstance.matchMedia();
         parallaxMediaContext.add(
@@ -302,11 +280,7 @@ export function MotionController() {
             canDraw: "(prefers-reduced-motion: no-preference)",
           },
           (drawContext) => {
-            if (
-              !drawContext.conditions.canDraw ||
-              !scrollDrawSection ||
-              !scrollDrawPath
-            ) {
+            if (!drawContext.conditions.canDraw || !scrollDrawSection || !scrollDrawPath) {
               return undefined;
             }
 
@@ -316,8 +290,7 @@ export function MotionController() {
               return undefined;
             }
 
-            const initialReveal =
-              Number(scrollDrawPath.dataset.scrollDrawInitial) || 0.1;
+            const initialReveal = Number(scrollDrawPath.dataset.scrollDrawInitial) || 0.1;
             const initialOffset = pathLength * (1 - initialReveal);
 
             gsapInstance.set(scrollDrawPath, {
@@ -332,7 +305,7 @@ export function MotionController() {
                 ease: "none",
                 scrollTrigger: {
                   trigger: scrollDrawSection,
-                  start: "top 68%",
+                  start: "top 25%",
                   end: "bottom 42%",
                   scrub: 0.55,
                 },
@@ -344,26 +317,16 @@ export function MotionController() {
         );
         const setupScrollParallax = (strengthScale, scrubValue) => {
           scrollParallaxSections.forEach((section) => {
-            const layers = Array.from(
-              section.querySelectorAll("[data-scroll-parallax-layer]"),
-            );
-            const sectionStrength =
-              Number(section.dataset.parallaxStrength) ||
-              PARALLAX_SCROLL_STRENGTH;
-            const sectionDirection =
-              Number(section.dataset.parallaxDirection) || 1;
-            const isCenteredParallax =
-              section.dataset.parallaxCentered === "true";
+            const layers = Array.from(section.querySelectorAll("[data-scroll-parallax-layer]"));
+            const sectionStrength = Number(section.dataset.parallaxStrength) || PARALLAX_SCROLL_STRENGTH;
+            const sectionDirection = Number(section.dataset.parallaxDirection) || 1;
+            const isCenteredParallax = section.dataset.parallaxCentered === "true";
 
             if (layers.length === 0) {
               return;
             }
 
-            const getLayerTravel = (layer) =>
-              (Number(layer.dataset.parallaxDistance) || 0) *
-              sectionStrength *
-              sectionDirection *
-              strengthScale;
+            const getLayerTravel = (layer) => (Number(layer.dataset.parallaxDistance) || 0) * sectionStrength * sectionDirection * strengthScale;
 
             const scrollTrigger = {
               trigger: section,
@@ -406,25 +369,18 @@ export function MotionController() {
             reduceMotion: "(prefers-reduced-motion: reduce)",
           },
           (mediaContext) => {
-            const { isDesktop, hasFinePointer, reduceMotion } =
-              mediaContext.conditions;
+            const { isDesktop, hasFinePointer, reduceMotion } = mediaContext.conditions;
 
             if (!isDesktop || reduceMotion) {
               return undefined;
             }
 
             if (heroParallaxSection) {
-              const heroScrollLayers = Array.from(
-                heroParallaxSection.querySelectorAll(
-                  "[data-parallax-scroll]",
-                ),
-              );
+              const heroScrollLayers = Array.from(heroParallaxSection.querySelectorAll("[data-parallax-scroll]"));
 
               if (heroScrollLayers.length > 0) {
                 gsapInstance.to(heroScrollLayers, {
-                  y: (_, layer) =>
-                    (Number(layer.dataset.parallaxDistance) || 0) *
-                    PARALLAX_SCROLL_STRENGTH,
+                  y: (_, layer) => (Number(layer.dataset.parallaxDistance) || 0) * PARALLAX_SCROLL_STRENGTH,
                   force3D: true,
                   ease: "none",
                   scrollTrigger: {
@@ -441,9 +397,7 @@ export function MotionController() {
             setupScrollParallax(1, 0.9);
 
             motionGroups.forEach((group) => {
-              const revealItems = Array.from(
-                group.querySelectorAll("[data-section-reveal]"),
-              );
+              const revealItems = Array.from(group.querySelectorAll("[data-section-reveal]"));
 
               if (group.matches("[data-section-reveal]")) {
                 revealItems.unshift(group);
@@ -468,17 +422,8 @@ export function MotionController() {
               });
             });
 
-            const pointerLayers = heroParallaxSection
-              ? Array.from(
-                  heroParallaxSection.querySelectorAll(
-                    "[data-parallax-pointer]",
-                  ),
-                )
-              : [];
-            const canUsePointerParallax =
-              hasFinePointer &&
-              heroParallaxSection &&
-              pointerLayers.length > 0;
+            const pointerLayers = heroParallaxSection ? Array.from(heroParallaxSection.querySelectorAll("[data-parallax-pointer]")) : [];
+            const canUsePointerParallax = hasFinePointer && heroParallaxSection && pointerLayers.length > 0;
 
             const pointerSetters = canUsePointerParallax
               ? pointerLayers.map((layer) => {
@@ -522,37 +467,18 @@ export function MotionController() {
             };
 
             if (canUsePointerParallax) {
-              heroParallaxSection.addEventListener(
-                "pointermove",
-                handlePointerMove,
-                { passive: true },
-              );
-              heroParallaxSection.addEventListener(
-                "pointerleave",
-                resetPointerPosition,
-              );
+              heroParallaxSection.addEventListener("pointermove", handlePointerMove, { passive: true });
+              heroParallaxSection.addEventListener("pointerleave", resetPointerPosition);
               window.addEventListener("blur", resetPointerPosition);
-              document.addEventListener(
-                "visibilitychange",
-                handleParallaxVisibilityChange,
-              );
+              document.addEventListener("visibilitychange", handleParallaxVisibilityChange);
             }
 
             return () => {
               if (canUsePointerParallax) {
-                heroParallaxSection.removeEventListener(
-                  "pointermove",
-                  handlePointerMove,
-                );
-                heroParallaxSection.removeEventListener(
-                  "pointerleave",
-                  resetPointerPosition,
-                );
+                heroParallaxSection.removeEventListener("pointermove", handlePointerMove);
+                heroParallaxSection.removeEventListener("pointerleave", resetPointerPosition);
                 window.removeEventListener("blur", resetPointerPosition);
-                document.removeEventListener(
-                  "visibilitychange",
-                  handleParallaxVisibilityChange,
-                );
+                document.removeEventListener("visibilitychange", handleParallaxVisibilityChange);
                 gsapInstance.killTweensOf(pointerLayers);
                 gsapInstance.set(pointerLayers, { clearProps: "transform" });
               }
@@ -614,17 +540,9 @@ export function MotionController() {
           },
           onComplete: () => {
             clearMotionIntroGuard();
-            gsapInstance.set(
-              [
-                "[data-header-reveal]",
-                "[data-hero-line]",
-                "[data-hero-support]",
-                "[data-hero-cta]",
-              ],
-              {
-                clearProps: "transform,opacity,visibility",
-              },
-            );
+            gsapInstance.set(["[data-header-reveal]", "[data-hero-line]", "[data-hero-support]", "[data-hero-cta]"], {
+              clearProps: "transform,opacity,visibility",
+            });
           },
         });
 
@@ -710,15 +628,9 @@ export function MotionController() {
       gsapInstance?.killTweensOf(header);
       parallaxMediaContext?.revert();
       animationContext?.revert();
-      video?.removeEventListener(
-        "loadedmetadata",
-        handleVideoMetadataLoaded,
-      );
+      video?.removeEventListener("loadedmetadata", handleVideoMetadataLoaded);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      reduceMotionQuery.removeEventListener(
-        "change",
-        handleMotionPreferenceChange,
-      );
+      reduceMotionQuery.removeEventListener("change", handleMotionPreferenceChange);
     };
   }, []);
 
