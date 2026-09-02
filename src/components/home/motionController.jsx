@@ -316,20 +316,28 @@ export function MotionController() {
               return undefined;
             }
 
+            const initialReveal =
+              Number(scrollDrawPath.dataset.scrollDrawInitial) || 0.1;
+            const initialOffset = pathLength * (1 - initialReveal);
+
             gsapInstance.set(scrollDrawPath, {
               strokeDasharray: `${pathLength} ${pathLength}`,
-              strokeDashoffset: pathLength,
+              strokeDashoffset: initialOffset,
             });
-            gsapInstance.to(scrollDrawPath, {
-              strokeDashoffset: 0,
-              ease: "none",
-              scrollTrigger: {
-                trigger: scrollDrawSection,
-                start: "top 68%",
-                end: "bottom 42%",
-                scrub: 0.55,
+            gsapInstance.fromTo(
+              scrollDrawPath,
+              { strokeDashoffset: initialOffset },
+              {
+                strokeDashoffset: 0,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: scrollDrawSection,
+                  start: "top 68%",
+                  end: "bottom 42%",
+                  scrub: 0.55,
+                },
               },
-            });
+            );
 
             return undefined;
           },

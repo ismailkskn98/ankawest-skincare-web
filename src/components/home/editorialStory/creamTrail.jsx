@@ -1,6 +1,15 @@
+const CREAM_PATH_LENGTH = 16000;
+const CREAM_INITIAL_REVEAL = 0.1;
+
 export function CreamTrail() {
+  const initialDashOffset = Math.round(
+    CREAM_PATH_LENGTH * (1 - CREAM_INITIAL_REVEAL),
+  );
+
   return (
-    <svg className="pointer-events-none absolute inset-0 z-[1] h-full w-full" viewBox="0 0 1944.2 7600" preserveAspectRatio="none" overflow="visible" focusable="false" aria-hidden="true">
+    <svg
+      className="pointer-events-none absolute inset-0 z-[1] h-full w-full translate-y-[clamp(4.75rem,9.5vh,7.75rem)]"
+      viewBox="0 0 1944.2 7600" preserveAspectRatio="none" overflow="visible" focusable="false" aria-hidden="true">
       <defs>
         <linearGradient id="story-cream-paint" gradientUnits="userSpaceOnUse" x1="250" y1="250" x2="1690" y2="7350">
           <stop offset="0%" stopColor="#e5e0d7" />
@@ -39,10 +48,11 @@ export function CreamTrail() {
         strokeLinecap="round"
         strokeLinejoin="round"
         style={{
-          strokeDasharray: "16000 16000",
-          strokeDashoffset: 16000,
+          strokeDasharray: `${CREAM_PATH_LENGTH} ${CREAM_PATH_LENGTH}`,
+          strokeDashoffset: initialDashOffset,
         }}
         data-scroll-draw-path
+        data-scroll-draw-initial={CREAM_INITIAL_REVEAL}
       />
     </svg>
   );
