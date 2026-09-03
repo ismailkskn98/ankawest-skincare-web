@@ -48,9 +48,6 @@ function ProductCard({ product }) {
         </div>
         <div className="pb-0.5 text-right text-[0.68rem] leading-[1.45] text-site-copy">
           {product.sizeLabel ? <span className="block">{product.sizeLabel}</span> : null}
-          {product.priceLabel ? (
-            <span className="block font-semibold text-site-ink">{product.priceLabel}</span>
-          ) : null}
         </div>
       </div>
     </Link>

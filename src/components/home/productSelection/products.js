@@ -21,7 +21,6 @@ export const productCollections = [
         name: "Glow Booster",
         category: "Yüz kremi",
         size: "50 ml",
-        price: "1850 TL",
         image: "/images/urunler-ham/glutanex-glow-booster.webp",
         hoverImage: "/images/urunler-ham/glutanex-glow-booster-hover.webp",
         imageAlt: "GLUTANEX Glow Booster Crystal Radiance Capsule Cream",
@@ -33,7 +32,6 @@ export const productCollections = [
         name: "Glow Therapy Eye Cream",
         category: "Göz çevresi",
         size: "30 ml",
-        price: "1850 TL",
         image: "/images/urunler-ham/glutanex-glow-therapy-eye-cream.webp",
         hoverImage:
           "/images/urunler-ham/glutanex-glow-therapy-eye-cream-hover.webp",
@@ -46,7 +44,6 @@ export const productCollections = [
         name: "Glow Therapy Milky Serum",
         category: "Serum",
         size: "30 ml",
-        price: "1850 TL",
         image: "/images/urunler-ham/glutanex-glow-therapy-milky-serum.webp",
         hoverImage:
           "/images/urunler-ham/glutanex-glow-therapy-milky-serum-hover.webp",
@@ -59,7 +56,6 @@ export const productCollections = [
         name: "Glow Therapy Toner",
         category: "Tonik",
         size: "150 ml",
-        price: "1400 TL",
         image: "/images/urunler-ham/glutanex-glow-therapy-toner.webp",
         hoverImage: "/images/urunler-ham/glutanex-glow-therapy-toner-hover.webp",
         imageAlt: "GLUTANEX Glow Therapy Toner",
@@ -71,7 +67,6 @@ export const productCollections = [
         name: "Glow Therapy Gel-to-Foam Cleanser",
         category: "Temizleyici",
         size: "100 ml",
-        price: "850 TL",
         image:
           "/images/urunler-ham/glutanex-glow-therapy-gel-to-foam-cleanser.webp",
         hoverImage:
@@ -103,7 +98,6 @@ export const productCollections = [
         name: "Sun Stick SPF50+",
         category: "Güneş stick",
         size: "30 g",
-        price: "1500 TL",
         image: "/images/urunler-ham/glutanex-glow-sun-stick-spf50+.webp",
         hoverImage:
           "/images/urunler-ham/glutanex-glow-sun-stick-spf50+-hover.webp",
@@ -116,7 +110,6 @@ export const productCollections = [
         name: "Glow Sun Cream Light SPF50+",
         category: "Güneş kremi",
         size: "50 ml",
-        price: "1850 TL",
         image: "/images/urunler-ham/glutanex-glow-sun-cream-light-spf50+.webp",
         hoverImage:
           "/images/urunler-ham/glutanex-glow-sun-cream-light-spf50+-hover.webp",
@@ -129,7 +122,6 @@ export const productCollections = [
         name: "Aloe Booster",
         category: "Jel krem",
         size: "200 ml",
-        price: "1500 TL",
         image: "/images/urunler-ham/glutanex-aloe-booster.webp",
         hoverImage: "/images/urunler-ham/glutanex-aloe-booster-hover.webp",
         imageAlt: "GLUTANEX Aloe Vera Nemlendirici Jel Krem",
@@ -141,7 +133,6 @@ export const productCollections = [
         name: "Spot Cream",
         category: "Leke bakımı",
         size: "20 ml",
-        price: "980 TL",
         image: "/images/urunler-ham/glutanex-spot-cream.webp",
         hoverImage: "/images/urunler-ham/glutanex-spot-cream-hover.webp",
         imageAlt: "GLUTANEX Spot Cream",
@@ -153,7 +144,6 @@ export const productCollections = [
         name: "Deo Glow Balm",
         category: "Deodorant",
         size: "12.5 g",
-        price: "650 TL",
         image: "/images/urunler-ham/glutanex-glow-deo-balm.webp",
         hoverImage: "/images/urunler-ham/glutanex-glow-deo-balm-hover.webp",
         imageAlt: "GLUTANEX Deo Glow Balm",

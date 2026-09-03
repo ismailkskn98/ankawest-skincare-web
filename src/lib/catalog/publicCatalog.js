@@ -3,24 +3,6 @@ import "server-only";
 import { apiRequest } from "@/lib/api/server";
 import { CARD_TONES, demoCategories, demoProducts } from "./demoProducts";
 
-function formatPrice(price, currency = "TRY") {
-  const amount = Number(price);
-
-  if (!Number.isFinite(amount)) {
-    return "";
-  }
-
-  try {
-    return new Intl.NumberFormat("tr-TR", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  } catch {
-    return `${Math.round(amount)} TL`;
-  }
-}
-
 function getShortProductName(name, brand = "") {
   if (!name) {
     return "Ürün";
@@ -58,9 +40,6 @@ export function normalizeProduct(product, index = 0) {
     categoryName: product.categoryName || product.category?.name || "",
     categorySlug: product.categorySlug || product.category?.slug || "",
     sizeLabel: product.sizeLabel || "",
-    price: product.price,
-    currency: product.currency || "TRY",
-    priceLabel: product.priceLabel || formatPrice(product.price, product.currency),
     shortDescription: product.shortDescription || "",
     primaryImageUrl: product.primaryImageUrl || product.image || "",
     hoverImageUrl: product.hoverImageUrl || null,

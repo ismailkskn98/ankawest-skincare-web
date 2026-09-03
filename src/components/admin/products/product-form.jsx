@@ -62,8 +62,6 @@ function buildDefaultValues(product) {
     name: product?.name || "",
     slug: product?.slug || "",
     sku: product?.sku || "",
-    price: product?.price ?? "",
-    currency: product?.currency || "TRY",
     sizeLabel: product?.sizeLabel || "",
     shortDescription: product?.shortDescription || "",
     description: product?.description || "",
@@ -96,7 +94,6 @@ function toProductPayload(values) {
 
   return {
     ...fields,
-    currency: fields.currency.toUpperCase(),
     benefits: splitLines(benefitsText),
     activeIngredients: splitLines(activeIngredientsText),
     suitableFor: splitLines(suitableForText),
@@ -374,28 +371,6 @@ export default function ProductForm({ categories, product = null, userRole }) {
                 id="product-size"
                 placeholder="Örn. 50 ml"
                 {...register("sizeLabel")}
-              />
-            </div>
-            <div className="form-field">
-              <label className="form-label" htmlFor="product-price">Fiyat</label>
-              <input
-                className="form-control"
-                id="product-price"
-                type="number"
-                min="0"
-                step="0.01"
-                aria-invalid={Boolean(errors.price)}
-                {...register("price")}
-              />
-              {errors.price ? <p className="form-error">{errors.price.message}</p> : null}
-            </div>
-            <div className="form-field">
-              <label className="form-label" htmlFor="product-currency">Para birimi</label>
-              <input
-                className="form-control"
-                id="product-currency"
-                maxLength={3}
-                {...register("currency")}
               />
             </div>
             <div className="form-field">

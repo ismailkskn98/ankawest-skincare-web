@@ -51,8 +51,6 @@ export const demoProducts = [
     categoryName: "Nemlendirici ve Bariyer Bakımı",
     categorySlug: "nemlendirici-ve-bariyer-bakimi",
     sizeLabel: "50 ml",
-    price: 1850,
-    currency: "TRY",
     shortDescription:
       "Lipozomal glutatyon ve PDRN içeren kapsüllü nemlendirici yüz kremi.",
     primaryImageUrl: "/images/urunler-ham/glutanex-glow-booster.webp",
@@ -67,8 +65,6 @@ export const demoProducts = [
     categoryName: "Serum ve Ampuller",
     categorySlug: "serum-ve-ampuller",
     sizeLabel: "30 ml",
-    price: 1850,
-    currency: "TRY",
     shortDescription:
       "Aydınlık görünüm odaklı glutatyon ve PDRN içeren süt yapılı ampul.",
     primaryImageUrl:
@@ -85,8 +81,6 @@ export const demoProducts = [
     categoryName: "Nemlendirici ve Bariyer Bakımı",
     categorySlug: "nemlendirici-ve-bariyer-bakimi",
     sizeLabel: "50 ml",
-    price: 1850,
-    currency: "TRY",
     shortDescription:
       "PDRN ve üçlü hyaluronik asit ile yoğun nem desteği sunan yüz kremi.",
     primaryImageUrl: "/images/urunler-ham/glutanex-aqua-booster.webp",
@@ -101,8 +95,6 @@ export const demoProducts = [
     categoryName: "Göz Çevresi Bakımı",
     categorySlug: "goz-cevresi-bakimi",
     sizeLabel: "30 ml",
-    price: 1850,
-    currency: "TRY",
     shortDescription:
       "Retinol destekli gece göz çevresi bakımı.",
     primaryImageUrl:
@@ -119,8 +111,6 @@ export const demoProducts = [
     categoryName: "Tonik ve Bakım Pedleri",
     categorySlug: "tonik-ve-bakim-pedleri",
     sizeLabel: "150 ml",
-    price: 1400,
-    currency: "TRY",
     shortDescription:
       "Cildi bakıma hazırlayan aydınlık görünüm odaklı tonik.",
     primaryImageUrl: "/images/urunler-ham/glutanex-glow-therapy-toner.webp",
@@ -136,8 +126,6 @@ export const demoProducts = [
     categoryName: "Yüz Temizleme",
     categorySlug: "yuz-temizleme",
     sizeLabel: "100 ml",
-    price: 850,
-    currency: "TRY",
     shortDescription:
       "AHA BHA LHA ile nazik arındırma sunan jel-köpük temizleyici.",
     primaryImageUrl:
@@ -154,8 +142,6 @@ export const demoProducts = [
     categoryName: "Güneş Koruma",
     categorySlug: "gunes-koruma",
     sizeLabel: "30 g",
-    price: 1500,
-    currency: "TRY",
     shortDescription:
       "Pratik stick formda SPF50+ PA++++ günlük güneş koruması.",
     primaryImageUrl:
@@ -172,8 +158,6 @@ export const demoProducts = [
     categoryName: "Güneş Koruma",
     categorySlug: "gunes-koruma",
     sizeLabel: "50 ml",
-    price: 1500,
-    currency: "TRY",
     shortDescription:
       "Hafif dokulu, gündüz rutinine uygun yüksek korumalı güneş kremi.",
     primaryImageUrl:
@@ -190,8 +174,6 @@ export const demoProducts = [
     categoryName: "Serum ve Ampuller",
     categorySlug: "serum-ve-ampuller",
     sizeLabel: "30 ml",
-    price: 1850,
-    currency: "TRY",
     shortDescription:
       "Süt dokulu, aydınlık ve nem odaklı yüz serumu.",
     primaryImageUrl:
@@ -208,8 +190,6 @@ export const demoProducts = [
     categoryName: "Nemlendirici ve Bariyer Bakımı",
     categorySlug: "nemlendirici-ve-bariyer-bakimi",
     sizeLabel: "200 ml",
-    price: 1500,
-    currency: "TRY",
     shortDescription:
       "Yüz ve vücut için ferahlatıcı aloe vera jel krem.",
     primaryImageUrl: "/images/urunler-ham/glutanex-aloe-booster.webp",
@@ -224,8 +204,6 @@ export const demoProducts = [
     categoryName: "Deodorant ve Bölgesel Bakım",
     categorySlug: "deodorant-ve-bolgesel-bakim",
     sizeLabel: "12.5 g",
-    price: 650,
-    currency: "TRY",
     shortDescription:
       "Alüminyumsuz stick deodorant ve bölgesel aydınlık bakım.",
     primaryImageUrl: "/images/urunler-ham/glutanex-glow-deo-balm.webp",
@@ -240,8 +218,6 @@ export const demoProducts = [
     categoryName: "Serum ve Ampuller",
     categorySlug: "serum-ve-ampuller",
     sizeLabel: "30 ml",
-    price: 1500,
-    currency: "TRY",
     shortDescription:
       "Gece boyunca nem ve elastikiyet görünümünü destekleyen serum.",
     primaryImageUrl:

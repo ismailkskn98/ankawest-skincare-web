@@ -29,11 +29,6 @@ export const productFormSchema = z.object({
   name: z.string().trim().min(2, "Ürün adı en az 2 karakter olmalıdır."),
   slug: z.string().trim().optional(),
   sku: z.string().trim().optional(),
-  price: z.preprocess(
-    (value) => (value === "" ? undefined : value),
-    z.coerce.number({ error: "Fiyatı girin." }).min(0, "Fiyat negatif olamaz."),
-  ),
-  currency: z.string().trim().length(3, "Para birimi 3 harf olmalıdır."),
   sizeLabel: z.string().trim().optional(),
   shortDescription: z.string().trim().max(500).optional(),
   description: z.string().trim().optional(),

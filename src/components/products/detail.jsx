@@ -44,11 +44,6 @@ export function ProductDetail({ product }) {
 
             <div className="mt-6 flex flex-wrap items-center gap-4 text-[0.92rem] text-site-copy">
               {product.sizeLabel ? <span>{product.sizeLabel}</span> : null}
-              {product.priceLabel ? (
-                <span className="rounded-full bg-site-ink px-4 py-2 text-[0.78rem] font-semibold tracking-[0.06em] text-site-paper">
-                  {product.priceLabel}
-                </span>
-              ) : null}
             </div>
 
             {product.shortDescription || product.description ? (

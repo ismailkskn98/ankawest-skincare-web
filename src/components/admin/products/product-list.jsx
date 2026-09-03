@@ -17,18 +17,6 @@ import ConfirmDialog from "@/components/ui/confirm-dialog";
 import EmptyState from "@/components/ui/empty-state";
 import { clientApiRequest } from "@/lib/api/client";
 
-function formatPrice(value, currency = "TRY") {
-  if (value === null || value === undefined || value === "") {
-    return "-";
-  }
-
-  return new Intl.NumberFormat("tr-TR", {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 2,
-  }).format(Number(value));
-}
-
 export default function ProductList({ initialData, categories, userRole }) {
   const [records, setRecords] = useState(initialData.records);
   const [pagination, setPagination] = useState(initialData.pagination);
@@ -159,7 +147,6 @@ export default function ProductList({ initialData, categories, userRole }) {
               <tr>
                 <th>Ürün</th>
                 <th>Kategori</th>
-                <th>Fiyat</th>
                 <th>Durum</th>
                 <th><span className="sr-only">İşlemler</span></th>
               </tr>
@@ -172,7 +159,6 @@ export default function ProductList({ initialData, categories, userRole }) {
                     <span className="table-secondary">{product.sku || product.slug}</span>
                   </td>
                   <td>{product.categoryName || "-"}</td>
-                  <td>{formatPrice(product.price, product.currency)}</td>
                   <td><StatusBadge status={product.status} /></td>
                   <td>
                     <div className="table-actions">

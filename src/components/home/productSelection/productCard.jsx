@@ -37,7 +37,6 @@ export function ProductCard({ product }) {
         </div>
         <div className="pb-1 text-right text-[0.64rem] leading-[1.5] text-site-copy min-[1024px]:text-[0.68rem]">
           <span className="block">{product.size}</span>
-          <span className="block text-site-ink">{product.price}</span>
         </div>
       </div>
     </article>
