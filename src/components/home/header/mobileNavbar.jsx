@@ -1,19 +1,61 @@
 "use client";
 
+import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowUpRight";
+import { InstagramLogoIcon } from "@phosphor-icons/react/dist/ssr/InstagramLogo";
+import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const navigationDelayClasses = [
-  "[animation-delay:110ms]",
-  "[animation-delay:175ms]",
-  "[animation-delay:240ms]",
+import { INSTAGRAM_URL } from "@/config/site-content";
+
+const linkEnterDelayClasses = [
+  "[animation-delay:80ms]",
+  "[animation-delay:140ms]",
+  "[animation-delay:200ms]",
+  "[animation-delay:260ms]",
 ];
+
+function MenuLink({ item, index, onNavigate }) {
+  const className = `group/link block w-fit py-2.5 font-canela text-[clamp(2.35rem,11vw,3.4rem)] leading-[0.95] font-light tracking-[-0.04em] text-site-ink outline-none transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-55 focus-visible:opacity-55 motion-reduce:transition-none group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${linkEnterDelayClasses[index] ?? linkEnterDelayClasses.at(-1)}`;
+
+  const content = (
+    <span className="relative">
+      {item.label}
+      <span
+        className="absolute inset-x-0 bottom-[0.08em] h-px origin-left scale-x-0 bg-current/35 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:scale-x-100 group-focus-visible/link:scale-x-100 motion-reduce:transition-none"
+        aria-hidden="true"
+      />
+    </span>
+  );
+
+  if (item.external) {
+    return (
+      <a
+        className={className}
+        href={item.href}
+        target="_blank"
+        rel="noreferrer"
+        onClick={onNavigate}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link className={className} href={item.href} onClick={onNavigate}>
+      {content}
+    </Link>
+  );
+}
 
 export function MobileNavbar({ items, storeUrl }) {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
-  const firstLinkRef = useRef(null);
+  const closeButtonRef = useRef(null);
   const previousOverflowRef = useRef("");
+  const primaryItems = items.filter((item) => item.href !== INSTAGRAM_URL);
 
   const unlockPage = useCallback(() => {
     document.documentElement.style.overflow = previousOverflowRef.current;
@@ -48,7 +90,7 @@ export function MobileNavbar({ items, storeUrl }) {
     document.documentElement.style.overflow = "hidden";
     dialog.showModal();
     setIsOpen(true);
-    window.requestAnimationFrame(() => firstLinkRef.current?.focus());
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
   };
 
   useEffect(() => {
@@ -77,29 +119,29 @@ export function MobileNavbar({ items, storeUrl }) {
     <>
       <button
         ref={triggerRef}
-        className="inline-flex min-h-[50px] items-center gap-3 rounded-full border-0 bg-[rgba(250,249,246,0.96)] py-[5px] pr-[7px] pl-[17px] text-[#2f322f] transition-[background-color,color] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[#2f322f] group-data-[scrolled=true]/header:text-[#f7f6f1] motion-reduce:transition-none max-[390px]:pl-3.5 min-[901px]:hidden"
+        className="inline-flex min-h-[48px] items-center gap-3 rounded-full border-0 bg-[rgba(250,249,246,0.96)] py-1 pr-1.5 pl-4 text-[#2f322f] transition-[background-color,color] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[#2f322f] group-data-[scrolled=true]/header:text-[#f7f6f1] motion-reduce:transition-none max-[390px]:pl-3.5 min-[901px]:hidden"
         type="button"
         aria-label="Menüyü aç"
         aria-controls="site-mobile-menu"
         aria-expanded={isOpen}
         onClick={openMenu}
       >
-        <span className="text-[0.68rem] font-semibold tracking-[0.035em] uppercase">
+        <span className="text-[0.66rem] font-semibold tracking-[0.06em] uppercase">
           Menü
         </span>
         <span
-          className="relative grid size-[38px] place-items-center rounded-full bg-[#2f322f] transition-colors duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[rgba(247,246,241,0.12)] motion-reduce:transition-none"
+          className="relative grid size-9 place-items-center rounded-full bg-[#2f322f] transition-colors duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[rgba(247,246,241,0.12)] motion-reduce:transition-none"
           aria-hidden="true"
         >
-          <span className="absolute h-px w-3.5 -translate-y-[3px] bg-[#f7f6f1]" />
-          <span className="absolute h-px w-3.5 translate-y-[3px] bg-[#f7f6f1]" />
+          <span className="absolute h-px w-3.5 -translate-y-[3.5px] bg-[#f7f6f1]" />
+          <span className="absolute h-px w-3.5 translate-y-[3.5px] bg-[#f7f6f1]" />
         </span>
       </button>
 
       <dialog
         ref={dialogRef}
         id="site-mobile-menu"
-        className="group fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-[#f0eee7] p-0 text-[#252825] open:animate-mobile-menu-enter backdrop:bg-[rgba(9,13,10,0.58)] motion-reduce:open:animate-none"
+        className="group fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 bg-site-paper p-0 text-site-ink open:animate-mobile-menu-enter backdrop:bg-[rgba(24,27,24,0.42)] backdrop:backdrop-blur-[2px] motion-reduce:open:animate-none"
         data-lenis-prevent
         aria-labelledby="mobile-menu-title"
         onCancel={(event) => {
@@ -111,69 +153,105 @@ export function MobileNavbar({ items, storeUrl }) {
           unlockPage();
         }}
       >
-        <div className="flex min-h-full flex-col px-[clamp(20px,7vw,34px)] pt-[18px] pb-7">
-          <div className="flex min-h-[58px] items-center justify-between gap-5 border-b border-[rgba(37,40,37,0.16)] pb-3.5">
-            <p
-              id="mobile-menu-title"
-              className="text-[0.71rem] font-semibold tracking-[0.05em] uppercase"
+        <div className="relative flex min-h-full flex-col px-[clamp(1.25rem,6vw,2rem)] pt-4 pb-7">
+          <div className="flex min-h-14 items-center justify-between gap-4">
+            <Link
+              className="inline-flex min-h-12 w-fit items-center outline-none"
+              href="/"
+              aria-label="Anka West Skincare anasayfa"
+              onClick={() => closeMenu()}
             >
-              Anka West Skincare
+              <span className="relative block h-[44px] w-[132px] overflow-hidden">
+                <Image
+                  className="absolute top-[-19px] left-0 h-auto w-[132px] max-w-none"
+                  src="/images/logo/ankawestskincare-logo.png"
+                  alt="Anka West Skincare"
+                  width={465}
+                  height={287}
+                  sizes="132px"
+                  priority
+                />
+              </span>
+            </Link>
+            <p id="mobile-menu-title" className="sr-only">
+              Anka West Skincare menü
             </p>
+
             <button
-              className="inline-flex min-h-11 items-center gap-2.5 border-0 bg-transparent p-0 text-[0.72rem] text-inherit uppercase"
+              ref={closeButtonRef}
+              className="group/close inline-flex min-h-11 items-center gap-2.5 rounded-full bg-site-ink py-1 pr-1.5 pl-4 text-[0.66rem] font-semibold tracking-[0.06em] text-site-paper uppercase outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-2 focus-visible:ring-site-ink/25 focus-visible:ring-offset-2 focus-visible:ring-offset-site-paper active:scale-[0.98] motion-reduce:transition-none"
               type="button"
               aria-label="Menüyü kapat"
               onClick={() => closeMenu()}
             >
-              <span aria-hidden="true">Kapat</span>
+              Kapat
               <span
-                className="relative inline-block size-[38px] rounded-full bg-[#252825] text-[#f0eee7]"
+                className="relative grid size-9 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink"
                 aria-hidden="true"
               >
-                <span className="absolute top-1/2 left-1/2 h-px w-3.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-current" />
-                <span className="absolute top-1/2 left-1/2 h-px w-3.5 -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-current" />
+                <span className="absolute h-px w-3.5 rotate-45 bg-current transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/close:rotate-[225deg] motion-reduce:transition-none" />
+                <span className="absolute h-px w-3.5 -rotate-45 bg-current transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/close:-rotate-[225deg] motion-reduce:transition-none" />
               </span>
             </button>
           </div>
 
           <nav
-            className="mt-[clamp(48px,10vh,88px)] grid"
+            className="mt-[clamp(2.5rem,12vh,5.5rem)] grid gap-1"
             aria-label="Mobil ana menü"
           >
-            {items.map((item, index) => (
-              <a
+            {primaryItems.map((item, index) => (
+              <MenuLink
                 key={item.href}
-                ref={index === 0 ? firstLinkRef : undefined}
-                href={item.href}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noreferrer" : undefined}
-                onClick={() => closeMenu()}
-                className={`flex min-h-[82px] items-center gap-[18px] border-b border-[rgba(37,40,37,0.16)] font-ppmori text-[clamp(1.85rem,9vw,2.85rem)] leading-none font-semibold tracking-[-0.03em] group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${navigationDelayClasses[index] ?? navigationDelayClasses.at(-1)}`}
-              >
-                <span className="font-ppmori text-[0.64rem] font-semibold tracking-[0.08em] text-[rgba(37,40,37,0.48)]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                {item.label}
-              </a>
+                item={item}
+                index={index}
+                onNavigate={() => closeMenu()}
+              />
             ))}
           </nav>
 
-          <a
-            className="mt-[34px] flex min-h-[58px] items-center justify-between rounded-full bg-[#252825] px-[22px] text-[0.75rem] font-semibold tracking-[0.02em] uppercase"
-            href={storeUrl}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => closeMenu()}
-          >
-            <span className="text-[#f0eee7]">Ürün seçkisini keşfet</span>
-            <span className="text-[#f0eee7]" aria-hidden="true">
-              ↗
-            </span>
-          </a>
+          <div className="mt-auto flex flex-col gap-5 pt-10">
+            <a
+              className="group/cta inline-flex min-h-14 w-full items-center justify-between gap-4 rounded-full bg-site-ink py-1.5 pr-1.5 pl-5 text-[0.68rem] font-semibold tracking-[0.06em] text-site-paper uppercase outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-2 focus-visible:ring-site-ink/25 focus-visible:ring-offset-2 focus-visible:ring-offset-site-paper active:scale-[0.98] motion-reduce:transition-none group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none [animation-delay:320ms]"
+              href={storeUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => closeMenu()}
+            >
+              Ürün seçkisini keşfet
+              <span className="relative grid size-11 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink">
+                <ArrowUpRightIcon
+                  className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cta:translate-x-[160%] group-hover/cta:-translate-y-[160%] motion-reduce:transition-none"
+                  size={18}
+                  weight="light"
+                  aria-hidden="true"
+                />
+                <ArrowUpRightIcon
+                  className="absolute -translate-x-[160%] translate-y-[160%] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cta:translate-x-0 group-hover/cta:translate-y-0 motion-reduce:hidden"
+                  size={18}
+                  weight="light"
+                  aria-hidden="true"
+                />
+              </span>
+            </a>
 
-          <p className="mt-auto pt-[34px] text-[0.76rem] text-[rgba(37,40,37,0.52)]">
-            Cildini dinleyen bakım, sana özgü.
-          </p>
+            <div className="flex items-end justify-between gap-4 border-t border-site-ink/10 pt-5">
+              <p className="max-w-[18ch] text-[0.78rem] leading-[1.45] text-site-copy">
+                Cildini dinleyen bakım, sana özgü.
+              </p>
+
+              <a
+                className="inline-flex min-h-10 items-center gap-2 text-[0.66rem] font-semibold tracking-[0.08em] text-site-ink uppercase outline-none opacity-80 transition-opacity duration-300 hover:opacity-100 focus-visible:opacity-100 motion-reduce:transition-none"
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => closeMenu()}
+                aria-label="Instagram’da takip et"
+              >
+                <InstagramLogoIcon size={16} weight="light" aria-hidden="true" />
+                Instagram
+              </a>
+            </div>
+          </div>
         </div>
       </dialog>
     </>
