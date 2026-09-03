@@ -309,7 +309,6 @@ export function MotionController() {
                   start: "top 35%",
                   end: "bottom 50%",
                   scrub: 0.55,
-                  markers: true,
                 },
               },
             );
@@ -317,8 +316,12 @@ export function MotionController() {
             return undefined;
           },
         );
-        const setupScrollParallax = (strengthScale, scrubValue) => {
+        const setupScrollParallax = (strengthScale, scrubValue, { includeDesktopOnly = true } = {}) => {
           scrollParallaxSections.forEach((section) => {
+            if (!includeDesktopOnly && section.dataset.parallaxDesktopOnly === "true") {
+              return;
+            }
+
             const layers = Array.from(section.querySelectorAll("[data-scroll-parallax-layer]"));
             const sectionStrength = Number(section.dataset.parallaxStrength) || PARALLAX_SCROLL_STRENGTH;
             const sectionDirection = Number(section.dataset.parallaxDirection) || 1;
@@ -497,7 +500,7 @@ export function MotionController() {
               return undefined;
             }
 
-            setupScrollParallax(0.78, 0.82);
+            setupScrollParallax(0.78, 0.82, { includeDesktopOnly: false });
 
             return undefined;
           },
@@ -512,7 +515,7 @@ export function MotionController() {
               return undefined;
             }
 
-            setupScrollParallax(0.58, 0.74);
+            setupScrollParallax(0.58, 0.74, { includeDesktopOnly: false });
 
             return undefined;
           },

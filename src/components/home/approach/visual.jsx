@@ -37,6 +37,7 @@ export function Visual() {
       className="relative mt-8 min-[901px]:mt-12 min-[1024px]:mt-14 min-[1024px]:h-[clamp(720px,68vw,1020px)]"
       data-motion-group
       data-scroll-parallax-section
+      data-parallax-desktop-only="true"
       data-parallax-strength="1.5"
       data-parallax-direction="-1"
       data-parallax-centered="true"

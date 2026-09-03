@@ -174,20 +174,24 @@ html[data-motion-intro="pending"] [data-hero-cta] {
   visibility: hidden;
 }
 
-.approach-fixed-visual {
+.approach-fixed-visual,
+.community-fixed-visual {
   background-position: 50% 48%;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+.community-fixed-visual {
+  background-position: 50% 32%;
+}
+
 .story-cream-path {
-  stroke-width: 340px;
-  opacity: 0.36;
+  stroke-width: 470px;
+  opacity: 0.5;
 }
 
 @media (min-width: 768px) {
   .story-cream-path {
-    stroke-width: 470px;
     opacity: 0.58;
   }
 }
@@ -202,6 +206,11 @@ html[data-motion-intro="pending"] [data-hero-cta] {
   .approach-fixed-visual {
     background-attachment: fixed;
     background-size: clamp(980px, 70vw, 1420px) auto;
+  }
+
+  .community-fixed-visual {
+    background-attachment: fixed;
+    background-size: clamp(720px, 58vw, 1180px) auto;
   }
 }
 

@@ -48,11 +48,16 @@ export function Transparency() {
         </div>
 
         <div className="mt-12 grid gap-8 min-[768px]:mt-16 min-[1024px]:mt-20 min-[1024px]:grid-cols-12 min-[1024px]:gap-[clamp(1.75rem,4vw,5rem)]">
-          <div className="grid grid-cols-2 items-center gap-3 min-[1024px]:col-span-6 min-[1024px]:gap-5" data-scroll-parallax-section data-parallax-strength="1.48">
+          <div
+            className="grid grid-cols-2 items-center gap-3 min-[1024px]:col-span-6 min-[1024px]:gap-5"
+            data-scroll-parallax-section
+            data-parallax-desktop-only="true"
+            data-parallax-strength="1.48"
+          >
             {formulaImages.map((image) => (
               <figure className={`relative aspect-[4/5] overflow-hidden ${image.className}`} key={image.src} data-scroll-parallax-layer data-parallax-distance={image.distance}>
                 <Image
-                  className="object-contain p-[clamp(1rem,3.5vw,2.5rem)] drop-shadow-[0_24px_32px_rgba(59,59,59,0.16)]"
+                  className="object-contain p-[clamp(1rem,3.5vw,2.5rem)]"
                   src={image.src}
                   alt={image.alt}
                   fill
