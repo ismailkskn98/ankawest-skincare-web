@@ -33,9 +33,9 @@ export function ProductCollection({ collection, imageSide = "left" }) {
             <p className="text-[0.68rem] font-semibold tracking-[0.13em] text-site-copy uppercase">
               {collection.eyebrow}
             </p>
-            <h3 className="mt-3 text-[clamp(3rem,6vw,5.4rem)] leading-[0.93] font-normal text-site-ink">
+            <h3 className="font-canela mt-3 text-[clamp(2.75rem,5.5vw,5rem)] leading-[0.95] font-light tracking-[-0.035em] text-site-ink">
               {collection.title}
-              <span className="block font-editorial">{collection.scriptTitle}</span>
+              <span className="block">{collection.scriptTitle}</span>
             </h3>
           </div>
 

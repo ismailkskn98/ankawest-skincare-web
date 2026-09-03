@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function Logo() {
   return (
-    <Link className="inline-flex min-h-12 w-fit items-center rounded-[10px]" href="#top" aria-label="Anka West Skincare anasayfa">
+    <Link className="inline-flex min-h-12 w-fit items-center rounded-[10px]" href="/" aria-label="Anka West Skincare anasayfa">
       <span className="relative block h-[46px] w-[138px] overflow-hidden min-[901px]:h-[52px] min-[901px]:w-[164px]">
         <Image
           className="absolute top-[-20px] left-0 h-auto w-[138px] max-w-none brightness-0 invert transition-[filter] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:brightness-100 group-data-[scrolled=true]/header:invert-0 motion-reduce:transition-none min-[901px]:top-[-24px] min-[901px]:w-[164px]"

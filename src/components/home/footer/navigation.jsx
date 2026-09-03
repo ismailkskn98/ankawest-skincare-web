@@ -7,9 +7,9 @@ const navigationGroups = [
   {
     title: "Keşfet",
     links: [
-      { label: "Ürün seçkisi", href: TRENDYOL_STORE_URL, external: true },
-      { label: "Yaklaşımımız", href: "#yaklasim" },
-      { label: "Bakım seçkisi", href: "#urunler" },
+      { label: "Ürünler", href: "/urunler" },
+      { label: "Yaklaşımımız", href: "/#yaklasim" },
+      { label: "İletişim", href: "/iletisim" },
     ],
   },
   {
@@ -24,6 +24,7 @@ const navigationGroups = [
     links: [
       { label: "info@ankawest.com", href: "mailto:info@ankawest.com" },
       { label: "+90 533 213 99 01", href: "tel:+905332139901" },
+      { label: "İletişim formu", href: "/iletisim" },
     ],
   },
 ];

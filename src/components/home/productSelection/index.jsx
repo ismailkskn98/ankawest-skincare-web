@@ -18,12 +18,10 @@ export function ProductSelection() {
         </p>
         <h2
           id="selection-title"
-          className="mx-auto mt-6 max-w-[1080px] text-center text-[clamp(3.2rem,12vw,5.7rem)] leading-[0.94] font-normal text-site-ink min-[901px]:text-[clamp(5rem,6.7vw,7.1rem)]"
+          className="font-canela mx-auto mt-6 max-w-[1080px] text-center text-[clamp(2.95rem,11vw,5.25rem)] leading-[0.96] font-light tracking-[-0.04em] text-site-ink min-[901px]:text-[clamp(4.6rem,6.2vw,6.55rem)]"
         >
           <span className="block">Bakımın ritmini</span>
-          <span className="mt-[0.025em] block font-editorial">
-            seçkinle kur.
-          </span>
+          <span className="mt-[0.02em] block">seçkinle kur.</span>
         </h2>
       </div>
 

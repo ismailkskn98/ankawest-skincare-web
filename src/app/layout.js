@@ -35,20 +35,30 @@ const ppMori = localFont({
   preload: true,
 });
 
-const ppEditorial = localFont({
+const canela = localFont({
   src: [
     {
-      path: "../fonts/ppeditorialold-ultralight.woff2",
-      weight: "200",
+      path: "../fonts/canela-font/Canela-Thin.woff2",
+      weight: "100",
       style: "normal",
     },
     {
-      path: "../fonts/ppeditorialold-regular.woff2",
+      path: "../fonts/canela-font/Canela-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/canela-font/Canela-Regular.woff2",
       weight: "400",
       style: "normal",
     },
+    {
+      path: "../fonts/canela-font/Canela-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
   ],
-  variable: "--font-pp-editorial",
+  variable: "--font-canela-face",
   display: "swap",
   preload: true,
 });
@@ -74,7 +84,7 @@ export default function RootLayout({ children }) {
     <html
       lang="tr"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${ppMori.variable} ${ppEditorial.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${ppMori.variable} ${canela.variable} h-full antialiased`}
     >
       <head>
         <script

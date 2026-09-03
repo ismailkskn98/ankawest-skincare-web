@@ -148,7 +148,7 @@ export function MobileNavbar({ items, storeUrl }) {
                 target={item.external ? "_blank" : undefined}
                 rel={item.external ? "noreferrer" : undefined}
                 onClick={() => closeMenu()}
-                className={`flex min-h-[82px] items-center gap-[18px] border-b border-[rgba(37,40,37,0.16)] font-editorial text-[clamp(2rem,10vw,3.15rem)] leading-none font-normal tracking-[-0.04em] group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${navigationDelayClasses[index] ?? navigationDelayClasses.at(-1)}`}
+                className={`flex min-h-[82px] items-center gap-[18px] border-b border-[rgba(37,40,37,0.16)] font-ppmori text-[clamp(1.85rem,9vw,2.85rem)] leading-none font-semibold tracking-[-0.03em] group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${navigationDelayClasses[index] ?? navigationDelayClasses.at(-1)}`}
               >
                 <span className="font-ppmori text-[0.64rem] font-semibold tracking-[0.08em] text-[rgba(37,40,37,0.48)]">
                   {String(index + 1).padStart(2, "0")}

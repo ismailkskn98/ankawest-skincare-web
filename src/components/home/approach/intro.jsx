@@ -11,12 +11,10 @@ export function Intro() {
         </p>
         <h2
           id="approach-title"
-          className="text-[clamp(3rem,12vw,5.6rem)] leading-[0.94] font-normal tracking-[-0.058em] text-site-ink min-[901px]:text-[clamp(4.8rem,6.65vw,7.15rem)] min-[1100px]:whitespace-nowrap"
+          className="font-canela text-[clamp(2.8rem,11vw,5.2rem)] leading-[0.96] font-light tracking-[-0.04em] text-site-ink min-[901px]:text-[clamp(4.4rem,6.1vw,6.6rem)] min-[1100px]:whitespace-nowrap"
         >
           <span className="block">Seçici, açık,</span>
-          <span className="mt-[0.025em] block font-editorial tracking-[-0.04em]">
-            cildine özgü.
-          </span>
+          <span className="mt-[0.02em] block">cildine özgü.</span>
         </h2>
       </div>
 

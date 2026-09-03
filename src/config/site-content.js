@@ -6,10 +6,9 @@ export const INSTAGRAM_URL = "https://www.instagram.com/ankawest_skincare/";
 export const ANKAWEST_URL = "https://www.ankawest.com/";
 
 export const siteNavigation = [
-  { label: "Bakım ihtiyacı", href: "#ihtiyaclar" },
-  { label: "Ürünler", href: "#urunler" },
-  { label: "İçerikler", href: "#icerikler" },
-  { label: "Yaklaşım", href: "#yaklasim" },
+  { label: "Ürünler", href: "/urunler" },
+  { label: "İletişim", href: "/iletisim" },
+  { label: "Yaklaşım", href: "/#yaklasim" },
 ];
 
 export const careNeeds = [

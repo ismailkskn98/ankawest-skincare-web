@@ -19,12 +19,10 @@ export function Community() {
             </p>
             <h2
               id="community-title"
-              className="mx-auto mt-5 max-w-[12ch] text-[clamp(3.3rem,13vw,6.2rem)] leading-[0.86] font-normal tracking-[-0.065em] text-site-ink min-[901px]:text-[clamp(5.8rem,7.8vw,8.4rem)]"
+              className="font-canela mx-auto mt-5 max-w-[12ch] text-[clamp(3rem,12vw,5.7rem)] leading-[0.9] font-light tracking-[-0.045em] text-site-ink min-[901px]:text-[clamp(5.35rem,7.2vw,7.75rem)]"
             >
               Bakımın ritmi
-              <span className="block font-editorial font-extralight tracking-[-0.04em]">
-                Instagram’da.
-              </span>
+              <span className="block">Instagram’da.</span>
             </h2>
           </div>
 
