@@ -34,7 +34,7 @@ const values = [
 export function Visual() {
   return (
     <div
-      className="relative mt-10 min-[901px]:mt-18 min-[1024px]:h-[clamp(860px,72vw,1120px)]"
+      className="relative mt-8 min-[901px]:mt-12 min-[1024px]:mt-14 min-[1024px]:h-[clamp(720px,68vw,1020px)]"
       data-motion-group
       data-scroll-parallax-section
       data-parallax-strength="1.5"
@@ -59,7 +59,7 @@ export function Visual() {
         </div>
       </div>
 
-      <div className="mt-5 grid gap-5 min-[640px]:gap-6 min-[768px]:grid-cols-2 min-[768px]:gap-8 min-[1024px]:contents">
+      <div className="mt-5 grid gap-4 min-[640px]:gap-5 min-[768px]:grid-cols-2 min-[768px]:gap-6 min-[1024px]:contents">
         {values.map((value) => (
           <ValueCard key={value.title} {...value} />
         ))}

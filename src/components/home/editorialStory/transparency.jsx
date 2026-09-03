@@ -7,27 +7,27 @@ const formulaImages = [
   {
     src: "/images/urunler-png-ham/GLOW%20THERAPY%20AMPOULE/GLUTANEX-Glow-Therapy-Ampoule-sadece-urun.webp",
     alt: "GLUTANEX Glow Therapy Ampoule şeffaf ürün görseli",
-    className: "min-[1024px]:mt-28",
+    className: "min-[1024px]:mt-10 min-[1280px]:mt-20",
     distance: -148,
   },
   {
     src: "/images/urunler-png-ham/AQUA%20BOOSTER/AQUA-BOOSTER.webp",
     alt: "GLUTANEX Aqua Booster şeffaf ürün görseli",
-    className: "min-[1024px]:mb-28",
+    className: "min-[1024px]:mb-10 min-[1280px]:mb-20",
     distance: 178,
   },
 ];
 
 export function Transparency() {
   return (
-    <section id="icerikler" className="fluid gridContainer relative overflow-hidden bg-[#f2f2ef] py-20 min-[901px]:py-32" aria-labelledby="transparency-title">
+    <section id="icerikler" className="fluid gridContainer relative overflow-hidden bg-[#f2f2ef] py-[clamp(3.5rem,6vw,7rem)]" aria-labelledby="transparency-title">
       <div className="relative z-2" data-motion-group>
-        <div className="grid items-end gap-8 min-[1024px]:grid-cols-12">
+        <div className="grid items-end gap-6 min-[1024px]:grid-cols-12 min-[1024px]:gap-8">
           <div className="min-[1024px]:col-span-8" data-section-reveal>
             <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-site-copy uppercase">Formül yaklaşımı</p>
             <h2
               id="transparency-title"
-              className="font-canela mt-5 max-w-[11ch] text-[clamp(3rem,12vw,5.9rem)] leading-[0.9] font-light tracking-[-0.045em] text-site-ink min-[901px]:text-[clamp(5.5rem,7.6vw,8.3rem)]"
+              className="font-canela mt-4 max-w-[11ch] text-[clamp(2.5rem,9.5vw,4.4rem)] leading-[0.92] font-light tracking-[-0.045em] text-site-ink min-[901px]:mt-5 min-[901px]:text-[clamp(3.6rem,5.5vw,6.4rem)] min-[1280px]:text-[clamp(4.2rem,6vw,7.2rem)]"
             >
               İçeriği
               <span className="block">saklamıyoruz.</span>
@@ -35,24 +35,24 @@ export function Transparency() {
           </div>
 
           <div className="max-w-[420px] min-[1024px]:col-span-4 min-[1024px]:justify-self-end min-[1024px]:pb-3" data-section-reveal>
-            <p className="text-[clamp(1rem,1.25vw,1.15rem)] leading-[1.5] tracking-[-0.025em] text-site-copy">
+            <p className="text-[clamp(0.95rem,1.2vw,1.12rem)] leading-[1.5] tracking-[-0.025em] text-site-copy">
               Üründe öne çıkan aktifleri, dokuyu ve kullanım adımını açıkça anlatıyoruz. Seçimini belirsiz vaatlerle değil, anlaşılır bilgiyle kurmanı istiyoruz.
             </p>
-            <a className="group mt-7 inline-flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.09em] text-site-ink uppercase" href="#urunler">
+            <a className="group mt-5 inline-flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.09em] text-site-ink uppercase min-[901px]:mt-7" href="#urunler">
               Ürünleri incele
-              <span className="grid size-9 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper transition-transform duration-500 group-hover:translate-x-1 motion-reduce:transition-none">
+              <span className="grid size-8 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper transition-transform duration-500 group-hover:translate-x-1 motion-reduce:transition-none min-[901px]:size-9">
                 <ArrowRightIcon size={16} weight="light" aria-hidden="true" />
               </span>
             </a>
           </div>
         </div>
 
-        <div className="mt-16 grid gap-10 min-[768px]:mt-24 min-[1024px]:grid-cols-12 min-[1024px]:gap-[clamp(2rem,5vw,6.5rem)]">
-          <div className="grid grid-cols-2 items-center gap-4 min-[1024px]:col-span-6 min-[1024px]:gap-6" data-scroll-parallax-section data-parallax-strength="1.48">
+        <div className="mt-12 grid gap-8 min-[768px]:mt-16 min-[1024px]:mt-20 min-[1024px]:grid-cols-12 min-[1024px]:gap-[clamp(1.75rem,4vw,5rem)]">
+          <div className="grid grid-cols-2 items-center gap-3 min-[1024px]:col-span-6 min-[1024px]:gap-5" data-scroll-parallax-section data-parallax-strength="1.48">
             {formulaImages.map((image) => (
               <figure className={`relative aspect-[4/5] overflow-hidden ${image.className}`} key={image.src} data-scroll-parallax-layer data-parallax-distance={image.distance}>
                 <Image
-                  className="object-contain p-[clamp(1.25rem,4vw,3rem)] drop-shadow-[0_24px_32px_rgba(59,59,59,0.16)]"
+                  className="object-contain p-[clamp(1rem,3.5vw,2.5rem)] drop-shadow-[0_24px_32px_rgba(59,59,59,0.16)]"
                   src={image.src}
                   alt={image.alt}
                   fill
@@ -62,10 +62,10 @@ export function Transparency() {
             ))}
           </div>
 
-          <div className="min-[1024px]:col-span-6 min-[1024px]:pt-24">
-            <div className="grid gap-x-8 border-t border-site-ink/20 min-[640px]:grid-cols-2">
+          <div className="min-[1024px]:col-span-6 min-[1024px]:pt-14">
+            <div className="grid gap-x-6 border-t border-site-ink/15 min-[640px]:grid-cols-2 min-[1024px]:gap-x-8">
               {ingredientStories.map((ingredient) => (
-                <article className="border-b border-site-ink/20 py-7 min-[640px]:py-9" key={ingredient.index} data-section-reveal>
+                <article className="border-b border-site-ink/15 py-5 min-[640px]:py-7" key={ingredient.index} data-section-reveal>
                   <span className="text-[0.62rem] font-semibold tracking-[0.13em] text-site-copy uppercase">{ingredient.index}</span>
                   <h3 className="mt-4 text-[clamp(1.35rem,2.2vw,2rem)] leading-[1] font-light tracking-[-0.045em] text-site-ink">{ingredient.name}</h3>
                   <p className="mt-4 max-w-[34ch] text-[0.88rem] leading-[1.55] text-site-copy">{ingredient.description}</p>

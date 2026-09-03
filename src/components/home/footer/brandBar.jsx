@@ -26,7 +26,7 @@ const legalLinks = [
 export function BrandBar() {
   return (
     <div
-      className="grid gap-12 border-t border-black/15 pt-9 min-[768px]:grid-cols-[minmax(0,1fr)_auto] min-[768px]:items-end min-[768px]:gap-16 min-[901px]:pt-11"
+      className="grid gap-10 border-t border-black/15 pt-8 min-[768px]:grid-cols-[minmax(0,1fr)_auto] min-[768px]:items-end min-[768px]:gap-12 min-[901px]:gap-16 min-[901px]:pt-10"
       data-motion-group
     >
       <div data-section-reveal>

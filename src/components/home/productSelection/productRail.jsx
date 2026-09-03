@@ -40,7 +40,7 @@ export function ProductRail({ products, ariaLabel, reverseAutoplay = false }) {
 
   return (
     <Swiper
-      className="mt-10 cursor-grab active:cursor-grabbing min-[901px]:mt-14"
+      className="mt-8 cursor-grab active:cursor-grabbing min-[901px]:mt-10 min-[1280px]:mt-12"
       style={{
         "--swiper-wrapper-transition-timing-function":
           "cubic-bezier(0.22, 1, 0.36, 1)",
@@ -60,9 +60,9 @@ export function ProductRail({ products, ariaLabel, reverseAutoplay = false }) {
       }}
       breakpoints={{
         520: { slidesPerView: 1.28, spaceBetween: 14 },
-        768: { slidesPerView: 1.65, spaceBetween: 14 },
-        1024: { slidesPerView: 1.45, spaceBetween: 16 },
-        1280: { slidesPerView: 1.9, spaceBetween: 18 },
+        768: { slidesPerView: 1.7, spaceBetween: 14 },
+        1024: { slidesPerView: 1.75, spaceBetween: 16 },
+        1280: { slidesPerView: 1.95, spaceBetween: 18 },
         1536: { slidesPerView: 2.18, spaceBetween: 20 },
       }}
       onSwiper={(swiper) => {

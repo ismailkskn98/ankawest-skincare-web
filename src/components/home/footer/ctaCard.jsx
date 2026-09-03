@@ -9,19 +9,19 @@ export function CtaCard() {
       aria-labelledby="footer-cta-title"
       data-section-reveal
     >
-      <div className="flex min-h-[530px] flex-col px-7 py-10 text-[#f7f6f1] min-[768px]:min-h-[590px] min-[768px]:px-12 min-[768px]:py-12 min-[901px]:min-h-[650px] min-[901px]:px-16 min-[901px]:py-14">
+      <div className="flex min-h-[clamp(440px,78vw,520px)] flex-col px-6 py-8 text-[#f7f6f1] min-[768px]:min-h-[clamp(500px,68vw,560px)] min-[768px]:px-10 min-[768px]:py-10 min-[901px]:min-h-[clamp(540px,58vw,620px)] min-[901px]:px-12 min-[901px]:py-12 min-[1280px]:px-16 min-[1280px]:py-14">
         <p className="text-[0.64rem] font-semibold tracking-[0.16em] text-white/52 uppercase">Anka West Skincare</p>
 
-        <h2 id="footer-cta-title" className="font-canela mt-9 text-[clamp(2.9rem,10.5vw,5.15rem)] leading-[0.94] font-light tracking-[-0.04em] uppercase min-[768px]:leading-[0.92] min-[901px]:mt-10">
+        <h2 id="footer-cta-title" className="font-canela mt-7 text-[clamp(2.4rem,8.5vw,4.2rem)] leading-[0.96] font-light tracking-[-0.04em] uppercase min-[768px]:mt-8 min-[768px]:text-[clamp(2.7rem,5.5vw,4.5rem)] min-[901px]:mt-9">
           <span className="block">Bizden</span>
           <span className="block">haberdar ol</span>
         </h2>
 
-        <p className="mt-8 max-w-[36ch] text-[0.9rem] leading-[1.55] tracking-[-0.018em] text-white/62 min-[901px]:mt-10">Yeni ürünleri ve kısa bakım notlarını Instagram&apos;da keşfet.</p>
+        <p className="mt-6 max-w-[36ch] text-[0.86rem] leading-[1.55] tracking-[-0.018em] text-white/62 min-[901px]:mt-8 min-[901px]:text-[0.9rem]">Yeni ürünleri ve kısa bakım notlarını Instagram&apos;da keşfet.</p>
 
-        <div className="mt-auto flex flex-col items-center gap-5 border-t border-white/20 pt-9 min-[901px]:pt-11">
+        <div className="mt-auto flex flex-col items-center gap-4 border-t border-white/20 pt-7 min-[901px]:gap-5 min-[901px]:pt-9">
           <a
-            className="group relative grid size-18 shrink-0 place-items-center overflow-hidden rounded-full bg-[#f7f6f1] text-[#20231f] transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.04] active:scale-[0.98] motion-reduce:transition-none min-[768px]:size-21"
+            className="group relative grid size-16 shrink-0 place-items-center overflow-hidden rounded-full bg-[#f7f6f1] text-[#20231f] transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.04] active:scale-[0.98] motion-reduce:transition-none min-[768px]:size-18 min-[1280px]:size-21"
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noreferrer"
