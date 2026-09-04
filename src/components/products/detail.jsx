@@ -393,7 +393,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
         <section className="gridContainer bg-site-paper py-[clamp(4rem,8vw,7rem)]" data-section-reveal>
           <div>
             <div className="flex items-end justify-between gap-6">
-              <h2 className="font-canela text-[clamp(2.15rem,3.8vw,3.5rem)] leading-[1.12] font-light tracking-[-0.04em] text-site-ink">Seçkiden diğerleri</h2>
+              <h2 className="font-canela text-[clamp(2.15rem,3vw,3.15rem)] leading-[1.12] font-light tracking-[-0.035em] text-site-ink">Seçkiden diğerleri</h2>
               <Link
                 className="hidden text-[0.68rem] font-semibold tracking-[0.1em] text-site-ink uppercase underline decoration-site-ink/25 underline-offset-4 transition-colors hover:decoration-site-ink sm:inline-flex"
                 href="/urunler"
@@ -402,9 +402,11 @@ export function ProductDetail({ product, relatedProducts = [] }) {
               </Link>
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-[clamp(0.85rem,2.5vw,1.5rem)]">
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-[clamp(1.25rem,2vw,2rem)] xl:grid-cols-3">
               {relatedProducts.map((related) => (
-                <ProductCard key={related.id} product={related} />
+                <div key={related.id}>
+                  <ProductCard product={related} />
+                </div>
               ))}
             </div>
           </div>
