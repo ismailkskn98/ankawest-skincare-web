@@ -40,6 +40,10 @@
   --color-site-copy: #61615d;
   --color-site-paper: #ffff;
   --color-site-mist: #eef1ef;
+  /* Extra breakpoints (rem) — defaults: sm 40 / md 48 / lg 64 / xl 80 / 2xl 96 */
+  --breakpoint-xs: 24.375rem; /* 390px */
+  --breakpoint-nav: 56.3125rem; /* 901px — header desktop */
+  --breakpoint-nav-wide: 68.8125rem; /* 1101px — header wide grid */
 }
 
 @theme {
@@ -70,7 +74,7 @@
 }
 
 @custom-variant short-desktop {
-  @media (max-height: 700px) and (min-width: 901px) {
+  @media (max-height: 43.75rem) and (min-width: 56.3125rem) {
     @slot;
   }
 }
@@ -114,7 +118,7 @@
     text-rendering: optimizeLegibility;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 64rem) {
 
     /* JS beklemeden gizle: head script + SSR site root */
     html.hide-native-scrollbar,
@@ -227,7 +231,7 @@
   cursor: grabbing;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 64rem) {
   .floating-scrollbar:not([hidden]) {
     display: block;
   }
@@ -265,19 +269,19 @@ html[data-motion-intro="pending"] [data-page-hero-arrow] {
   opacity: 0.5;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .story-cream-path {
     opacity: 0.58;
   }
 }
 
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
   .story-cream-path {
     filter: url("#story-cream-volume");
   }
 }
 
-@media (min-width: 1024px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 64rem) and (hover: hover) and (prefers-reduced-motion: no-preference) {
   .approach-fixed-visual {
     background-attachment: fixed;
     background-size: clamp(980px, 70vw, 1420px) auto;
@@ -1468,7 +1472,7 @@ html[data-motion-intro="pending"] [data-page-hero-arrow] {
   }
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 70rem) {
 
   .stats-grid,
   .quick-links-grid {
@@ -1484,7 +1488,7 @@ html[data-motion-intro="pending"] [data-page-hero-arrow] {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 56.25rem) {
   .auth-page {
     grid-template-columns: 1fr;
   }
@@ -1527,7 +1531,7 @@ html[data-motion-intro="pending"] [data-page-hero-arrow] {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40rem) {
   .auth-content-panel {
     align-items: start;
     padding: 34px 20px;

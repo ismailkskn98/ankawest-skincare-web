@@ -80,7 +80,7 @@ const motionIntroGuardScript =
   "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.dataset.motionIntro='pending';}}catch{}";
 
 const hideNativeScrollbarScript =
-  "try{if(!location.pathname.startsWith('/admin')&&window.matchMedia('(min-width:1024px)').matches){document.documentElement.classList.add('hide-native-scrollbar');}}catch{}";
+  "try{if(!location.pathname.startsWith('/admin')&&window.matchMedia('(min-width:64rem)').matches){document.documentElement.classList.add('hide-native-scrollbar');}}catch{}";
 
 export default function RootLayout({ children }) {
   return (

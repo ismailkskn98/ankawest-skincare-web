@@ -64,11 +64,11 @@ export function ContactForm() {
 
   return (
     <form
-      className="rounded-[1.5rem] bg-[#f2f2ef] p-5 min-[640px]:rounded-[1.75rem] min-[768px]:p-8"
+      className="rounded-[1.5rem] bg-[#f2f2ef] p-5 sm:rounded-[1.75rem] md:p-8"
       onSubmit={handleSubmit}
       noValidate
     >
-      <div className="grid gap-5 min-[768px]:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         <label className="grid gap-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-copy uppercase">
           Ad soyad
           <input

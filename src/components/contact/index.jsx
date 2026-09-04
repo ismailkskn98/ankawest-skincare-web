@@ -45,8 +45,8 @@ export function ContactPage() {
         imagePosition="center"
       />
 
-      <section id="iletisim-form" className="grid gap-10 pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,9vw,8rem)] min-[1024px]:grid-cols-12 min-[1024px]:gap-10">
-        <div className="min-[1024px]:col-span-4" data-section-reveal>
+      <section id="iletisim-form" className="grid gap-10 pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,9vw,8rem)] lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-4" data-section-reveal>
           <ul className="grid gap-5 border-t border-site-ink/12 pt-7">
             {contactDetails.map((detail) => (
               <li key={detail.label}>
@@ -67,14 +67,14 @@ export function ContactPage() {
             ))}
           </ul>
 
-          <div className="mt-10 rounded-[1.5rem] bg-[#20221f] p-6 text-[#f7f5ef] min-[768px]:p-7">
+          <div className="mt-10 rounded-[1.5rem] bg-[#20221f] p-6 text-[#f7f5ef] md:p-7">
             <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-[#b9b8b1] uppercase">Çalışma saatleri</p>
             <p className="mt-3 text-[1.1rem] leading-[1.35] font-light tracking-[-0.02em]">Hafta içi 09:30 – 18:30</p>
             <p className="mt-3 text-[0.88rem] leading-[1.5] text-[#c5c5be]">Mesajlarına iş günlerinde dönüş yapıyoruz.</p>
           </div>
         </div>
 
-        <div className="min-[1024px]:col-span-8" data-section-reveal>
+        <div className="lg:col-span-8" data-section-reveal>
           <ContactForm />
         </div>
       </section>

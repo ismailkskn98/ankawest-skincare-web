@@ -32,7 +32,7 @@ const navigationGroups = [
 export function FooterNavigation() {
   return (
     <nav
-      className="grid gap-10 min-[640px]:grid-cols-3 min-[640px]:gap-7 min-[901px]:gap-[clamp(28px,3vw,52px)]"
+      className="grid gap-10 sm:grid-cols-3 sm:gap-7 nav:gap-[clamp(28px,3vw,52px)]"
       aria-label="Footer menüsü"
       data-motion-group
     >

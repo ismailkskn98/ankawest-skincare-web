@@ -110,7 +110,7 @@ export function CategoryFilter({
 
   return (
     <nav aria-label="Ürün kategorileri">
-      <div className="hidden min-[1024px]:block" data-section-reveal>
+      <div className="hidden lg:block" data-section-reveal>
         <p className="text-[0.62rem] font-semibold tracking-[0.14em] text-site-copy uppercase">
           Kategoriler
         </p>
@@ -124,7 +124,7 @@ export function CategoryFilter({
       </div>
 
       <div
-        className="flex items-center justify-between gap-4 min-[1024px]:hidden"
+        className="flex items-center justify-between gap-4 lg:hidden"
         data-section-reveal
       >
         <div className="min-w-0">

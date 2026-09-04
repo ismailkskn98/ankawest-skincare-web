@@ -111,8 +111,8 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
       className="scroll-mt-[96px] pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,9vw,8rem)]"
       aria-label="Ürün listesi"
     >
-      <div className="grid gap-8 min-[640px]:gap-10 min-[1024px]:grid-cols-[15rem_minmax(0,1fr)] min-[1024px]:items-start min-[1024px]:gap-[clamp(3.25rem,5vw,6rem)] min-[1280px]:grid-cols-[17rem_minmax(0,1fr)]">
-        <aside className="min-[1024px]:sticky min-[1024px]:top-[100px] min-[1280px]:top-[108px]">
+      <div className="grid gap-8 sm:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-[clamp(3.25rem,5vw,6rem)] xl:grid-cols-[17rem_minmax(0,1fr)]">
+        <aside className="lg:sticky lg:top-[100px] xl:top-[108px]">
           <CategoryFilter
             categories={availableCategories}
             activeCategory={activeCategory}
@@ -124,7 +124,7 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
         <div>
           <div
             ref={productGridRef}
-            className="grid grid-cols-2 gap-3 min-[640px]:gap-[clamp(1.25rem,2vw,2rem)] min-[1280px]:grid-cols-3"
+            className="grid grid-cols-2 gap-3 sm:gap-[clamp(1.25rem,2vw,2rem)] xl:grid-cols-3"
           >
             {filteredProducts.map((product) => (
               <div key={product.id} data-product-card-reveal>

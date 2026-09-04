@@ -8,7 +8,7 @@ import {
 export function Actions() {
   return (
     <div
-      className="hidden min-h-[54px] items-center justify-self-end rounded-full bg-[rgba(250,249,246,0.96)] py-[5px] pr-[7px] pl-5 text-[#2f322f] shadow-[0_12px_36px_rgba(12,17,13,0.1)] transition-[background-color,color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[#2f322f] group-data-[scrolled=true]/header:text-[#f7f6f1] group-data-[scrolled=true]/header:shadow-[0_12px_32px_rgba(12,17,13,0.16)] motion-reduce:transition-none min-[901px]:inline-flex"
+      className="hidden min-h-[54px] items-center justify-self-end rounded-full bg-[rgba(250,249,246,0.96)] py-[5px] pr-[7px] pl-5 text-[#2f322f] shadow-[0_12px_36px_rgba(12,17,13,0.1)] transition-[background-color,color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[#2f322f] group-data-[scrolled=true]/header:text-[#f7f6f1] group-data-[scrolled=true]/header:shadow-[0_12px_32px_rgba(12,17,13,0.16)] motion-reduce:transition-none nav:inline-flex"
       role="group"
       aria-label="Hızlı bağlantılar"
     >

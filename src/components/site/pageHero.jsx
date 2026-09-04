@@ -10,10 +10,10 @@ const mobileArrowPath =
 
 function HeroCta({ label, href }) {
   const className =
-    "group inline-flex min-h-12 w-full items-center justify-between gap-4 rounded-full bg-site-ink py-1.5 pr-1.5 pl-5 text-[0.7rem] font-semibold tracking-[0.08em] text-site-paper uppercase transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] motion-reduce:transition-none min-[768px]:min-h-14 min-[768px]:pl-6 min-[768px]:text-[0.72rem]";
+    "group inline-flex min-h-12 w-full items-center justify-between gap-4 rounded-full bg-site-ink py-1.5 pr-1.5 pl-5 text-[0.7rem] font-semibold tracking-[0.08em] text-site-paper uppercase transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] motion-reduce:transition-none md:min-h-14 md:pl-6 md:text-[0.72rem]";
 
   const icon = (
-    <span className="relative grid size-10 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink min-[768px]:size-11">
+    <span className="relative grid size-10 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink md:size-11">
       <ArrowUpRightIcon
         className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[160%] group-hover:-translate-y-[160%] motion-reduce:transition-none"
         size={16}
@@ -73,7 +73,7 @@ export function PageHero({
 
   return (
     <section
-      className="fluid gridContainer relative isolate h-svh min-h-[560px] overflow-hidden bg-site-paper max-[767px]:min-h-[100svh] min-[1280px]:min-h-[640px]"
+      className="fluid gridContainer relative isolate h-svh min-h-[560px] overflow-hidden bg-site-paper max-md:min-h-[calc(100svh+8rem)] xl:min-h-[640px]"
       aria-labelledby="page-hero-title"
       data-scroll-parallax-section
       data-parallax-strength="0.82"
@@ -89,7 +89,7 @@ export function PageHero({
 
       {/* Desktop / tablet: görsel merkezden büyüyen ok, geniş ekranlarda sağ üste kopmaz */}
       <svg
-        className="pointer-events-none absolute top-[clamp(5.5rem,11vh,8.5rem)] left-[47%] z-1 hidden h-auto w-[clamp(19rem,34vw,30rem)] text-site-ink min-[768px]:block min-[1024px]:top-[clamp(5.75rem,11.5vh,8rem)] min-[1024px]:left-[45%] min-[1024px]:w-[clamp(25rem,38vw,42rem)] min-[1280px]:top-[clamp(6rem,9.6vh,8.5rem)] min-[1280px]:left-[42%] min-[1280px]:w-[clamp(39rem,37vw,62rem)]"
+        className="pointer-events-none absolute top-[clamp(5.5rem,11vh,8.5rem)] left-[47%] z-1 hidden h-auto w-[clamp(19rem,34vw,30rem)] text-site-ink md:block lg:top-[clamp(5.75rem,11.5vh,8rem)] lg:left-[45%] lg:w-[clamp(25rem,38vw,42rem)] xl:top-[clamp(6rem,9.6vh,8.5rem)] xl:left-[42%] xl:w-[clamp(39rem,37vw,62rem)]"
         width="560"
         height="349"
         viewBox="0 0 560 349"
@@ -103,7 +103,7 @@ export function PageHero({
 
       {/* Mobile: dar ekranlarda ezilmeyen, dikey bombeli referans ok */}
       <svg
-        className="pointer-events-none absolute top-[clamp(10.25rem,47vw,12.5rem)] right-[clamp(0.75rem,5vw,1.5rem)] z-1 h-auto w-[clamp(4.65rem,25vw,5.95rem)] text-site-ink min-[768px]:hidden"
+        className="pointer-events-none absolute top-[clamp(11.4rem,52vw,13.8rem)] right-[clamp(1.6rem,10vw,2.75rem)] z-1 h-auto w-[clamp(4.2rem,23vw,5.6rem)] text-site-ink md:hidden"
         width="115"
         height="235"
         viewBox="0 0 115 235"
@@ -115,36 +115,36 @@ export function PageHero({
         <path d={mobileArrowPath} fill="currentColor" />
       </svg>
 
-      <div className="gridContainer relative z-2 flex h-full min-h-[560px] flex-col pt-[calc(72px+clamp(0.75rem,2.4vh,1.75rem))] pb-[clamp(1.15rem,3.2vh,2.25rem)] max-[767px]:min-h-[100svh] min-[901px]:pt-[calc(76px+clamp(1rem,2.8vh,2rem))]">
-        <div className="flex flex-1 flex-col justify-between gap-6 min-[768px]:gap-8 min-[1024px]:gap-10">
-          <div className="relative max-w-[18rem] min-[768px]:max-w-none" data-page-hero-reveal>
+      <div className="gridContainer relative z-2 flex h-full min-h-[560px] flex-col pt-[calc(72px+clamp(0.75rem,2.4vh,1.75rem))] pb-[clamp(1.15rem,3.2vh,2.25rem)] max-md:min-h-[calc(100svh+8rem)] nav:pt-[calc(76px+clamp(1rem,2.8vh,2rem))]">
+        <div className="flex flex-1 flex-col justify-between gap-6 md:gap-8 lg:gap-10">
+          <div className="relative max-w-[18rem] md:max-w-none" data-page-hero-reveal>
             {eyebrow ? <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-site-copy uppercase">{eyebrow}</p> : null}
 
             <h1
               id="page-hero-title"
-              className="mt-2 max-w-[11.8ch] text-[clamp(2.2rem,9.2vw,3rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-site-ink min-[768px]:mt-3 min-[768px]:max-w-[11ch] min-[768px]:text-[clamp(3.1rem,6.4vw,5.6rem)] min-[768px]:leading-[0.88] min-[768px]:tracking-[-0.075em] min-[1280px]:text-[clamp(4rem,6.2vw,7.2rem)] min-[1280px]:leading-[0.84]"
+              className="mt-2 max-w-[11.8ch] text-[clamp(2.2rem,9.2vw,3rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-site-ink md:mt-3 md:max-w-[11ch] md:text-[clamp(3.1rem,6.4vw,5.6rem)] md:leading-[0.88] md:tracking-[-0.075em] xl:text-[clamp(4rem,6.2vw,7.2rem)] xl:leading-[0.84]"
             >
               {lines[0] || "Seçki"}
               {displayText ? <span className="sr-only"> {displayText}</span> : null}
             </h1>
 
             {displayText ? (
-              <p className="font-canela mt-2 max-w-[11.5ch] text-[clamp(1.85rem,8.1vw,2.65rem)] leading-[0.98] font-light tracking-[-0.025em] text-site-ink min-[768px]:hidden">{displayText}</p>
+              <p className="font-canela mt-2 max-w-[11.5ch] text-[clamp(1.85rem,8.1vw,2.65rem)] leading-[0.98] font-light tracking-[-0.025em] text-site-ink md:hidden">{displayText}</p>
             ) : null}
 
             {meta ? (
-              <p className="mt-3 hidden text-[0.66rem] tracking-[0.1em] text-site-copy/70 uppercase min-[640px]:mt-0 min-[640px]:block min-[640px]:pt-2 min-[768px]:absolute min-[768px]:top-0 min-[768px]:right-0 min-[768px]:text-right">
+              <p className="mt-3 hidden text-[0.66rem] tracking-[0.1em] text-site-copy/70 uppercase sm:mt-0 sm:block sm:pt-2 md:absolute md:top-0 md:right-0 md:text-right">
                 {meta}
               </p>
             ) : null}
           </div>
 
-          <div className="grid items-end gap-5 min-[768px]:grid-cols-12 min-[768px]:gap-6 min-[1024px]:gap-10">
+          <div className="grid items-end gap-5 md:grid-cols-12 md:gap-6 lg:gap-10">
             <div
-              className="relative w-full max-w-[min(100%,24rem)] translate-y-[clamp(0.5rem,3svh,1.35rem)] rounded-[1.15rem] bg-site-paper/96 p-[clamp(1.25rem,3vw,2.15rem)] shadow-[0_28px_90px_rgba(35,38,34,0.1)] ring-1 ring-site-ink/8 min-[768px]:col-span-5 min-[768px]:max-w-[min(100%,26rem)] min-[768px]:translate-y-0 min-[768px]:rounded-[1.25rem] min-[1280px]:max-w-[430px]"
+              className="relative w-full max-w-[min(100%,24rem)] translate-y-[clamp(2rem,9svh,5.5rem)] rounded-[1.15rem] bg-site-paper/96 p-[clamp(1.25rem,3vw,2.15rem)] shadow-[0_28px_90px_rgba(35,38,34,0.1)] ring-1 ring-site-ink/8 md:col-span-5 md:max-w-[min(100%,26rem)] md:translate-y-0 md:rounded-[1.25rem] xl:max-w-[430px]"
               data-page-hero-reveal
             >
-              <h2 className="max-w-[13ch] text-[clamp(1.7rem,5.6vw,2.35rem)] leading-[0.98] font-semibold tracking-[-0.065em] text-site-ink min-[768px]:text-[clamp(1.85rem,3.2vw,2.75rem)] min-[1280px]:text-[clamp(2rem,3.4vw,3rem)] min-[1280px]:leading-[0.95]">
+              <h2 className="max-w-[13ch] text-[clamp(1.7rem,5.6vw,2.35rem)] leading-[0.98] font-semibold tracking-[-0.065em] text-site-ink md:text-[clamp(1.85rem,3.2vw,2.75rem)] xl:text-[clamp(2rem,3.4vw,3rem)] xl:leading-[0.95]">
                 {cardHeading}
                 {cardTitleAccent ? (
                   <>
@@ -155,23 +155,23 @@ export function PageHero({
               </h2>
 
               {cardCopy ? (
-                <p className="mt-4 max-w-[37ch] text-[clamp(0.88rem,2.8vw,0.95rem)] leading-[1.5] text-site-copy/70 min-[768px]:mt-5 min-[768px]:text-[clamp(0.9rem,1.1vw,0.95rem)] min-[768px]:leading-[1.52]">
+                <p className="mt-4 max-w-[37ch] text-[clamp(0.88rem,2.8vw,0.95rem)] leading-[1.5] text-site-copy/70 md:mt-5 md:text-[clamp(0.9rem,1.1vw,0.95rem)] md:leading-[1.52]">
                   {cardCopy}
                 </p>
               ) : null}
 
               {ctaLabel ? (
-                <div className="mt-6 pt-4 min-[768px]:mt-8 min-[768px]:pt-6">
+                <div className="mt-6 pt-4 md:mt-8 md:pt-6">
                   <HeroCta label={ctaLabel} href={resolvedCtaHref} />
                 </div>
               ) : null}
 
-              {meta ? <p className="mt-4 text-[0.66rem] tracking-[0.1em] text-site-copy/65 uppercase min-[640px]:hidden">{meta}</p> : null}
+              {meta ? <p className="mt-4 text-[0.66rem] tracking-[0.1em] text-site-copy/65 uppercase sm:hidden">{meta}</p> : null}
             </div>
 
             {displayText ? (
-              <div className="hidden min-[768px]:col-span-7 min-[768px]:flex min-[768px]:justify-end" data-page-hero-reveal>
-                <p className="font-canela max-w-[11ch] text-[clamp(2.6rem,5.8vw,4.6rem)] leading-[0.9] font-light tracking-[-0.05em] text-site-ink min-[768px]:text-right min-[1024px]:text-[clamp(3rem,6.4vw,5.6rem)] min-[1280px]:text-[clamp(3.6rem,6.8vw,7.2rem)] min-[1280px]:leading-[0.86]">
+              <div className="hidden md:col-span-7 md:flex md:justify-end" data-page-hero-reveal>
+                <p className="font-canela max-w-[11ch] text-[clamp(2.6rem,5.8vw,4.6rem)] leading-[0.9] font-light tracking-[-0.05em] text-site-ink md:text-right lg:text-[clamp(3rem,6.4vw,5.6rem)] xl:text-[clamp(3.6rem,6.8vw,7.2rem)] xl:leading-[0.86]">
                   {displayText}
                 </p>
               </div>

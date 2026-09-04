@@ -1,7 +1,7 @@
 export function Navbar({ items }) {
   return (
     <nav
-      className="hidden translate-y-[2px] items-center justify-center gap-7 min-[901px]:flex min-[1101px]:gap-[clamp(28px,3.5vw,66px)]"
+      className="hidden translate-y-[2px] items-center justify-center gap-7 nav:flex nav-wide:gap-[clamp(28px,3.5vw,66px)]"
       aria-label="Ana menü"
     >
       {items.map((item) => (

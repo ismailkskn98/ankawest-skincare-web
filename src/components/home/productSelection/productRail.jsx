@@ -40,7 +40,7 @@ export function ProductRail({ products, ariaLabel, reverseAutoplay = false }) {
 
   return (
     <Swiper
-      className="mt-8 cursor-grab active:cursor-grabbing min-[901px]:mt-10 min-[1280px]:mt-12"
+      className="mt-8 cursor-grab active:cursor-grabbing nav:mt-10 xl:mt-12"
       style={{
         "--swiper-wrapper-transition-timing-function":
           "cubic-bezier(0.22, 1, 0.36, 1)",

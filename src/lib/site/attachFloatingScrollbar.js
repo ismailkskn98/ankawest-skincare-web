@@ -1,4 +1,4 @@
-const DESKTOP_MEDIA = "(min-width: 1024px)";
+const DESKTOP_MEDIA = "(min-width: 64rem)";
 const MIN_THUMB_HEIGHT = 44;
 
 function clamp(value, min, max) {

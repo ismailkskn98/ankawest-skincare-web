@@ -1,7 +1,6 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowUpRight";
 import { CheckIcon } from "@phosphor-icons/react/dist/ssr/Check";
 import { LeafIcon } from "@phosphor-icons/react/dist/ssr/Leaf";
-import { SparkleIcon } from "@phosphor-icons/react/dist/ssr/Sparkle";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -73,6 +72,17 @@ function getIngredientGroups(items) {
   return grouped;
 }
 
+function StarIcon({ className = "size-11" }) {
+  return (
+    <svg className={className} width="83" height="92" viewBox="0 0 83 92" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        d="M83 23.974L43.8141 45.8502L83 68.0261L82.0744 69.8241L42.5799 47.9479V92H40.4201V47.9479L1.2342 69.8241L0 68.0261L39.4944 45.8502L0 23.974L1.2342 22.1759L40.4201 44.0521V0H42.5799V44.0521L82.0744 22.1759L83 23.974Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 function DetailCta({ href }) {
   return (
     <a
@@ -106,7 +116,7 @@ const desktopArrowPath =
 function IntroArrow() {
   return (
     <svg
-      className="pointer-events-none absolute top-[clamp(6.5rem,14vh,8.5rem)] right-[clamp(1rem,6%,3rem)] z-1 hidden w-[clamp(11rem,28vw,21rem)] text-site-ink min-[768px]:block min-[1024px]:right-[-4%] min-[1280px]:right-[-2%]"
+      className="pointer-events-none absolute top-[clamp(7rem,14vh,9rem)] right-[-2%] z-1 hidden h-auto w-[clamp(15rem,26vw,30rem)] text-site-ink lg:block xl:right-[-4%]"
       width="340"
       height="81"
       viewBox="0 0 340 81"
@@ -119,6 +129,45 @@ function IntroArrow() {
   );
 }
 
+function HeroDetailNotes({ product }) {
+  const suitableFor = normalizeListItems(product.suitableFor).slice(0, 2);
+  const goodToKnow = normalizeListItems(product.benefits).slice(0, 2);
+  const ingredientGroups = getIngredientGroups(product.activeIngredients).slice(0, 2);
+  const notes = [
+    ...ingredientGroups.map((item) => ({
+      label: "Aktif içerik",
+      title: item.name,
+      description: item.descriptions[0] || "",
+    })),
+    ...suitableFor.map((item) => ({
+      label: "Kimler için",
+      title: item.title,
+      description: "",
+    })),
+    ...goodToKnow.map((item) => ({
+      label: "İyi olur",
+      title: item.title,
+      description: "",
+    })),
+  ].slice(0, 4);
+
+  if (!notes.length) {
+    return null;
+  }
+
+  return (
+    <div className="grid gap-4 border-t border-site-ink/10 pt-2 sm:grid-cols-2 sm:gap-x-7 sm:gap-y-5">
+      {notes.map((note) => (
+        <article className="border-b border-site-ink/10 pb-4" key={`${note.label}-${note.title}`}>
+          <p className="text-[0.62rem] font-semibold tracking-[0.14em] text-[#98938c] uppercase">{note.label}</p>
+          <h2 className="mt-2 text-[clamp(0.92rem,1.02vw,1.02rem)] leading-[1.3] font-medium tracking-[-0.025em] text-site-ink">{note.title}</h2>
+          {note.description ? <p className="mt-2 line-clamp-2 text-[0.84rem] leading-[1.5] font-normal text-[#6f7470]">{note.description}</p> : null}
+        </article>
+      ))}
+    </div>
+  );
+}
+
 function ProductIntro({ product }) {
   const suitableFor = normalizeListItems(product.suitableFor).slice(0, 3);
   const goodToKnow = normalizeListItems(product.benefits).slice(0, 3);
@@ -128,11 +177,13 @@ function ProductIntro({ product }) {
     <section className="gridContainer bg-site-paper py-[clamp(5rem,9vw,9rem)]">
       <div data-section-reveal>
         <div className="mx-auto grid max-w-[62rem] place-items-center text-center">
-          <SparkleIcon size={44} weight="thin" aria-hidden="true" />
-          <h2 className="font-canela mt-10 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">{product.shortDescription || product.name}</h2>
+          <StarIcon className="size-14 text-site-ink md:size-20" />
+          <h2 className="font-canela mt-6 md:mt-8 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">
+            {product.shortDescription || product.name}
+          </h2>
         </div>
 
-        <div className="mt-[clamp(3rem,7vw,6rem)] grid gap-8 border-t border-site-ink/10 pt-8 min-[768px]:grid-cols-2 min-[1024px]:max-w-[42rem]">
+        <div className="mt-[clamp(3rem,7vw,6rem)] grid gap-8 border-t border-site-ink/10 pt-8 md:grid-cols-2 lg:max-w-[42rem]">
           {suitableFor.length ? (
             <div>
               <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Kimler için uygun</h3>
@@ -156,7 +207,7 @@ function ProductIntro({ product }) {
           ) : null}
         </div>
 
-        <p className="mt-10 max-w-[56rem] text-[clamp(1rem,1.35vw,1.16rem)] leading-[1.6] text-site-copy min-[1024px]:ml-auto">{leadText}</p>
+        <p className="mt-10 max-w-[56rem] text-[clamp(1rem,1.35vw,1.16rem)] leading-[1.6] text-site-copy lg:ml-auto">{leadText}</p>
       </div>
     </section>
   );
@@ -173,24 +224,24 @@ function ProductInformation({ product, mainImage }) {
           <h2 className="font-canela text-[clamp(2.2rem,4vw,3.8rem)] leading-[1.12] font-light tracking-[-0.04em] text-site-ink">Ürün hakkında</h2>
         </div>
 
-        <div className="mt-[clamp(3rem,6vw,5rem)] grid gap-10 min-[1024px]:grid-cols-12 min-[1024px]:items-start">
-          <figure className="relative aspect-[1/1] overflow-hidden bg-site-paper min-[1024px]:col-span-5">
+        <div className="mt-[clamp(3rem,6vw,5rem)] grid gap-10 lg:grid-cols-12 lg:items-start">
+          <figure className="relative aspect-[1/1] overflow-hidden bg-site-paper lg:col-span-5">
             {mainImage ? (
               <Image
                 className="object-contain p-[clamp(2rem,5vw,4.5rem)] drop-shadow-[0_20px_28px_rgba(59,59,59,0.1)]"
                 src={mainImage}
                 alt={product.fullName || product.name}
                 fill
-                sizes="(min-width: 1024px) 36vw, 92vw"
+                sizes="(min-width: 64rem) 36vw, 92vw"
               />
             ) : null}
           </figure>
 
-          <div className="grid gap-8 min-[1024px]:col-span-7 min-[1024px]:pt-4">
+          <div className="grid gap-8 lg:col-span-7 lg:pt-4">
             {benefits.length ? (
               <div className="border-t border-site-ink/12 pt-7">
                 <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Öne çıkan özellikler</h3>
-                <ul className="mt-5 grid gap-4 min-[640px]:grid-cols-2">
+                <ul className="mt-5 grid gap-4 sm:grid-cols-2">
                   {benefits.map((item) => (
                     <li className="flex gap-3 text-[0.95rem] leading-[1.45] text-site-copy" key={item.title}>
                       <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-site-paper text-site-ink">
@@ -206,7 +257,7 @@ function ProductInformation({ product, mainImage }) {
             {ingredientGroups.length ? (
               <div className="border-t border-site-ink/12 pt-7">
                 <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Aktif içerikler</h3>
-                <div className="mt-6 grid gap-x-10 gap-y-7 min-[640px]:grid-cols-2">
+                <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2">
                   {ingredientGroups.map((item) => (
                     <article key={item.name}>
                       <h4 className="font-canela text-[clamp(1.2rem,1.9vw,1.7rem)] leading-[1.18] font-light tracking-[-0.035em] text-site-ink">{item.name}</h4>
@@ -246,10 +297,10 @@ export function ProductDetail({ product, relatedProducts = [] }) {
     <article className="fluid bg-site-paper text-site-ink" data-motion-group>
       <section className="fluid relative bg-[#ededeb]" aria-labelledby="product-title">
         <div
-          className={`grid min-[1024px]:min-h-svh min-[1024px]:items-stretch min-[1024px]:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] pt-[calc(74px+clamp(1.75rem,3.5vw,2.75rem))] min-[901px]:pt-[calc(78px+clamp(2rem,3.8vw,3.25rem))] ${heroTone}`}
+          className={`grid lg:min-h-svh lg:items-stretch lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] pt-[calc(74px+clamp(1.75rem,3.5vw,2.75rem))] nav:pt-[calc(78px+clamp(2rem,3.8vw,3.25rem))] ${heroTone}`}
         >
           <div
-            className={`relative isolate z-3 flex min-h-[clamp(18rem,52svh,28rem)] flex-col pb-[clamp(1.25rem,4vw,3rem)] ${heroTone} min-[768px]:min-h-[clamp(22rem,58svh,34rem)] min-[1024px]:min-h-0`}
+            className={`relative isolate z-3 flex min-h-[clamp(18rem,52svh,28rem)] flex-col pb-[clamp(1.25rem,4vw,3rem)] ${heroTone} md:min-h-[clamp(22rem,58svh,34rem)] lg:min-h-0`}
             data-scroll-parallax-section
             data-parallax-strength="0.55"
             data-parallax-centered="true"
@@ -265,7 +316,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
             {mainImage ? (
               <div className="relative z-1 mx-auto flex w-full flex-1 items-center justify-center px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(0.5rem,2vw,1.25rem)]">
                 <div
-                  className="relative h-[clamp(13rem,38svh,20rem)] w-full max-w-[clamp(9.5rem,42vw,16rem)] transform-gpu will-change-transform min-[768px]:h-[clamp(18rem,46svh,26rem)] min-[768px]:max-w-[clamp(14rem,28vw,20rem)] min-[1280px]:h-[min(54svh,30rem)] min-[1280px]:max-w-[21rem]"
+                  className="relative h-[clamp(14rem,42svh,23rem)] w-full max-w-[clamp(10rem,44vw,17rem)] transform-gpu will-change-transform md:h-[clamp(19rem,50svh,29rem)] md:max-w-[clamp(15rem,30vw,22rem)] lg:h-[clamp(24rem,55svh,36rem)] lg:max-w-[clamp(18rem,25vw,29rem)] xl:h-[min(66svh,44rem)] xl:max-w-[32rem]"
                   data-scroll-parallax-layer
                   data-parallax-distance="90"
                 >
@@ -274,7 +325,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
                     src={mainImage}
                     alt={product.fullName || product.name}
                     fill
-                    sizes="(min-width: 1280px) 21rem, (min-width: 768px) 20rem, 42vw"
+                    sizes="(min-width: 80rem) 32rem, (min-width: 64rem) 29rem, (min-width: 48rem) 22rem, 44vw"
                     unoptimized
                     priority
                   />
@@ -283,46 +334,38 @@ export function ProductDetail({ product, relatedProducts = [] }) {
             ) : null}
           </div>
 
-          <div className="relative z-2 flex flex-col bg-[#F2F2F2] p-[clamp(1.5rem,4vw,3rem)] min-[1024px]:min-h-full min-[1024px]:-mb-[clamp(1.5rem,4vw,3.5rem)]">
+          <div className="relative z-2 flex flex-col bg-[#F2F2F2] p-[clamp(1.5rem,4vw,3rem)] xl:p-[clamp(3rem,4.2vw,5.5rem)] lg:min-h-full lg:-mb-[clamp(1.5rem,4vw,3.5rem)]">
             <div className="flex flex-1 flex-col justify-between gap-[clamp(1.75rem,4vh,2.75rem)]" data-section-reveal>
-              <div className="flex flex-col gap-[clamp(1.15rem,2.4vh,1.65rem)]">
+              <div className="flex flex-col gap-[clamp(1.15rem,2.4vh,1.75rem)]">
                 {product.categoryName ? (
-                  <span className="inline-flex w-fit rounded-full border border-site-ink/55 px-5 py-2 text-[0.66rem] font-light tracking-[0.08em] text-site-ink uppercase">
+                  <span className="inline-flex w-fit rounded-full border border-[#454545]/55 px-5 py-2 text-[0.66rem] font-normal tracking-[0.08em] text-[#333333] uppercase">
                     {product.categoryName}
                   </span>
                 ) : null}
 
                 <h1
                   id="product-title"
-                  className="font-canela max-w-[14ch] text-[clamp(2.35rem,5vw,4.35rem)] leading-[1.1] font-medium tracking-[-0.04em] text-site-ink"
+                  className="max-w-[15ch] text-[clamp(2.55rem,5.4vw,5rem)] leading-[1.05] font-semibold tracking-[-0.055em] text-[#3b3b3b] xl:text-[clamp(4.4rem,5.05vw,6.35rem)]"
                 >
                   {product.name}
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-4">
-                  {product.sizeLabel ? (
-                    <span className="rounded-full bg-site-ink px-4 py-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-paper uppercase">
-                      {product.sizeLabel}
-                    </span>
-                  ) : null}
-                  {product.priceLabel ? (
-                    <span className="text-[clamp(1.1rem,1.7vw,1.5rem)] font-light tracking-[-0.03em] text-site-ink">
-                      {product.priceLabel}
-                    </span>
-                  ) : null}
+                  {product.sizeLabel ? <span className="rounded-full bg-site-ink px-4 py-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-paper uppercase">{product.sizeLabel}</span> : null}
+                  {product.priceLabel ? <span className="text-[clamp(1.1rem,1.7vw,1.5rem)] font-normal tracking-[-0.02em] text-[#3f3f3f]">{product.priceLabel}</span> : null}
                 </div>
 
                 {product.shortDescription || product.description ? (
-                  <p className="max-w-[44ch] text-[clamp(0.95rem,1.15vw,1.08rem)] leading-[1.62] text-site-copy">
-                    {product.shortDescription || product.description}
-                  </p>
+                  <p className="max-w-[54ch] text-[clamp(0.98rem,1.16vw,1.15rem)] leading-[1.6] font-normal text-[#69716d]">{product.shortDescription || product.description}</p>
                 ) : null}
+
+                <HeroDetailNotes product={product} />
               </div>
 
               <div className="flex flex-col gap-[clamp(1.5rem,3.5vh,2.25rem)]">
                 <DetailCta href={detailUrl} />
 
-                <div className="grid grid-cols-2 gap-x-5 gap-y-5 text-center min-[640px]:grid-cols-4">
+                <div className="grid grid-cols-2 gap-x-5 gap-y-5 text-center sm:grid-cols-4">
                   {[
                     ["30", "Günlük rutin"],
                     ["", "Net içerik"],
@@ -330,12 +373,8 @@ export function ProductDetail({ product, relatedProducts = [] }) {
                     ["", "Anlaşılır seçim"],
                   ].map(([short, label]) => (
                     <div key={label}>
-                      <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#ebebe9] text-site-ink min-[1024px]:size-[3.75rem]">
-                        {short ? (
-                          <span className="text-[0.8rem] font-semibold">{short}</span>
-                        ) : (
-                          <LeafIcon size={22} weight="light" aria-hidden="true" />
-                        )}
+                      <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#ebebe9] text-site-ink lg:size-[3.75rem]">
+                        {short ? <span className="text-[0.8rem] font-semibold">{short}</span> : <LeafIcon size={22} weight="light" aria-hidden="true" />}
                       </span>
                       <p className="mt-3 text-[0.8rem] leading-[1.3] text-site-copy">{label}</p>
                     </div>
@@ -356,7 +395,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
             <div className="flex items-end justify-between gap-6">
               <h2 className="font-canela text-[clamp(2.15rem,3.8vw,3.5rem)] leading-[1.12] font-light tracking-[-0.04em] text-site-ink">Seçkiden diğerleri</h2>
               <Link
-                className="hidden text-[0.68rem] font-semibold tracking-[0.1em] text-site-ink uppercase underline decoration-site-ink/25 underline-offset-4 transition-colors hover:decoration-site-ink min-[640px]:inline-flex"
+                className="hidden text-[0.68rem] font-semibold tracking-[0.1em] text-site-ink uppercase underline decoration-site-ink/25 underline-offset-4 transition-colors hover:decoration-site-ink sm:inline-flex"
                 href="/urunler"
               >
                 Tüm ürünler

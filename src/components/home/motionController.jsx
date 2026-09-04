@@ -374,7 +374,7 @@ export function MotionController() {
 
         parallaxMediaContext.add(
           {
-            isDesktop: "(min-width: 1024px)",
+            isDesktop: "(min-width: 64rem)",
             hasFinePointer: "(pointer: fine)",
             reduceMotion: "(prefers-reduced-motion: reduce)",
           },
@@ -497,7 +497,7 @@ export function MotionController() {
         );
         parallaxMediaContext.add(
           {
-            isTablet: "(min-width: 768px) and (max-width: 1023px)",
+            isTablet: "(min-width: 48rem) and (max-width: 63.9375rem)",
             reduceMotion: "(prefers-reduced-motion: reduce)",
           },
           (mediaContext) => {
@@ -512,7 +512,7 @@ export function MotionController() {
         );
         parallaxMediaContext.add(
           {
-            isMobile: "(max-width: 767px)",
+            isMobile: "(max-width: 47.9375rem)",
             reduceMotion: "(prefers-reduced-motion: reduce)",
           },
           (mediaContext) => {

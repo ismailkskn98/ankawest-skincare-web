@@ -26,7 +26,7 @@ const legalLinks = [
 export function BrandBar() {
   return (
     <div
-      className="grid gap-10 border-t border-black/15 pt-8 min-[768px]:grid-cols-[minmax(0,1fr)_auto] min-[768px]:items-end min-[768px]:gap-12 min-[901px]:gap-16 min-[901px]:pt-10"
+      className="grid gap-10 border-t border-black/15 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12 nav:gap-16 nav:pt-10"
       data-motion-group
     >
       <div data-section-reveal>
@@ -56,7 +56,7 @@ export function BrandBar() {
       </div>
 
       <div
-        className="flex max-w-[720px] flex-wrap items-center gap-x-5 gap-y-3 text-[0.68rem] leading-[1.4] text-site-copy/65 min-[768px]:justify-end"
+        className="flex max-w-[720px] flex-wrap items-center gap-x-5 gap-y-3 text-[0.68rem] leading-[1.4] text-site-copy/65 md:justify-end"
         data-section-reveal
       >
         {legalLinks.map((link) => (

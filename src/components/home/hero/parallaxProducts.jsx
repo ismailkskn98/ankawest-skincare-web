@@ -9,9 +9,9 @@ const products = [
     distance: -96,
     depth: 12,
     className:
-      "-left-8 top-1/4 w-[clamp(84px,8.2vw,128px)] min-[1280px]:left-[2vw]",
+      "-left-8 top-1/4 w-[clamp(84px,8.2vw,128px)] xl:left-[2vw]",
     sizes:
-      "(min-width: 1280px) 128px, (min-width: 1024px) 105px, 0px",
+      "(min-width: 80rem) 128px, (min-width: 64rem) 105px, 0px",
   },
   {
     id: "right-foreground",
@@ -21,9 +21,9 @@ const products = [
     distance: 84,
     depth: -10,
     className:
-      "-right-6 top-1/4 w-[clamp(76px,7vw,105px)] min-[1280px]:right-[3vw]",
+      "-right-6 top-1/4 w-[clamp(76px,7vw,105px)] xl:right-[3vw]",
     sizes:
-      "(min-width: 1280px) 105px, (min-width: 1024px) 88px, 0px",
+      "(min-width: 80rem) 105px, (min-width: 64rem) 88px, 0px",
   },
   {
     id: "left-background",
@@ -33,8 +33,8 @@ const products = [
     distance: -64,
     depth: 16,
     className:
-      "hidden min-[1280px]:top-28 min-[1280px]:left-[8vw] min-[1280px]:block min-[1280px]:w-[clamp(110px,9vw,152px)] min-[1536px]:left-[9vw]",
-    sizes: "(min-width: 1280px) 152px, 0px",
+      "hidden xl:top-28 xl:left-[8vw] xl:block xl:w-[clamp(110px,9vw,152px)] 2xl:left-[9vw]",
+    sizes: "(min-width: 80rem) 152px, 0px",
   },
   {
     id: "right-background",
@@ -44,15 +44,15 @@ const products = [
     distance: 110,
     depth: -14,
     className:
-      "hidden min-[1536px]:top-28 min-[1536px]:right-[14vw] min-[1536px]:block min-[1536px]:w-[clamp(82px,6vw,108px)]",
-    sizes: "(min-width: 1536px) 108px, 0px",
+      "hidden 2xl:top-28 2xl:right-[14vw] 2xl:block 2xl:w-[clamp(82px,6vw,108px)]",
+    sizes: "(min-width: 96rem) 108px, 0px",
   },
 ];
 
 export function ParallaxProducts() {
   return (
     <div
-      className="fluid pointer-events-none absolute inset-0 z-1 hidden overflow-hidden min-[1024px]:block"
+      className="fluid pointer-events-none absolute inset-0 z-1 hidden overflow-hidden lg:block"
       aria-hidden="true"
     >
       {products.map((product) => (
