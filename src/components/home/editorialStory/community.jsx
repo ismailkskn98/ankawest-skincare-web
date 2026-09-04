@@ -75,7 +75,7 @@ export function Community() {
               data-section-reveal
             >
               <p className="max-w-[min(320px,90%)] text-[0.84rem] leading-[1.5] text-site-copy md:max-w-[280px] md:text-[0.9rem]">
-                Yeni ürünleri, bakım adımlarını ve seçkinin güncel notlarını
+                Yeni ürünleri, bakım adımlarını ve güncel notları
                 Instagram’da paylaşmaya devam ediyoruz.
               </p>
 

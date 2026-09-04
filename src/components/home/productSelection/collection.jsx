@@ -44,7 +44,7 @@ export function ProductCollection({ collection, imageSide = "left" }) {
             href={TRENDYOL_STORE_URL}
             target="_blank"
             rel="noreferrer"
-            aria-label={`${collection.title} ${collection.scriptTitle} seçkisini Trendyol'da aç`}
+            aria-label={`${collection.title} ${collection.scriptTitle} ürünlerini Trendyol'da aç`}
           >
             <ArrowRightIcon size={22} weight="light" aria-hidden="true" />
           </a>
@@ -69,7 +69,7 @@ export function ProductCollection({ collection, imageSide = "left" }) {
             target="_blank"
             rel="noreferrer"
           >
-            Tüm seçkiyi incele
+            Tüm ürünleri incele
             <span className="relative grid size-9 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper lg:size-10">
               <ArrowRightIcon
                 className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-[170%] motion-reduce:transition-none"

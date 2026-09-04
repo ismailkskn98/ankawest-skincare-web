@@ -124,7 +124,7 @@ export function PageHero({
               id="page-hero-title"
               className="mt-2 max-w-[11.8ch] text-[clamp(2.2rem,9.2vw,3rem)] leading-[0.94] font-semibold tracking-[-0.04em] text-site-ink md:mt-3 md:max-w-[11ch] md:text-[clamp(3.1rem,6.4vw,5.6rem)] md:leading-[0.88] md:tracking-[-0.075em] xl:text-[clamp(4rem,6.2vw,7.2rem)] xl:leading-[0.84]"
             >
-              {lines[0] || "Seçki"}
+              {lines[0] || "Ürünler"}
               {displayText ? <span className="sr-only"> {displayText}</span> : null}
             </h1>
 

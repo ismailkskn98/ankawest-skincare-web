@@ -3,7 +3,7 @@ import { ValueCard } from "./valueCard";
 const values = [
   {
     icon: "sparkle",
-    title: "İhtiyaca göre seçki",
+    title: "İhtiyaca göre bakım",
     description: "Ton görünümü, nem, bariyer ve günlük koruma odağını anlaşılır bakım adımlarına ayırıyoruz.",
     className: "lg:top-[29%] lg:left-0",
     distance: 280,
@@ -25,7 +25,7 @@ const values = [
   {
     icon: "sun",
     title: "Günlük bakım odağı",
-    description: "Ürün seçkisini kullanım yönü, doku ve içerik bilgisini birlikte değerlendirebileceğin şekilde düzenliyoruz.",
+    description: "Ürünleri kullanım yönü, doku ve içerik bilgisini birlikte değerlendirebileceğin şekilde düzenliyoruz.",
     className: "lg:top-[75%] lg:right-[calc(35%_-_clamp(7rem,11vw,11.25rem))]",
     distance: 650,
   },

@@ -46,7 +46,7 @@ export function Content() {
         className="mx-auto mt-5 max-w-[370px] text-[0.86rem] leading-[1.4] font-normal tracking-[-0.018em] text-[rgba(247,246,241,0.9)] text-balance max-xs:max-w-[330px] nav:mt-[clamp(18px,2.7vh,30px)] nav:max-w-[560px] nav:text-[clamp(0.88rem,1.05vw,1rem)] nav:leading-[1.35] short-desktop:mt-[18px]"
         data-hero-support
       >
-        GLUTANEX ve Exome seçkisini; bakım ihtiyacına, aktif içeriklerine ve kullanım adımlarına göre keşfet.
+        GLUTANEX ve Exome ürünlerini; bakım ihtiyacına, aktif içeriklerine ve kullanım adımlarına göre keşfet.
       </p>
     </div>
   );

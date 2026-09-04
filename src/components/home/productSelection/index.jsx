@@ -14,14 +14,14 @@ export function ProductSelection() {
         data-section-reveal
       >
         <p className="text-center text-[0.68rem] font-semibold tracking-[0.16em] text-site-copy uppercase">
-          Bakım seçkisi
+          Cilt bakımı
         </p>
         <h2
           id="selection-title"
           className="font-canela mx-auto mt-5 max-w-[1080px] text-center text-[clamp(2.5rem,9vw,4.2rem)] leading-[0.96] font-light tracking-[-0.04em] text-site-ink nav:mt-6 nav:text-[clamp(3.5rem,5vw,5.8rem)] xl:text-[clamp(4rem,5.4vw,6.1rem)]"
         >
           <span className="block">Bakımın ritmini</span>
-          <span className="mt-[0.02em] block">seçkinle kur.</span>
+          <span className="mt-[0.02em] block">cildinle kur.</span>
         </h2>
       </div>
 

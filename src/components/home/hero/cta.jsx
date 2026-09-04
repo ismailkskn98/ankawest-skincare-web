@@ -9,11 +9,11 @@ export function Cta() {
       href={TRENDYOL_STORE_URL}
       target="_blank"
       rel="noreferrer"
-      aria-label="Ürün seçkisini Trendyol'da aç"
+      aria-label="Ürünleri Trendyol'da aç"
       data-hero-cta
     >
       <span className="pl-[46px] text-[#2f322f] nav:pl-[54px] short-desktop:pl-[46px]">
-        Ürün seçkisini keşfet
+        Ürünleri keşfet
       </span>
       <span
         data-hero-arrow

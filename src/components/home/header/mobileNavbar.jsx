@@ -217,7 +217,7 @@ export function MobileNavbar({ items, storeUrl }) {
               rel="noreferrer"
               onClick={() => closeMenu()}
             >
-              Ürün seçkisini keşfet
+              Ürünleri keşfet
               <span className="relative grid size-11 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink">
                 <ArrowUpRightIcon
                   className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cta:translate-x-[160%] group-hover/cta:-translate-y-[160%] motion-reduce:transition-none"

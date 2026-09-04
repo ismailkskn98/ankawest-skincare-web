@@ -123,6 +123,7 @@ function IntroArrow() {
       fill="none"
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
+      data-page-hero-arrow
     >
       <path d={desktopArrowPath} fill="currentColor" />
     </svg>
@@ -309,12 +310,16 @@ export function ProductDetail({ product, relatedProducts = [] }) {
             <Link
               className="relative z-2 ml-[clamp(1rem,4vw,4.5rem)] inline-flex min-h-10 w-fit items-center text-[0.68rem] font-semibold tracking-[0.1em] text-site-copy uppercase transition-opacity duration-300 hover:opacity-70"
               href="/urunler"
+              data-page-hero-reveal
             >
               ← Tüm ürünler
             </Link>
 
             {mainImage ? (
-              <div className="relative z-1 mx-auto flex w-full flex-1 items-center justify-center px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(0.5rem,2vw,1.25rem)]">
+              <div
+                className="relative z-1 mx-auto flex w-full flex-1 items-center justify-center px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(0.5rem,2vw,1.25rem)]"
+                data-page-hero-media
+              >
                 <div
                   className="relative h-[clamp(14rem,42svh,23rem)] w-full max-w-[clamp(10rem,44vw,17rem)] transform-gpu will-change-transform md:h-[clamp(19rem,50svh,29rem)] md:max-w-[clamp(15rem,30vw,22rem)] lg:h-[clamp(24rem,55svh,36rem)] lg:max-w-[clamp(18rem,25vw,29rem)] xl:h-[min(66svh,44rem)] xl:max-w-[32rem]"
                   data-scroll-parallax-layer
@@ -335,7 +340,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
           </div>
 
           <div className="relative z-2 flex flex-col bg-[#F2F2F2] p-[clamp(1.5rem,4vw,3rem)] xl:p-[clamp(3rem,4.2vw,5.5rem)] lg:min-h-full lg:-mb-[clamp(1.5rem,4vw,3.5rem)]">
-            <div className="flex flex-1 flex-col justify-between gap-[clamp(1.75rem,4vh,2.75rem)]" data-section-reveal>
+            <div className="flex flex-1 flex-col justify-between gap-[clamp(1.75rem,4vh,2.75rem)]" data-page-hero-reveal>
               <div className="flex flex-col gap-[clamp(1.15rem,2.4vh,1.75rem)]">
                 {product.categoryName ? (
                   <span className="inline-flex w-fit rounded-full border border-[#454545]/55 px-5 py-2 text-[0.66rem] font-normal tracking-[0.08em] text-[#333333] uppercase">
@@ -393,7 +398,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
         <section className="gridContainer bg-site-paper py-[clamp(4rem,8vw,7rem)]" data-section-reveal>
           <div>
             <div className="flex items-end justify-between gap-6">
-              <h2 className="font-canela text-[clamp(2.15rem,3vw,3.15rem)] leading-[1.12] font-light tracking-[-0.035em] text-site-ink">Seçkiden diğerleri</h2>
+              <h2 className="font-canela text-[clamp(2.15rem,3vw,3.15rem)] leading-[1.12] font-light tracking-[-0.035em] text-site-ink">Diğer ürünler</h2>
               <Link
                 className="hidden text-[0.68rem] font-semibold tracking-[0.1em] text-site-ink uppercase underline decoration-site-ink/25 underline-offset-4 transition-colors hover:decoration-site-ink sm:inline-flex"
                 href="/urunler"

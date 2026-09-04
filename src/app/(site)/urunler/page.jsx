@@ -9,7 +9,7 @@ export const metadata = {
   openGraph: {
     title: "Ürünler | Anka West Skincare",
     description:
-      "Temiz formüller ve anlaşılır seçki ile Anka West Skincare ürünleri.",
+      "Temiz formüller ve anlaşılır ürün bilgisi ile Anka West Skincare ürünleri.",
     type: "website",
     locale: "tr_TR",
   },

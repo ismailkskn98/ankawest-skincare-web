@@ -64,66 +64,78 @@ export function ContactForm() {
 
   return (
     <form
-      className="rounded-[1.5rem] bg-[#f2f2ef] p-5 sm:rounded-[1.75rem] md:p-8"
+      className="min-h-full"
       onSubmit={handleSubmit}
       noValidate
     >
-      <div className="grid gap-5 md:grid-cols-2">
-        <label className="grid gap-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-copy uppercase">
+      <div>
+        <p className="text-[0.68rem] font-semibold tracking-[0.14em] text-site-copy uppercase">Mesaj bırak</p>
+        <h2 className="font-canela mt-4 max-w-[12ch] text-[clamp(2.6rem,5vw,4.8rem)] leading-[0.96] font-light tracking-[-0.045em] text-[#3b3b3b]">
+          Sana dönüş yapalım.
+        </h2>
+      </div>
+
+      <div className="mt-[clamp(2rem,4vw,3rem)] grid gap-4 md:grid-cols-2">
+        <label className="grid gap-2 text-[0.64rem] font-semibold tracking-[0.13em] text-site-copy/72 uppercase">
           Ad soyad
           <input
-            className="min-h-12 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.95rem] font-normal tracking-normal text-site-ink outline-none transition-[border-color,box-shadow] duration-300 focus:border-site-ink/30 focus:shadow-[0_0_0_4px_rgba(59,59,59,0.08)]"
+            className="min-h-13 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.98rem] font-normal tracking-[-0.015em] text-site-ink outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-site-copy/34 hover:border-site-ink/20 focus:border-site-ink/35 focus:bg-white focus:shadow-[0_0_0_4px_rgba(59,59,59,0.07)]"
             name="fullName"
             type="text"
             autoComplete="name"
+            placeholder="Adınız soyadınız"
             value={form.fullName}
             onChange={handleChange}
             required
           />
         </label>
 
-        <label className="grid gap-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-copy uppercase">
+        <label className="grid gap-2 text-[0.64rem] font-semibold tracking-[0.13em] text-site-copy/72 uppercase">
           E-posta
           <input
-            className="min-h-12 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.95rem] font-normal tracking-normal text-site-ink outline-none transition-[border-color,box-shadow] duration-300 focus:border-site-ink/30 focus:shadow-[0_0_0_4px_rgba(59,59,59,0.08)]"
+            className="min-h-13 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.98rem] font-normal tracking-[-0.015em] text-site-ink outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-site-copy/34 hover:border-site-ink/20 focus:border-site-ink/35 focus:bg-white focus:shadow-[0_0_0_4px_rgba(59,59,59,0.07)]"
             name="email"
             type="email"
             autoComplete="email"
+            placeholder="ornek@mail.com"
             value={form.email}
             onChange={handleChange}
             required
           />
         </label>
 
-        <label className="grid gap-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-copy uppercase">
+        <label className="grid gap-2 text-[0.64rem] font-semibold tracking-[0.13em] text-site-copy/72 uppercase">
           Telefon
           <input
-            className="min-h-12 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.95rem] font-normal tracking-normal text-site-ink outline-none transition-[border-color,box-shadow] duration-300 focus:border-site-ink/30 focus:shadow-[0_0_0_4px_rgba(59,59,59,0.08)]"
+            className="min-h-13 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.98rem] font-normal tracking-[-0.015em] text-site-ink outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-site-copy/34 hover:border-site-ink/20 focus:border-site-ink/35 focus:bg-white focus:shadow-[0_0_0_4px_rgba(59,59,59,0.07)]"
             name="phone"
             type="tel"
             autoComplete="tel"
+            placeholder="+90"
             value={form.phone}
             onChange={handleChange}
           />
         </label>
 
-        <label className="grid gap-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-copy uppercase">
+        <label className="grid gap-2 text-[0.64rem] font-semibold tracking-[0.13em] text-site-copy/72 uppercase">
           Konu
           <input
-            className="min-h-12 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.95rem] font-normal tracking-normal text-site-ink outline-none transition-[border-color,box-shadow] duration-300 focus:border-site-ink/30 focus:shadow-[0_0_0_4px_rgba(59,59,59,0.08)]"
+            className="min-h-13 rounded-full border border-site-ink/10 bg-site-paper px-5 text-[0.98rem] font-normal tracking-[-0.015em] text-site-ink outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-site-copy/34 hover:border-site-ink/20 focus:border-site-ink/35 focus:bg-white focus:shadow-[0_0_0_4px_rgba(59,59,59,0.07)]"
             name="subject"
             type="text"
+            placeholder="Ürün, iş birliği..."
             value={form.subject}
             onChange={handleChange}
           />
         </label>
       </div>
 
-      <label className="mt-5 grid gap-2 text-[0.72rem] font-semibold tracking-[0.08em] text-site-copy uppercase">
+      <label className="mt-4 grid gap-2 text-[0.64rem] font-semibold tracking-[0.13em] text-site-copy/72 uppercase">
         Mesaj
         <textarea
-          className="min-h-[160px] resize-y rounded-[1.5rem] border border-site-ink/10 bg-site-paper px-5 py-4 text-[0.95rem] font-normal tracking-normal text-site-ink outline-none transition-[border-color,box-shadow] duration-300 focus:border-site-ink/30 focus:shadow-[0_0_0_4px_rgba(59,59,59,0.08)]"
+          className="min-h-[clamp(11rem,20vw,15rem)] resize-y rounded-[1.35rem] border border-site-ink/10 bg-site-paper px-5 py-4 text-[0.98rem] leading-[1.55] font-normal tracking-[-0.015em] text-site-ink outline-none transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-site-copy/34 hover:border-site-ink/20 focus:border-site-ink/35 focus:bg-white focus:shadow-[0_0_0_4px_rgba(59,59,59,0.07)]"
           name="message"
+          placeholder="Mesajınızı yazın..."
           value={form.message}
           onChange={handleChange}
           required
@@ -144,12 +156,23 @@ export function ContactForm() {
       ) : null}
 
       <button
-        className="group mt-7 inline-flex items-center gap-4 rounded-full bg-site-ink py-2 pr-2 pl-6 text-[0.7rem] font-semibold tracking-[0.08em] text-site-paper uppercase transition-transform duration-500 active:scale-[0.98]"
+        className="group mt-7 inline-flex min-h-14 w-full items-center justify-between gap-4 rounded-full bg-site-ink py-1.5 pr-1.5 pl-6 text-[0.7rem] font-semibold tracking-[0.08em] text-site-paper uppercase transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] motion-reduce:transition-none sm:w-fit sm:min-w-[15rem]"
         type="submit"
       >
         Mesaj gönder
-        <span className="grid size-10 place-items-center rounded-full bg-site-paper text-site-ink transition-transform duration-500 group-hover:rotate-6 group-hover:scale-105 motion-reduce:transition-none">
-          <ArrowUpRightIcon size={17} weight="light" aria-hidden="true" />
+        <span className="relative grid size-11 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink">
+          <ArrowUpRightIcon
+            className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[160%] group-hover:-translate-y-[160%] motion-reduce:transition-none"
+            size={18}
+            weight="light"
+            aria-hidden="true"
+          />
+          <ArrowUpRightIcon
+            className="absolute -translate-x-[160%] translate-y-[160%] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:translate-y-0 motion-reduce:hidden"
+            size={18}
+            weight="light"
+            aria-hidden="true"
+          />
         </span>
       </button>
     </form>

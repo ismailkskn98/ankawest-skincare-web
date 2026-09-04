@@ -19,7 +19,7 @@ export function Intro() {
       </div>
 
       <p className="max-w-[430px] text-[clamp(0.92rem,1.25vw,1.08rem)] leading-[1.5] tracking-[-0.02em] text-site-copy nav:col-span-4 nav:justify-self-end nav:pb-2">
-        Bakımı karmaşıklaştırmadan; ihtiyacı, aktif içeriği, dokuyu ve kullanım adımını aynı seçkide buluşturuyoruz.
+        Bakımı karmaşıklaştırmadan; ihtiyacı, aktif içeriği, dokuyu ve kullanım adımını aynı yerde buluşturuyoruz.
       </p>
     </div>
   );
