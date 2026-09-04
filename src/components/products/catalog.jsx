@@ -124,7 +124,7 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
         <div>
           <div
             ref={productGridRef}
-            className="grid gap-5 min-[640px]:grid-cols-2 min-[640px]:gap-[clamp(1.25rem,2vw,2rem)] min-[1280px]:grid-cols-3"
+            className="grid grid-cols-2 gap-3 min-[640px]:gap-[clamp(1.25rem,2vw,2rem)] min-[1280px]:grid-cols-3"
           >
             {filteredProducts.map((product) => (
               <div key={product.id} data-product-card-reveal>

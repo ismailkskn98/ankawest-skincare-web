@@ -54,8 +54,7 @@ export function MotionController() {
         return;
       }
 
-      const forceLightHeader = header.dataset.headerTone === "light";
-      header.dataset.scrolled = forceLightHeader || isScrolled ? "true" : "false";
+      header.dataset.scrolled = isScrolled ? "true" : "false";
     };
 
     const setHeaderVisibility = (isVisible, { animate = true, force = false } = {}) => {
