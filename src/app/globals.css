@@ -240,7 +240,9 @@
 html[data-motion-intro="pending"] [data-header-reveal],
 html[data-motion-intro="pending"] [data-hero-line],
 html[data-motion-intro="pending"] [data-hero-support],
-html[data-motion-intro="pending"] [data-hero-cta] {
+html[data-motion-intro="pending"] [data-hero-cta],
+html[data-motion-intro="pending"] [data-page-hero-reveal],
+html[data-motion-intro="pending"] [data-page-hero-media] {
   opacity: 0;
   visibility: hidden;
 }
@@ -1573,7 +1575,9 @@ html[data-motion-intro="pending"] [data-hero-cta] {
   html[data-motion-intro="pending"] [data-header-reveal],
   html[data-motion-intro="pending"] [data-hero-line],
   html[data-motion-intro="pending"] [data-hero-support],
-  html[data-motion-intro="pending"] [data-hero-cta] {
+  html[data-motion-intro="pending"] [data-hero-cta],
+  html[data-motion-intro="pending"] [data-page-hero-reveal],
+  html[data-motion-intro="pending"] [data-page-hero-media] {
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;

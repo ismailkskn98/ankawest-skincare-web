@@ -16,7 +16,7 @@ export function ProductsPage({ products, categories }) {
         imageSrc="/images/page-hero/v2.png"
         imageAlt="Anka West Skincare bakım seçkisi"
         imagePosition="center"
-        parallaxDistance={145}
+        parallaxDistance={370}
       />
 
       <div id="urun-listesi" className="scroll-mt-[96px]">

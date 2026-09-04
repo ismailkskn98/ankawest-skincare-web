@@ -17,7 +17,7 @@ export function PageHero({
   imageSrc,
   imageAlt,
   imagePosition = "center",
-  parallaxDistance = 170,
+  parallaxDistance = 370,
 }) {
   const lines = titleLines?.length ? titleLines : title ? [title] : [];
   const objectPosition = imagePosition === "top" ? "object-[50%_22%]" : imagePosition === "bottom" ? "object-[50%_72%]" : "object-center";
@@ -36,7 +36,7 @@ export function PageHero({
       data-parallax-centered="true"
     >
       {imageSrc ? (
-        <div className="fluid absolute inset-0 overflow-hidden">
+        <div className="fluid absolute inset-0 overflow-hidden" data-page-hero-media>
           <div
             className="fluid absolute inset-x-0 top-[-7rem] bottom-[-7rem] transform-gpu will-change-transform max-[767px]:top-[-3.5rem] max-[767px]:bottom-[-3.5rem]"
             data-scroll-parallax-layer
@@ -64,7 +64,7 @@ export function PageHero({
 
       <div className="gridContainer relative z-2 flex h-full min-h-[660px] flex-col pt-[calc(72px+clamp(1rem,3vh,2rem))] pb-[clamp(1.5rem,4vh,2.5rem)] max-[767px]:min-h-[100svh] min-[901px]:pt-[calc(76px+clamp(1.25rem,3vh,2.25rem))]">
         <div className="flex flex-1 flex-col justify-between gap-8 min-[768px]:gap-10">
-          <div className="flex items-start justify-between gap-6" data-section-reveal>
+          <div className="flex items-start justify-between gap-6" data-page-hero-reveal>
             <div>
               {eyebrow ? <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-site-copy uppercase">{eyebrow}</p> : null}
               <h1 id="page-hero-title" className="mt-3 max-w-[11ch] text-[clamp(3.5rem,10vw,7.2rem)] leading-[0.84] font-semibold tracking-[-0.075em] text-site-ink">
@@ -79,7 +79,7 @@ export function PageHero({
           <div className="grid items-end gap-8 min-[900px]:grid-cols-12 min-[900px]:gap-10">
             <div
               className="relative max-w-[430px] rounded-[1.25rem] bg-site-paper/96 p-[clamp(1.6rem,3vw,2.15rem)] shadow-[0_28px_90px_rgba(35,38,34,0.1)] ring-1 ring-site-ink/8 min-[900px]:col-span-5"
-              data-section-reveal
+              data-page-hero-reveal
             >
               <h2 className="max-w-[13ch] text-[clamp(2rem,4.1vw,3rem)] leading-[0.95] font-semibold tracking-[-0.065em] text-site-ink">
                 {cardHeading}
@@ -146,7 +146,7 @@ export function PageHero({
               {meta ? <p className="mt-5 text-[0.66rem] tracking-[0.1em] text-site-copy/65 uppercase min-[640px]:hidden">{meta}</p> : null}
             </div>
 
-            <div className="min-[900px]:col-span-7 min-[900px]:flex min-[900px]:justify-end" data-section-reveal>
+            <div className="min-[900px]:col-span-7 min-[900px]:flex min-[900px]:justify-end" data-page-hero-reveal>
               <p className="font-canela max-w-[11ch] text-[clamp(3.4rem,8.6vw,7.2rem)] leading-[0.86] font-light tracking-[-0.055em] text-site-ink min-[900px]:text-right" aria-hidden="true">
                 {displayText}
               </p>
