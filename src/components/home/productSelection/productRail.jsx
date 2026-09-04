@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 
-import { ProductCard } from "./productCard";
+import { ProductCard } from "@/components/site/productCard";
 
 export function ProductRail({ products, ariaLabel, reverseAutoplay = false }) {
   const swiperRef = useRef(null);

@@ -1,8 +1,4 @@
-import {
-  ANKAWEST_URL,
-  INSTAGRAM_URL,
-  TRENDYOL_STORE_URL,
-} from "@/config/site-content";
+import { ANKAWEST_URL, INSTAGRAM_URL, TRENDYOL_STORE_URL } from "@/config/site-content";
 
 import { Actions } from "./actions";
 import { Logo } from "./logo";
@@ -35,7 +31,7 @@ export function Header({ tone = "dark" }) {
 
   return (
     <header
-      className="fluid gridContainer group/header fixed inset-x-0 top-0 z-20 h-[74px] bg-transparent transition-[background-color] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform after:pointer-events-none after:absolute after:inset-x-0 after:top-full after:h-6 after:bg-[linear-gradient(180deg,rgba(17,20,18,0.08),transparent)] after:opacity-0 after:transition-opacity after:duration-[420ms] after:ease-[cubic-bezier(0.22,1,0.36,1)] data-[scrolled=true]:bg-[#faf9f6] data-[scrolled=true]:after:opacity-100 motion-reduce:transition-none motion-reduce:after:transition-none min-[901px]:h-[78px]"
+      className="fluid gridContainer group/header fixed inset-x-0 top-0 z-20 h-[74px] bg-transparent transition-[background-color] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform data-[scrolled=true]:bg-white data-[scrolled=true]:after:opacity-100 motion-reduce:transition-none motion-reduce:after:transition-none min-[901px]:h-[78px]"
       data-header
       data-header-reveal
       data-header-tone={isLight ? "light" : "dark"}
@@ -45,10 +41,7 @@ export function Header({ tone = "dark" }) {
         <Logo />
         <Navbar items={navigationItems} />
         <Actions />
-        <MobileNavbar
-          items={navigationItems}
-          storeUrl={TRENDYOL_STORE_URL}
-        />
+        <MobileNavbar items={navigationItems} storeUrl={TRENDYOL_STORE_URL} />
       </div>
     </header>
   );

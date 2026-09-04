@@ -1,7 +1,12 @@
 import "server-only";
 
 import { apiRequest } from "@/lib/api/server";
-import { CARD_TONES, demoCategories, demoProducts } from "./demoProducts";
+import {
+  CARD_TONES,
+  TRANSPARENT_PRODUCT_IMAGES,
+  demoCategories,
+  demoProducts,
+} from "./demoProducts";
 
 function getShortProductName(name, brand = "") {
   if (!name) {
@@ -27,9 +32,36 @@ function pickTone(index) {
   return CARD_TONES[index % CARD_TONES.length];
 }
 
+function resolveDetailImageUrl(primaryImageUrl) {
+  if (!primaryImageUrl) {
+    return "";
+  }
+
+  // urunler-png-ham doluysa transparent set; aksi halde ham görsel + soft mist bg.
+  if (primaryImageUrl.includes("/urunler-png-ham/")) {
+    return primaryImageUrl;
+  }
+
+  return primaryImageUrl;
+}
+
 export function normalizeProduct(product, index = 0) {
   const brand = product.brand || "GLUTANEX";
   const displayName = product.displayName || getShortProductName(product.name, brand);
+  const primaryImageUrl = product.primaryImageUrl || product.image || "";
+  const transparentImageUrl =
+    product.transparentImageUrl ||
+    product.transparent_image_url ||
+    product.cutoutImageUrl ||
+    product.cutout_image_url ||
+    TRANSPARENT_PRODUCT_IMAGES[product.slug] ||
+    "";
+  const detailImageUrl =
+    product.detailImageUrl ||
+    product.detail_image_url ||
+    transparentImageUrl ||
+    resolveDetailImageUrl(primaryImageUrl) ||
+    primaryImageUrl;
 
   return {
     id: product.id,
@@ -41,9 +73,12 @@ export function normalizeProduct(product, index = 0) {
     categorySlug: product.categorySlug || product.category?.slug || "",
     sizeLabel: product.sizeLabel || "",
     shortDescription: product.shortDescription || "",
-    primaryImageUrl: product.primaryImageUrl || product.image || "",
-    hoverImageUrl: product.hoverImageUrl || null,
+    primaryImageUrl,
+    hoverImageUrl: product.hoverImageUrl || product.hover_image_url || null,
+    transparentImageUrl,
+    detailImageUrl,
     tone: product.tone || pickTone(index),
+    priceLabel: product.priceLabel || product.price_label || product.price || "",
     href: product.slug ? `/urunler/${product.slug}` : "#",
   };
 }
@@ -100,6 +135,7 @@ export async function getPublicProductBySlug(slug) {
           usageInstructions: payload.data.usageInstructions || "",
           warnings: payload.data.warnings || "",
           images: payload.data.images || [],
+          trendyolUrl: payload.data.trendyolUrl || payload.data.trendyol_url || "",
         },
       };
     }
@@ -117,13 +153,14 @@ export async function getPublicProductBySlug(slug) {
     source: "demo",
     product: {
       ...normalizeProduct(demoProduct),
-      description: demoProduct.shortDescription,
-      benefits: [],
-      activeIngredients: [],
-      suitableFor: [],
-      usageInstructions: "",
-      warnings: "",
-      images: [],
+      description: demoProduct.description || demoProduct.shortDescription || "",
+      benefits: demoProduct.benefits || [],
+      activeIngredients: demoProduct.activeIngredients || [],
+      suitableFor: demoProduct.suitableFor || [],
+      usageInstructions: demoProduct.usageInstructions || "",
+      warnings: demoProduct.warnings || "",
+      images: demoProduct.images || [],
+      trendyolUrl: demoProduct.trendyolUrl || "",
     },
   };
 }

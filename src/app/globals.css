@@ -38,7 +38,7 @@
   --font-canela: var(--font-canela-face);
   --color-site-ink: #3b3b3b;
   --color-site-copy: #61615d;
-  --color-site-paper: #fbfaf7;
+  --color-site-paper: #ffff;
   --color-site-mist: #eef1ef;
 }
 
@@ -93,6 +93,7 @@
 }
 
 @layer base {
+
   *,
   *::before,
   *::after {
@@ -132,9 +133,9 @@
   }
 
   img {
-  max-width: 100%;
-  height: auto;
-}
+    max-width: 100%;
+    height: auto;
+  }
 
   ::selection {
     background: #ffd8c5;

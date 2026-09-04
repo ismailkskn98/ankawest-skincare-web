@@ -8,13 +8,13 @@ const formulaImages = [
     src: "/images/urunler-png-ham/GLOW%20THERAPY%20AMPOULE/GLUTANEX-Glow-Therapy-Ampoule-sadece-urun.webp",
     alt: "GLUTANEX Glow Therapy Ampoule şeffaf ürün görseli",
     className: "min-[1024px]:mt-10 min-[1280px]:mt-20",
-    distance: -148,
+    distance: -205,
   },
   {
     src: "/images/urunler-png-ham/AQUA%20BOOSTER/AQUA-BOOSTER.webp",
     alt: "GLUTANEX Aqua Booster şeffaf ürün görseli",
     className: "min-[1024px]:mb-10 min-[1280px]:mb-20",
-    distance: 178,
+    distance: 235,
   },
 ];
 
@@ -52,12 +52,12 @@ export function Transparency() {
             className="grid grid-cols-2 items-center gap-3 min-[1024px]:col-span-6 min-[1024px]:gap-5"
             data-scroll-parallax-section
             data-parallax-desktop-only="true"
-            data-parallax-strength="1.48"
+            data-parallax-strength="1.7"
           >
             {formulaImages.map((image) => (
               <figure className={`relative aspect-[4/5] overflow-hidden ${image.className}`} key={image.src} data-scroll-parallax-layer data-parallax-distance={image.distance}>
                 <Image
-                  className="object-contain p-[clamp(1rem,3.5vw,2.5rem)]"
+                  className="object-contain p-[clamp(1rem,3.5vw,2.5rem)] drop-shadow-[0_18px_22px_rgba(59,59,59,0.1)]"
                   src={image.src}
                   alt={image.alt}
                   fill

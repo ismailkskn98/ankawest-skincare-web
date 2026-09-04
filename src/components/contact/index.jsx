@@ -1,4 +1,5 @@
 import { INSTAGRAM_URL, TRENDYOL_STORE_URL } from "@/config/site-content";
+import { PageHero } from "@/components/site/pageHero";
 
 import { ContactForm } from "./form";
 
@@ -29,47 +30,29 @@ const contactDetails = [
 
 export function ContactPage() {
   return (
-    <div className="bg-site-paper text-site-ink" data-motion-group>
-      <section
-        className="relative overflow-hidden pt-[calc(74px+3.5rem)] pb-14 min-[901px]:pt-[calc(78px+5rem)] min-[901px]:pb-20"
-        aria-labelledby="contact-title"
-      >
-        <div className="grid gap-8 min-[1024px]:grid-cols-12 min-[1024px]:items-end">
-          <div className="min-[1024px]:col-span-7" data-section-reveal>
-            <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-site-copy uppercase">
-              İletişim
-            </p>
-            <h1
-              id="contact-title"
-              className="font-canela mt-5 max-w-[10ch] text-[clamp(3.1rem,11vw,6.45rem)] leading-[0.9] font-light tracking-[-0.045em]"
-            >
-              Bizimle
-              <span className="block">konuşun.</span>
-            </h1>
-          </div>
+    <div className="fluid gridContainer bg-site-paper text-site-ink" data-motion-group>
+      <PageHero
+        eyebrow="İletişim"
+        titleLines={["Bizimle", "konuşun."]}
+        displayLine="konuşun."
+        cardTitle="Mesajını"
+        cardTitleAccent="bırak."
+        cardBody="Ürünler, iş birlikleri veya bakım rutinin hakkında soruların için buradayız. En kısa sürede dönüş yapalım."
+        ctaLabel="Forma git"
+        ctaHref="#iletisim-form"
+        imageSrc="/images/page-hero/v3.png"
+        imageAlt="Anka West Skincare ürünleri"
+        imagePosition="center"
+      />
 
-          <div
-            className="max-w-[380px] min-[1024px]:col-span-5 min-[1024px]:justify-self-end"
-            data-section-reveal
-          >
-            <p className="text-[clamp(1rem,1.3vw,1.15rem)] leading-[1.5] tracking-[-0.02em] text-site-copy">
-              Ürünler, iş birlikleri veya bakım rutinin hakkında soruların için
-              buradayız. Mesajını bırak, en kısa sürede dönüş yapalım.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="grid gap-12 pb-20 min-[1024px]:grid-cols-12 min-[1024px]:gap-10 min-[901px]:pb-32">
+      <section id="iletisim-form" className="grid gap-10 pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,9vw,8rem)] min-[1024px]:grid-cols-12 min-[1024px]:gap-10">
         <div className="min-[1024px]:col-span-4" data-section-reveal>
-          <ul className="grid gap-6 border-t border-site-ink/15 pt-8">
+          <ul className="grid gap-5 border-t border-site-ink/12 pt-7">
             {contactDetails.map((detail) => (
               <li key={detail.label}>
-                <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-site-copy uppercase">
-                  {detail.label}
-                </p>
+                <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-site-copy uppercase">{detail.label}</p>
                 <a
-                  className="group relative mt-2 inline-flex min-h-8 items-center text-[1.05rem] tracking-[-0.02em] text-site-ink"
+                  className="group relative mt-2 inline-flex min-h-8 items-center text-[1.02rem] tracking-[-0.02em] text-site-ink"
                   href={detail.href}
                   target={detail.external ? "_blank" : undefined}
                   rel={detail.external ? "noreferrer" : undefined}
@@ -84,16 +67,10 @@ export function ContactPage() {
             ))}
           </ul>
 
-          <div className="mt-12 rounded-[1.75rem] bg-[#20221f] p-7 text-[#f7f5ef]">
-            <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-[#b9b8b1] uppercase">
-              Çalışma saatleri
-            </p>
-            <p className="mt-4 text-[1.15rem] leading-[1.35] font-light tracking-[-0.02em]">
-              Hafta içi 09:30 – 18:30
-            </p>
-            <p className="mt-3 text-[0.9rem] leading-[1.5] text-[#c5c5be]">
-              Mesajlarına iş günlerinde dönüş yapıyoruz.
-            </p>
+          <div className="mt-10 rounded-[1.5rem] bg-[#20221f] p-6 text-[#f7f5ef] min-[768px]:p-7">
+            <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-[#b9b8b1] uppercase">Çalışma saatleri</p>
+            <p className="mt-3 text-[1.1rem] leading-[1.35] font-light tracking-[-0.02em]">Hafta içi 09:30 – 18:30</p>
+            <p className="mt-3 text-[0.88rem] leading-[1.5] text-[#c5c5be]">Mesajlarına iş günlerinde dönüş yapıyoruz.</p>
           </div>
         </div>
 

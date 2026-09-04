@@ -64,7 +64,7 @@ export function ContactForm() {
 
   return (
     <form
-      className="rounded-[2rem] bg-[#f2f2ef] p-6 min-[768px]:p-8"
+      className="rounded-[1.5rem] bg-[#f2f2ef] p-5 min-[640px]:rounded-[1.75rem] min-[768px]:p-8"
       onSubmit={handleSubmit}
       noValidate
     >

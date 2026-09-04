@@ -1,5 +1,5 @@
 export const TRENDYOL_STORE_URL =
-  "https://www.trendyol.com/sr?mid=965976&os=1&pi=2";
+  "https://www.trendyol.com/sr?os=1&mid=965976";
 
 export const INSTAGRAM_URL = "https://www.instagram.com/ankawest_skincare/";
 
