@@ -89,7 +89,7 @@ export function PageHero({
 
       {/* Desktop / tablet: görsel merkezden büyüyen ok, geniş ekranlarda sağ üste kopmaz */}
       <svg
-        className="pointer-events-none absolute top-[clamp(5.5rem,11vh,8.5rem)] left-[47%] z-1 hidden aspect-[560/349] w-[clamp(19rem,34vw,30rem)] text-site-ink min-[768px]:block min-[1024px]:top-[clamp(5.75rem,11.5vh,8rem)] min-[1024px]:left-[45%] min-[1024px]:w-[clamp(25rem,38vw,42rem)] min-[1280px]:top-[clamp(6rem,9.6vh,8.5rem)] min-[1280px]:left-[42%] min-[1280px]:w-[clamp(39rem,37vw,62rem)]"
+        className="pointer-events-none absolute top-[clamp(5.5rem,11vh,8.5rem)] left-[47%] z-1 hidden h-auto w-[clamp(19rem,34vw,30rem)] text-site-ink min-[768px]:block min-[1024px]:top-[clamp(5.75rem,11.5vh,8rem)] min-[1024px]:left-[45%] min-[1024px]:w-[clamp(25rem,38vw,42rem)] min-[1280px]:top-[clamp(6rem,9.6vh,8.5rem)] min-[1280px]:left-[42%] min-[1280px]:w-[clamp(39rem,37vw,62rem)]"
         width="560"
         height="349"
         viewBox="0 0 560 349"
@@ -103,7 +103,7 @@ export function PageHero({
 
       {/* Mobile: dar ekranlarda ezilmeyen, dikey bombeli referans ok */}
       <svg
-        className="pointer-events-none absolute top-[clamp(10.25rem,47vw,12.5rem)] right-[clamp(0.75rem,5vw,1.5rem)] z-1 aspect-[115/235] w-[clamp(4.65rem,25vw,5.95rem)] text-site-ink min-[768px]:hidden"
+        className="pointer-events-none absolute top-[clamp(10.25rem,47vw,12.5rem)] right-[clamp(0.75rem,5vw,1.5rem)] z-1 h-auto w-[clamp(4.65rem,25vw,5.95rem)] text-site-ink min-[768px]:hidden"
         width="115"
         height="235"
         viewBox="0 0 115 235"

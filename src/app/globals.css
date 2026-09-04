@@ -81,7 +81,7 @@
  */
 @utility gridContainer {
   display: grid;
-  grid-template-columns: 1fr min(94%, 110rem) 1fr;
+  grid-template-columns: 1fr min(94%, 120rem) 1fr;
 
   &>* {
     grid-column: 2;
@@ -115,6 +115,7 @@
   }
 
   @media (min-width: 1024px) {
+
     /* JS beklemeden gizle: head script + SSR site root */
     html.hide-native-scrollbar,
     html:has([data-site-root]) {
