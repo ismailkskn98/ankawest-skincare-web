@@ -176,8 +176,8 @@ function ProductIntro({ product }) {
 
   return (
     <section className="gridContainer bg-site-paper py-[clamp(5rem,9vw,9rem)]">
-      <div data-section-reveal>
-        <div className="mx-auto grid max-w-[62rem] place-items-center text-center">
+      <div data-motion-group>
+        <div className="mx-auto grid max-w-[62rem] place-items-center text-center" data-section-reveal>
           <StarIcon className="size-14 text-site-ink md:size-20" />
           <h2 className="font-canela mt-6 md:mt-8 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">
             {product.shortDescription || product.name}
@@ -186,7 +186,7 @@ function ProductIntro({ product }) {
 
         <div className="mt-[clamp(3rem,7vw,6rem)] grid gap-8 border-t border-site-ink/10 pt-8 md:grid-cols-2 lg:max-w-[42rem]">
           {suitableFor.length ? (
-            <div>
+            <div data-section-reveal>
               <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Kimler için uygun</h3>
               <ul className="mt-4 grid gap-1.5 text-[0.95rem] leading-[1.45] text-site-copy">
                 {suitableFor.map((item) => (
@@ -197,7 +197,7 @@ function ProductIntro({ product }) {
           ) : null}
 
           {goodToKnow.length ? (
-            <div>
+            <div data-section-reveal>
               <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Bilmek iyi olur</h3>
               <ul className="mt-4 grid gap-1.5 text-[0.95rem] leading-[1.45] text-site-copy">
                 {goodToKnow.map((item) => (
@@ -208,7 +208,9 @@ function ProductIntro({ product }) {
           ) : null}
         </div>
 
-        <p className="mt-10 max-w-[56rem] text-[clamp(1rem,1.35vw,1.16rem)] leading-[1.6] text-site-copy lg:ml-auto">{leadText}</p>
+        <p className="mt-10 max-w-[56rem] text-[clamp(1rem,1.35vw,1.16rem)] leading-[1.6] text-site-copy lg:ml-auto" data-section-reveal>
+          {leadText}
+        </p>
       </div>
     </section>
   );
@@ -220,13 +222,13 @@ function ProductInformation({ product, mainImage }) {
 
   return (
     <section className="gridContainer bg-[#f2f2ef] py-[clamp(4rem,8vw,7rem)]">
-      <div data-section-reveal>
-        <div className="mx-auto max-w-[34rem] text-center">
+      <div data-motion-group>
+        <div className="mx-auto max-w-[34rem] text-center" data-section-reveal>
           <h2 className="font-canela text-[clamp(2.2rem,4vw,3.8rem)] leading-[1.12] font-light tracking-[-0.04em] text-site-ink">Ürün hakkında</h2>
         </div>
 
         <div className="mt-[clamp(3rem,6vw,5rem)] grid gap-10 lg:grid-cols-12 lg:items-start">
-          <figure className="relative aspect-[1/1] overflow-hidden bg-site-paper lg:col-span-5">
+          <figure className="relative aspect-[1/1] overflow-hidden bg-site-paper lg:col-span-5" data-section-reveal>
             {mainImage ? (
               <Image
                 className="object-contain p-[clamp(2rem,5vw,4.5rem)] drop-shadow-[0_20px_28px_rgba(59,59,59,0.1)]"
@@ -240,7 +242,7 @@ function ProductInformation({ product, mainImage }) {
 
           <div className="grid gap-8 lg:col-span-7 lg:pt-4">
             {benefits.length ? (
-              <div className="border-t border-site-ink/12 pt-7">
+              <div className="border-t border-site-ink/12 pt-7" data-section-reveal>
                 <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Öne çıkan özellikler</h3>
                 <ul className="mt-5 grid gap-4 sm:grid-cols-2">
                   {benefits.map((item) => (
@@ -256,7 +258,7 @@ function ProductInformation({ product, mainImage }) {
             ) : null}
 
             {ingredientGroups.length ? (
-              <div className="border-t border-site-ink/12 pt-7">
+              <div className="border-t border-site-ink/12 pt-7" data-section-reveal>
                 <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Aktif içerikler</h3>
                 <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2">
                   {ingredientGroups.map((item) => (
@@ -270,14 +272,14 @@ function ProductInformation({ product, mainImage }) {
             ) : null}
 
             {product.usageInstructions ? (
-              <div className="border-t border-site-ink/12 pt-7">
+              <div className="border-t border-site-ink/12 pt-7" data-section-reveal>
                 <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Kullanım</h3>
                 <p className="mt-4 max-w-[52ch] whitespace-pre-line text-[0.94rem] leading-[1.6] text-site-copy">{product.usageInstructions}</p>
               </div>
             ) : null}
 
             {product.warnings ? (
-              <div className="border-t border-site-ink/12 pt-7">
+              <div className="border-t border-site-ink/12 pt-7" data-section-reveal>
                 <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Uyarılar</h3>
                 <p className="mt-4 max-w-[52ch] whitespace-pre-line text-[0.9rem] leading-[1.6] text-site-copy">{product.warnings}</p>
               </div>
@@ -295,7 +297,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
   const heroTone = product.tone || "bg-[#ded7eb]";
 
   return (
-    <article className="fluid bg-site-paper text-site-ink" data-motion-group>
+    <article className="fluid bg-site-paper text-site-ink">
       <section className="fluid relative bg-[#ededeb]" aria-labelledby="product-title">
         <div
           className={`grid lg:min-h-svh lg:items-stretch lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] pt-[calc(74px+clamp(1.75rem,3.5vw,2.75rem))] nav:pt-[calc(78px+clamp(2rem,3.8vw,3.25rem))] ${heroTone}`}
@@ -395,9 +397,9 @@ export function ProductDetail({ product, relatedProducts = [] }) {
       <ProductInformation product={product} mainImage={mainImage} />
 
       {relatedProducts.length > 0 ? (
-        <section className="gridContainer bg-site-paper py-[clamp(4rem,8vw,7rem)]" data-section-reveal>
-          <div>
-            <div className="flex items-end justify-between gap-6">
+        <section className="gridContainer bg-site-paper py-[clamp(4rem,8vw,7rem)]">
+          <div data-motion-group>
+            <div className="flex items-end justify-between gap-6" data-section-reveal>
               <h2 className="font-canela text-[clamp(2.15rem,3vw,3.15rem)] leading-[1.12] font-light tracking-[-0.035em] text-site-ink">Diğer ürünler</h2>
               <Link
                 className="hidden text-[0.68rem] font-semibold tracking-[0.1em] text-site-ink uppercase underline decoration-site-ink/25 underline-offset-4 transition-colors hover:decoration-site-ink sm:inline-flex"
@@ -409,7 +411,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
 
             <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-[clamp(1.25rem,2vw,2rem)] xl:grid-cols-3">
               {relatedProducts.map((related) => (
-                <div key={related.id}>
+                <div key={related.id} data-section-reveal>
                   <ProductCard product={related} />
                 </div>
               ))}
