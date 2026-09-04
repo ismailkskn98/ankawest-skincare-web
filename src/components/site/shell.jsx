@@ -17,7 +17,7 @@ export function SiteShell({ children, mainClassName = "" }) {
         Ana içeriğe geç
       </a>
 
-      <Header tone="light" />
+      <Header />
 
       <main id="main-content" className={`fluid gridContainer min-w-0 ${mainClassName}`}>
         {children}

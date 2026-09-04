@@ -1,5 +1,4 @@
 import { ContactPage } from "@/components/contact";
-import { SiteShell } from "@/components/site/shell";
 
 export const metadata = {
   title: "İletişim",
@@ -15,9 +14,5 @@ export const metadata = {
 };
 
 export default function IletisimPage() {
-  return (
-    <SiteShell>
-      <ContactPage />
-    </SiteShell>
-  );
+  return <ContactPage />;
 }

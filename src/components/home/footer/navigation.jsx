@@ -1,3 +1,4 @@
+import { SiteLink } from "@/components/site/siteLink";
 import {
   INSTAGRAM_URL,
   TRENDYOL_STORE_URL,
@@ -44,18 +45,17 @@ export function FooterNavigation() {
           <ul className="mt-5 grid gap-3">
             {group.links.map((link) => (
               <li key={link.label}>
-                <a
+                <SiteLink
                   className="group relative inline-flex min-h-7 items-center text-[0.94rem] leading-[1.35] tracking-[-0.022em] text-site-ink"
                   href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noreferrer" : undefined}
+                  external={link.external}
                 >
                   {link.label}
                   <span
                     className="absolute inset-x-0 bottom-0 h-px origin-right scale-x-0 bg-current transition-transform duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100 motion-reduce:transition-none"
                     aria-hidden="true"
                   />
-                </a>
+                </SiteLink>
               </li>
             ))}
           </ul>

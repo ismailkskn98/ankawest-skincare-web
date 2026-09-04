@@ -1,5 +1,6 @@
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
 import Image from "next/image";
+import Link from "next/link";
 
 import { ingredientStories } from "@/config/site-content";
 
@@ -38,12 +39,12 @@ export function Transparency() {
             <p className="text-[clamp(0.95rem,1.2vw,1.12rem)] leading-[1.5] tracking-[-0.025em] text-site-copy">
               Üründe öne çıkan aktifleri, dokuyu ve kullanım adımını açıkça anlatıyoruz. Seçimini belirsiz vaatlerle değil, anlaşılır bilgiyle kurmanı istiyoruz.
             </p>
-            <a className="group mt-5 inline-flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.09em] text-site-ink uppercase nav:mt-7" href="#urunler">
+            <Link className="group mt-5 inline-flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.09em] text-site-ink uppercase nav:mt-7" href="/#urunler">
               Ürünleri incele
               <span className="grid size-8 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper transition-transform duration-500 group-hover:translate-x-1 motion-reduce:transition-none nav:size-9">
                 <ArrowRightIcon size={16} weight="light" aria-hidden="true" />
               </span>
-            </a>
+            </Link>
           </div>
         </div>
 

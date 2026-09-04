@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { SiteLink } from "@/components/site/siteLink";
 import { INSTAGRAM_URL } from "@/config/site-content";
 
 const linkEnterDelayClasses = [
@@ -18,34 +19,21 @@ const linkEnterDelayClasses = [
 function MenuLink({ item, index, onNavigate }) {
   const className = `group/link block w-fit py-2.5 font-canela text-[clamp(2.35rem,11vw,3.4rem)] leading-[0.95] font-light tracking-[-0.04em] text-site-ink outline-none transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-55 focus-visible:opacity-55 motion-reduce:transition-none group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${linkEnterDelayClasses[index] ?? linkEnterDelayClasses.at(-1)}`;
 
-  const content = (
-    <span className="relative">
-      {item.label}
-      <span
-        className="absolute inset-x-0 bottom-[0.08em] h-px origin-left scale-x-0 bg-current/35 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:scale-x-100 group-focus-visible/link:scale-x-100 motion-reduce:transition-none"
-        aria-hidden="true"
-      />
-    </span>
-  );
-
-  if (item.external) {
-    return (
-      <a
-        className={className}
-        href={item.href}
-        target="_blank"
-        rel="noreferrer"
-        onClick={onNavigate}
-      >
-        {content}
-      </a>
-    );
-  }
-
   return (
-    <Link className={className} href={item.href} onClick={onNavigate}>
-      {content}
-    </Link>
+    <SiteLink
+      className={className}
+      href={item.href}
+      external={item.external}
+      onClick={onNavigate}
+    >
+      <span className="relative">
+        {item.label}
+        <span
+          className="absolute inset-x-0 bottom-[0.08em] h-px origin-left scale-x-0 bg-current/35 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:scale-x-100 group-focus-visible/link:scale-x-100 motion-reduce:transition-none"
+          aria-hidden="true"
+        />
+      </span>
+    </SiteLink>
   );
 }
 

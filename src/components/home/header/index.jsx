@@ -1,4 +1,8 @@
-import { ANKAWEST_URL, INSTAGRAM_URL, TRENDYOL_STORE_URL } from "@/config/site-content";
+"use client";
+
+import { usePathname } from "next/navigation";
+
+import { TRENDYOL_STORE_URL, ANKAWEST_URL } from "@/config/site-content";
 
 import { Actions } from "./actions";
 import { Logo } from "./logo";
@@ -21,8 +25,9 @@ const navigationItems = [
   },
 ];
 
-export function Header({ tone = "dark" }) {
-  const isLight = tone === "light";
+export function Header() {
+  const pathname = usePathname();
+  const isLight = pathname !== "/";
 
   return (
     <header

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { ANKAWEST_URL } from "@/config/site-content";
 
@@ -30,9 +31,9 @@ export function BrandBar() {
       data-motion-group
     >
       <div data-section-reveal>
-        <a
+        <Link
           className="inline-flex min-h-12 w-fit items-center"
-          href="#top"
+          href="/"
           aria-label="Anka West Skincare anasayfa"
         >
           <span className="relative block h-[52px] w-[166px] overflow-hidden">
@@ -45,7 +46,7 @@ export function BrandBar() {
               sizes="166px"
             />
           </span>
-        </a>
+        </Link>
 
         <p className="mt-3 max-w-[30ch] text-[0.75rem] leading-[1.45] tracking-[-0.012em] text-site-copy/65">
           Cildini dinleyen bakım, sana özgü.

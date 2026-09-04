@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
 import { ProductDetail } from "@/components/products/detail";
-import { SiteShell } from "@/components/site/shell";
 import {
   getPublicCatalog,
   getPublicProductBySlug,
@@ -53,11 +52,9 @@ export default async function ProductDetailPage({ params }) {
           .slice(0, 4);
 
   return (
-    <SiteShell>
-      <ProductDetail
-        product={result.product}
-        relatedProducts={fallbackRelated}
-      />
-    </SiteShell>
+    <ProductDetail
+      product={result.product}
+      relatedProducts={fallbackRelated}
+    />
   );
 }

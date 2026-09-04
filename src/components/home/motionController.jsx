@@ -1,24 +1,58 @@
 "use client";
 
-import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 import { attachFloatingScrollbar } from "@/lib/site/attachFloatingScrollbar";
 
 const HEADER_SCROLL_THRESHOLD = 70;
 const PARALLAX_SCROLL_STRENGTH = 1.32;
 
+const INTRO_TARGETS = [
+  "[data-header-reveal]",
+  "[data-hero-line]",
+  "[data-hero-support]",
+  "[data-hero-cta]",
+  "[data-page-hero-reveal]",
+  "[data-page-hero-media]",
+  "[data-page-hero-arrow]",
+];
+
+function clearMotionIntroGuard() {
+  if (document.documentElement.dataset.motionIntro === "pending") {
+    delete document.documentElement.dataset.motionIntro;
+  }
+
+  if (document.documentElement.dataset.pageIntro === "pending") {
+    delete document.documentElement.dataset.pageIntro;
+  }
+}
+
+function armPageIntroGuard() {
+  try {
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.dataset.pageIntro = "pending";
+    }
+  } catch {
+    // matchMedia erişilemezse guard kurulmaz; içerik görünür kalır.
+  }
+}
+
 export function MotionController() {
+  const pathname = usePathname();
+  const bootIntroPlayedRef = useRef(false);
+
+  // Soft nav'da pageHero flash olmasın: paint öncesi gizle (header hariç).
+  useLayoutEffect(() => {
+    armPageIntroGuard();
+  }, [pathname]);
+
   useEffect(() => {
     const root = document.querySelector("[data-site-root]");
     const header = root?.querySelector("[data-header]");
     const video = root?.querySelector("[data-hero-video]");
     const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const saveData = navigator.connection?.saveData === true;
-    const clearMotionIntroGuard = () => {
-      if (document.documentElement.dataset.motionIntro === "pending") {
-        delete document.documentElement.dataset.motionIntro;
-      }
-    };
 
     if (!root) {
       clearMotionIntroGuard();
@@ -47,7 +81,6 @@ export function MotionController() {
     let removeGsapTicker = null;
     let destroyFloatingScrollbar = null;
     let isHeaderVisible = true;
-    let introStarted = false;
 
     const setHeaderTheme = (isScrolled) => {
       if (!header) {
@@ -201,6 +234,10 @@ export function MotionController() {
         wheelMultiplier: 0.9,
       });
 
+      if (!window.location.hash) {
+        lenisInstance.scrollTo(0, { immediate: true });
+      }
+
       destroyFloatingScrollbar?.();
       destroyFloatingScrollbar = attachFloatingScrollbar({ lenis: lenisInstance });
 
@@ -224,11 +261,15 @@ export function MotionController() {
       }
 
       const initialScroll = lenisInstance.scroll;
-      const shouldRunIntro = document.documentElement.dataset.motionIntro === "pending" && initialScroll <= HEADER_SCROLL_THRESHOLD && !reduceMotionQuery.matches;
+      const bootIntroPending = document.documentElement.dataset.motionIntro === "pending";
+      const pageIntroPending = document.documentElement.dataset.pageIntro === "pending";
+      const shouldRunIntro =
+        (bootIntroPending || pageIntroPending) && initialScroll <= HEADER_SCROLL_THRESHOLD && !reduceMotionQuery.matches;
+      const shouldAnimateHeader = shouldRunIntro && bootIntroPending && !bootIntroPlayedRef.current;
 
       setHeaderTheme(initialScroll > HEADER_SCROLL_THRESHOLD);
 
-      if (shouldRunIntro && header && gsapInstance) {
+      if (shouldAnimateHeader && header && gsapInstance) {
         isHeaderVisible = true;
         header.dataset.hidden = "false";
         header.style.pointerEvents = "auto";
@@ -237,11 +278,14 @@ export function MotionController() {
           autoAlpha: 0,
         });
       } else {
-        clearMotionIntroGuard();
         setHeaderVisibility(true, {
           animate: false,
           force: true,
         });
+
+        if (!shouldRunIntro) {
+          clearMotionIntroGuard();
+        }
       }
 
       removeLenisScroll = lenisInstance.on("scroll", (lenis) => {
@@ -542,7 +586,9 @@ export function MotionController() {
           return;
         }
 
-        introStarted = true;
+        if (shouldAnimateHeader) {
+          bootIntroPlayedRef.current = true;
+        }
 
         const timeline = gsapInstance.timeline({
           defaults: {
@@ -550,27 +596,27 @@ export function MotionController() {
           },
           onComplete: () => {
             clearMotionIntroGuard();
-            gsapInstance.set(["[data-header-reveal]", "[data-hero-line]", "[data-hero-support]", "[data-hero-cta]", "[data-page-hero-reveal]", "[data-page-hero-media]", "[data-page-hero-arrow]"], {
+            gsapInstance.set(INTRO_TARGETS, {
               clearProps: "transform,opacity,visibility",
             });
           },
         });
 
-        timeline
-          .fromTo(
-            "[data-page-hero-media]",
-            {
-              autoAlpha: 0,
-            },
-            {
-              autoAlpha: 1,
-              duration: 1.15,
-              ease: "power2.out",
-            },
-            0,
-          )
+        timeline.fromTo(
+          "[data-page-hero-media]",
+          {
+            autoAlpha: 0,
+          },
+          {
+            autoAlpha: 1,
+            duration: 1.15,
+            ease: "power2.out",
+          },
+          0,
+        );
 
-          .fromTo(
+        if (shouldAnimateHeader) {
+          timeline.fromTo(
             "[data-header-reveal]",
             {
               yPercent: -115,
@@ -582,7 +628,10 @@ export function MotionController() {
               duration: 0.82,
             },
             0.08,
-          )
+          );
+        }
+
+        timeline
           .fromTo(
             "[data-hero-line]",
             {
@@ -596,7 +645,7 @@ export function MotionController() {
               stagger: 0.08,
               ease: "expo.out",
             },
-            "-=0.5",
+            shouldAnimateHeader ? "-=0.5" : 0.05,
           )
           .fromTo(
             "[data-hero-support]",
@@ -669,12 +718,6 @@ export function MotionController() {
 
     return () => {
       cancelled = true;
-
-      // React Strict Mode'un ilk deneme effect'i intro başlamadan temizlenebilir.
-      // Bu durumda işareti koruyarak ikinci ve gerçek kurulumun animasyonu çalıştırmasını sağlıyoruz.
-      if (introStarted) {
-        clearMotionIntroGuard();
-      }
       destroyFloatingScrollbar?.();
       destroyFloatingScrollbar = null;
       removeLenisScroll?.();
@@ -688,7 +731,7 @@ export function MotionController() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       reduceMotionQuery.removeEventListener("change", handleMotionPreferenceChange);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

@@ -1,4 +1,3 @@
-import { SiteShell } from "@/components/site/shell";
 import { ProductsPage } from "@/components/products";
 import { getPublicCatalog } from "@/lib/catalog/publicCatalog";
 
@@ -19,12 +18,10 @@ export default async function UrunlerPage() {
   const catalog = await getPublicCatalog();
 
   return (
-    <SiteShell>
-      <ProductsPage
-        products={catalog.products}
-        categories={catalog.categories}
-        source={catalog.source}
-      />
-    </SiteShell>
+    <ProductsPage
+      products={catalog.products}
+      categories={catalog.categories}
+      source={catalog.source}
+    />
   );
 }
