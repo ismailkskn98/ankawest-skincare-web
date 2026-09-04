@@ -1,6 +1,5 @@
 const DESKTOP_MEDIA = "(min-width: 1024px)";
 const MIN_THUMB_HEIGHT = 44;
-const HTML_ACTIVE_CLASS = "has-floating-scrollbar";
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -88,7 +87,6 @@ export function attachFloatingScrollbar({ lenis = null } = {}) {
 
     if (!mediaQuery.matches || isScrollLocked()) {
       root.hidden = true;
-      document.documentElement.classList.remove(HTML_ACTIVE_CLASS);
       return;
     }
 
@@ -97,7 +95,6 @@ export function attachFloatingScrollbar({ lenis = null } = {}) {
 
     if (documentHeight <= viewportHeight + 1 || limit <= 0) {
       root.hidden = true;
-      document.documentElement.classList.remove(HTML_ACTIVE_CLASS);
       return;
     }
 
@@ -107,7 +104,6 @@ export function attachFloatingScrollbar({ lenis = null } = {}) {
     const thumbY = progress * travel;
 
     root.hidden = false;
-    document.documentElement.classList.add(HTML_ACTIVE_CLASS);
     thumb.style.height = `${thumbHeight}px`;
     thumb.style.transform = `translate3d(0, ${thumbY}px, 0)`;
   };
@@ -235,7 +231,7 @@ export function attachFloatingScrollbar({ lenis = null } = {}) {
     window.removeEventListener("scroll", handleNativeScroll);
     window.removeEventListener("resize", scheduleRender);
     mediaQuery.removeEventListener("change", handleMediaChange);
-    document.documentElement.classList.remove(HTML_ACTIVE_CLASS, "is-floating-scrollbar-dragging");
+    document.documentElement.classList.remove("is-floating-scrollbar-dragging");
     root.remove();
   };
 }

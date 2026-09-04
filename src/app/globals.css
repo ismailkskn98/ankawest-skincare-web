@@ -115,11 +115,14 @@
   }
 
   @media (min-width: 1024px) {
-    html.has-floating-scrollbar {
+    /* JS beklemeden gizle: head script + SSR site root */
+    html.hide-native-scrollbar,
+    html:has([data-site-root]) {
       scrollbar-width: none;
     }
 
-    html.has-floating-scrollbar::-webkit-scrollbar {
+    html.hide-native-scrollbar::-webkit-scrollbar,
+    html:has([data-site-root])::-webkit-scrollbar {
       display: none;
       width: 0;
       height: 0;
