@@ -551,19 +551,9 @@ export function MotionController() {
           },
           onComplete: () => {
             clearMotionIntroGuard();
-            gsapInstance.set(
-              [
-                "[data-header-reveal]",
-                "[data-hero-line]",
-                "[data-hero-support]",
-                "[data-hero-cta]",
-                "[data-page-hero-reveal]",
-                "[data-page-hero-media]",
-              ],
-              {
-                clearProps: "transform,opacity,visibility",
-              },
-            );
+            gsapInstance.set(["[data-header-reveal]", "[data-hero-line]", "[data-hero-support]", "[data-hero-cta]", "[data-page-hero-reveal]", "[data-page-hero-media]", "[data-page-hero-arrow]"], {
+              clearProps: "transform,opacity,visibility",
+            });
           },
         });
 
@@ -580,6 +570,7 @@ export function MotionController() {
             },
             0,
           )
+
           .fromTo(
             "[data-header-reveal]",
             {
@@ -646,7 +637,19 @@ export function MotionController() {
               duration: 0.78,
               stagger: 0.065,
             },
-            "-=0.55",
+            "-=1.15",
+          )
+          .fromTo(
+            "[data-page-hero-arrow]",
+            {
+              autoAlpha: 0,
+            },
+            {
+              autoAlpha: 1,
+              duration: 0.95,
+              ease: "power2.out",
+            },
+            "-=0.6",
           );
       }, root);
     }

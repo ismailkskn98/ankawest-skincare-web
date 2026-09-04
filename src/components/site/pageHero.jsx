@@ -48,13 +48,14 @@ export function PageHero({
       ) : null}
 
       <svg
-        className="pointer-events-none absolute top-[7%] right-[14%] z-1 hidden h-[clamp(11rem,24vw,21.8rem)] w-[clamp(18rem,39vw,35rem)] text-site-ink min-[768px]:block"
+        className="pointer-events-none absolute top-[clamp(28%,32vh,38%)] right-[clamp(4%,6vw,10%)] z-1 hidden h-[clamp(12rem,28vw,24rem)] w-[clamp(16rem,34vw,32rem)] text-site-ink min-[768px]:block"
         width="560"
         height="349"
         viewBox="0 0 560 349"
         fill="none"
         preserveAspectRatio="none"
         aria-hidden="true"
+        data-page-hero-arrow
       >
         <path
           d="M554.586 348.365C554.788 348.594 555.137 348.616 555.365 348.414L559.089 345.128C559.317 344.926 559.339 344.577 559.137 344.349C558.936 344.12 558.587 344.099 558.358 344.3L555.049 347.221L552.128 343.912C551.926 343.683 551.577 343.661 551.349 343.863C551.12 344.065 551.098 344.413 551.3 344.642L554.586 348.365ZM1.16986 31.8883C154.053 -17.5738 296.512 -4.53168 398.664 53.8484C500.798 112.218 562.686 215.931 554.449 347.966L555.551 348.035C563.814 215.57 501.702 111.464 399.211 52.8902C296.738 -5.67328 153.947 -18.6996 0.830145 30.8383L1.16986 31.8883Z"
