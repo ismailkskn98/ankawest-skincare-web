@@ -114,6 +114,24 @@
     text-rendering: optimizeLegibility;
   }
 
+  @media (min-width: 1024px) {
+    html.has-floating-scrollbar {
+      scrollbar-width: none;
+    }
+
+    html.has-floating-scrollbar::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    html.is-floating-scrollbar-dragging,
+    html.is-floating-scrollbar-dragging * {
+      cursor: grabbing !important;
+      user-select: none !important;
+    }
+  }
+
   button,
   input,
   select,
@@ -158,6 +176,57 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.floating-scrollbar {
+  position: fixed;
+  top: 0;
+  right: 2px;
+  z-index: 40;
+  display: none;
+  width: 14px;
+  height: 100dvh;
+  pointer-events: none;
+}
+
+.floating-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  width: 8px;
+  min-height: 44px;
+  border-radius: 999px;
+  background: #6d695e;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition: background-color 160ms ease;
+}
+
+.floating-scrollbar-thumb::before {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  bottom: 0;
+  left: -5px;
+  content: "";
+}
+
+.floating-scrollbar-thumb:hover {
+  background: #575349;
+}
+
+.floating-scrollbar[data-dragging="true"] .floating-scrollbar-thumb {
+  background: #575349;
+  cursor: grabbing;
+}
+
+@media (min-width: 1024px) {
+  .floating-scrollbar:not([hidden]) {
+    display: block;
+  }
 }
 
 .focus-ring:focus-visible {

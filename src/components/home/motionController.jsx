@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+import { attachFloatingScrollbar } from "@/lib/site/attachFloatingScrollbar";
+
 const HEADER_SCROLL_THRESHOLD = 70;
 const PARALLAX_SCROLL_STRENGTH = 1.32;
 
@@ -43,6 +45,7 @@ export function MotionController() {
     let removeLenisScroll = null;
     let removeLenisMotionScroll = null;
     let removeGsapTicker = null;
+    let destroyFloatingScrollbar = null;
     let isHeaderVisible = true;
     let introStarted = false;
 
@@ -198,6 +201,9 @@ export function MotionController() {
         syncTouch: false,
         wheelMultiplier: 0.9,
       });
+
+      destroyFloatingScrollbar?.();
+      destroyFloatingScrollbar = attachFloatingScrollbar({ lenis: lenisInstance });
 
       if (gsapInstance) {
         const updateLenis = (time) => {
@@ -616,6 +622,10 @@ export function MotionController() {
         animate: false,
         force: true,
       });
+
+      if (!cancelled && !destroyFloatingScrollbar) {
+        destroyFloatingScrollbar = attachFloatingScrollbar();
+      }
     });
 
     return () => {
@@ -626,6 +636,8 @@ export function MotionController() {
       if (introStarted) {
         clearMotionIntroGuard();
       }
+      destroyFloatingScrollbar?.();
+      destroyFloatingScrollbar = null;
       removeLenisScroll?.();
       removeLenisMotionScroll?.();
       removeGsapTicker?.();
