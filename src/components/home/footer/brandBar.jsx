@@ -39,7 +39,7 @@ export function BrandBar() {
           <span className="relative block h-[52px] w-[166px] overflow-hidden">
             <Image
               className="absolute top-[-24px] left-0 h-auto w-[166px] max-w-none"
-              src="/images/logo/ankawestskincare-logo.png"
+              src="/images/logo/ankawestskincare-logo.webp"
               alt="Anka West Skincare"
               width={465}
               height={287}

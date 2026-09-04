@@ -152,7 +152,7 @@ export function MobileNavbar({ items, storeUrl }) {
               <span className="relative block h-[44px] w-[132px] overflow-hidden">
                 <Image
                   className="absolute top-[-19px] left-0 h-auto w-[132px] max-w-none"
-                  src="/images/logo/ankawestskincare-logo.png"
+                  src="/images/logo/ankawestskincare-logo.webp"
                   alt="Anka West Skincare"
                   width={465}
                   height={287}

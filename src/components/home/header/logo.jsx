@@ -7,7 +7,7 @@ export function Logo() {
       <span className="relative block h-[46px] w-[138px] overflow-hidden nav:h-[52px] nav:w-[164px]">
         <Image
           className="absolute top-[-20px] left-0 h-auto w-[138px] max-w-none brightness-0 invert transition-[filter] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[header-tone=light]/header:brightness-100 group-data-[header-tone=light]/header:invert-0 group-data-[scrolled=true]/header:brightness-100 group-data-[scrolled=true]/header:invert-0 motion-reduce:transition-none nav:top-[-24px] nav:w-[164px]"
-          src="/images/logo/ankawestskincare-logo.png"
+          src="/images/logo/ankawestskincare-logo.webp"
           alt="Anka West Skincare"
           width={465}
           height={287}

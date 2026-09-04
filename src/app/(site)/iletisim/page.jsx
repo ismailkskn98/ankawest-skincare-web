@@ -1,17 +1,12 @@
 import { ContactPage } from "@/components/contact";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "İletişim",
   description:
     "Anka West Skincare ile iletişime geçin. Ürün, iş birliği ve bakım sorularınız için buradayız.",
-  openGraph: {
-    title: "İletişim | Anka West Skincare",
-    description:
-      "Ürünler ve iş birlikleri için Anka West Skincare iletişim sayfası.",
-    type: "website",
-    locale: "tr_TR",
-  },
-};
+  path: "/iletisim",
+});
 
 export default function IletisimPage() {
   return <ContactPage />;

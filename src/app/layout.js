@@ -1,5 +1,16 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
+
+import { JsonLd } from "@/components/site/jsonLd";
+import {
+  SITE_ASSETS,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  getSiteUrl,
+  isIndexingAllowed,
+} from "@/config/site";
+import { buildSiteGraphSchema } from "@/lib/seo/schema";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -63,17 +74,84 @@ const canela = localFont({
   preload: true,
 });
 
+const siteUrl = getSiteUrl();
+const allowIndex = isIndexingAllowed();
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Anka West Skincare",
-    template: "%s | Anka West Skincare",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Anka West Skincare ürünleri ve marka içerikleri için resmi web sitesi.",
-  robots: {
-    index: false,
-    follow: false,
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "Anka West Skincare",
+    "GLUTANEX",
+    "Exome",
+    "Kore cilt bakımı",
+    "cilt bakımı",
+    "serum",
+    "ampul",
+    "nemlendirici",
+  ],
+  authors: [{ name: SITE_NAME, url: siteUrl }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
+  robots: allowIndex
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+        },
+      }
+    : {
+        index: false,
+        follow: false,
+      },
+  icons: {
+    icon: [
+      { url: SITE_ASSETS.faviconIco, sizes: "any" },
+      { url: SITE_ASSETS.favicon48, sizes: "48x48", type: "image/png" },
+      { url: SITE_ASSETS.favicon96, sizes: "96x96", type: "image/png" },
+      { url: SITE_ASSETS.icon512, sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: SITE_ASSETS.appleTouchIcon, sizes: "180x180", type: "image/png" }],
+    shortcut: [SITE_ASSETS.faviconIco],
+  },
+  openGraph: {
+    type: "website",
+    locale: "tr_TR",
+    url: siteUrl,
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: SITE_ASSETS.ogImage,
+        width: 1200,
+        height: 630,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [SITE_ASSETS.ogImage],
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
+  category: "beauty",
 };
 
 const motionIntroGuardScript =
@@ -96,6 +174,7 @@ export default function RootLayout({ children }) {
         <script
           dangerouslySetInnerHTML={{ __html: hideNativeScrollbarScript }}
         />
+        <JsonLd data={buildSiteGraphSchema()} />
       </head>
       <body>{children}</body>
     </html>

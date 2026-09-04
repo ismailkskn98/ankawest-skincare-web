@@ -1,18 +1,13 @@
 import { ProductsPage } from "@/components/products";
 import { getPublicCatalog } from "@/lib/catalog/publicCatalog";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: "Ürünler",
   description:
     "GLUTANEX ve Exome cilt bakım ürünlerini kategori, doku ve aktif içerik üzerinden keşfedin.",
-  openGraph: {
-    title: "Ürünler | Anka West Skincare",
-    description:
-      "Temiz formüller ve anlaşılır ürün bilgisi ile Anka West Skincare ürünleri.",
-    type: "website",
-    locale: "tr_TR",
-  },
-};
+  path: "/urunler",
+});
 
 export default async function UrunlerPage() {
   const catalog = await getPublicCatalog();

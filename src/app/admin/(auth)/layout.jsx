@@ -1,6 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 export default function AdminAuthLayout({ children }) {
   return (
     <div className="auth-page">
@@ -8,7 +15,7 @@ export default function AdminAuthLayout({ children }) {
         <Link href="/" aria-label="Anka West Skincare ana sayfa">
           <Image
             className="auth-brand-logo"
-            src="/images/logo/ankawestskincare-logo.png"
+            src="/images/logo/ankawestskincare-logo.webp"
             alt="Anka West Skincare"
             width={220}
             height={136}

@@ -49,7 +49,7 @@ export default function AdminSidebar({ currentPath, isOpen, onClose, user }) {
       <div className="admin-sidebar-logo">
         <Link href="/admin" onClick={onClose} aria-label="Yönetim paneli ana sayfa">
           <Image
-            src="/images/logo/ankawestskincare-logo.png"
+            src="/images/logo/ankawestskincare-logo.webp"
             alt="Anka West Skincare"
             width={150}
             height={93}
