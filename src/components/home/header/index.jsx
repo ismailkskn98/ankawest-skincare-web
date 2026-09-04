@@ -11,18 +11,13 @@ const navigationItems = [
     href: "/urunler",
   },
   {
-    label: "İletişim",
-    href: "/iletisim",
-  },
-  {
     label: "Anka West",
     href: ANKAWEST_URL,
     external: true,
   },
   {
-    label: "Instagram",
-    href: INSTAGRAM_URL,
-    external: true,
+    label: "İletişim",
+    href: "/iletisim",
   },
 ];
 
