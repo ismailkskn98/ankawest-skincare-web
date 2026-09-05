@@ -14,6 +14,10 @@ const MASK_STYLE = {
   maskPosition: "center",
 };
 
+// İki periyotluk dalga; %50 translate ile kesintisiz döner.
+const wavePath =
+  "M0 12 C 50 0, 100 24, 150 12 S 250 0, 300 12 S 400 24, 450 12 S 550 0, 600 12 S 700 24, 750 12 S 850 0, 900 12 L900 40 L0 40 Z";
+
 export function LogoWaterLoader({ className = "", compact = false }) {
   const reduceMotion = useReducedMotion();
   const stageClass = compact
@@ -22,7 +26,7 @@ export function LogoWaterLoader({ className = "", compact = false }) {
 
   return (
     <div
-      className={`grid place-items-center bg-site-paper px-[clamp(1.25rem,5vw,2rem)] ${stageClass} ${className}`}
+      className={`grid place-items-center bg-site-paper px-[clamp(1.25rem,5vw,2rem)] [contain:paint] ${stageClass} ${className}`}
       role="status"
       aria-live="polite"
       aria-busy="true"
@@ -32,61 +36,33 @@ export function LogoWaterLoader({ className = "", compact = false }) {
         <div className="relative aspect-[800/290] w-full">
           <div className="absolute inset-0 bg-site-ink/15" style={MASK_STYLE} aria-hidden="true" />
 
-          <motion.div
-            className="absolute inset-0 overflow-hidden"
-            style={MASK_STYLE}
-            initial={reduceMotion ? false : { clipPath: "inset(100% 0 0 0)" }}
-            animate={reduceMotion ? { clipPath: "inset(0% 0 0 0)" } : { clipPath: ["inset(100% 0 0 0)", "inset(0% 0 0 0)", "inset(0% 0 0 0)", "inset(100% 0 0 0)"] }}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : {
-                    duration: 3.2,
-                    times: [0, 0.45, 0.7, 1],
-                    ease: [0.22, 1, 0.36, 1],
-                    repeat: Infinity,
-                  }
-            }
-            aria-hidden="true"
-          >
-            <div className="absolute inset-0 bg-site-ink" />
-
-            <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 800 290" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <filter id="logo-water-turbulence" x="-20%" y="-20%" width="140%" height="140%">
-                  <feTurbulence
-                    type="fractalNoise"
-                    baseFrequency="0.018 0.05"
-                    numOctaves="2"
-                    seed="3"
-                    result="noise"
-                  >
-                    {reduceMotion ? null : (
-                      <animate
-                        attributeName="baseFrequency"
-                        dur="5s"
-                        values="0.018 0.05;0.032 0.07;0.018 0.05"
-                        repeatCount="indefinite"
-                      />
-                    )}
-                  </feTurbulence>
-                  <feDisplacementMap
-                    in="SourceGraphic"
-                    in2="noise"
-                    scale={reduceMotion ? 0 : 14}
-                    xChannelSelector="R"
-                    yChannelSelector="G"
-                  />
-                </filter>
-                <linearGradient id="logo-water-sheen" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.28" />
-                  <stop offset="35%" stopColor="#ffffff" stopOpacity="0" />
-                  <stop offset="100%" stopColor="#000000" stopOpacity="0.12" />
-                </linearGradient>
-              </defs>
-              <rect width="800" height="290" fill="url(#logo-water-sheen)" filter="url(#logo-water-turbulence)" />
-            </svg>
-          </motion.div>
+          <div className="absolute inset-0 overflow-hidden text-site-ink" style={MASK_STYLE} aria-hidden="true">
+            {/* Sadece transform animasyonu: dolgu yükselir, dalga yatayda kayar. */}
+            <motion.div
+              className="absolute inset-x-0 top-0 h-full will-change-transform"
+              initial={reduceMotion ? false : { y: "100%" }}
+              animate={reduceMotion ? { y: "0%" } : { y: ["100%", "0%", "0%", "100%"] }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : {
+                      duration: 3.2,
+                      times: [0, 0.45, 0.7, 1],
+                      ease: [0.22, 1, 0.36, 1],
+                      repeat: Infinity,
+                    }
+              }
+            >
+              <svg
+                className={`absolute -top-[11%] left-0 h-[14%] w-[200%] fill-current ${reduceMotion ? "" : "animate-[logo-wave_2.6s_linear_infinite]"}`}
+                viewBox="0 0 900 40"
+                preserveAspectRatio="none"
+              >
+                <path d={wavePath} />
+              </svg>
+              <div className="absolute inset-0 bg-current" />
+            </motion.div>
+          </div>
         </div>
 
         <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-site-copy/55 uppercase">Yükleniyor</p>

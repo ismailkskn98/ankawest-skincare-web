@@ -1,3 +1,7 @@
+import { Suspense } from "react";
+
+import { ProductsCatalog } from "@/components/products/catalog";
+import { ProductsCatalogSkeleton } from "@/components/products/catalogSkeleton";
 import { ProductsPage } from "@/components/products";
 import { getPublicCatalog } from "@/lib/catalog/publicCatalog";
 import { buildPageMetadata } from "@/lib/seo/metadata";
@@ -9,14 +13,18 @@ export const metadata = buildPageMetadata({
   path: "/urunler",
 });
 
-export default async function UrunlerPage() {
+async function CatalogContent() {
   const catalog = await getPublicCatalog();
 
-  return (
-    <ProductsPage
-      products={catalog.products}
-      categories={catalog.categories}
-      source={catalog.source}
-    />
+  return <ProductsCatalog products={catalog.products} categories={catalog.categories} />;
+}
+
+export default function UrunlerPage() {
+  const catalog = (
+    <Suspense fallback={<ProductsCatalogSkeleton />}>
+      <CatalogContent />
+    </Suspense>
   );
+
+  return <ProductsPage catalog={catalog} />;
 }

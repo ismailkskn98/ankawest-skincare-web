@@ -4,6 +4,8 @@ import { LeafIcon } from "@phosphor-icons/react/dist/ssr/Leaf";
 import Image from "next/image";
 import Link from "next/link";
 
+import { PageMotionReady } from "@/components/site/pageMotionReady";
+
 import { ProductCard } from "@/components/site/productCard";
 import { TRENDYOL_STORE_URL } from "@/config/site-content";
 
@@ -298,6 +300,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
 
   return (
     <article className="fluid bg-site-paper text-site-ink">
+      <PageMotionReady />
       <section className="fluid relative bg-[#ededeb]" aria-labelledby="product-title">
         <div
           className={`grid lg:min-h-svh lg:items-stretch lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] pt-[calc(74px+clamp(1.75rem,3.5vw,2.75rem))] nav:pt-[calc(78px+clamp(2rem,3.8vw,3.25rem))] ${heroTone}`}
@@ -313,6 +316,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
               className="relative z-2 ml-[clamp(1rem,4vw,4.5rem)] inline-flex min-h-10 w-fit items-center text-[0.68rem] font-semibold tracking-[0.1em] text-site-copy uppercase transition-opacity duration-300 hover:opacity-70"
               href="/urunler"
               data-page-hero-reveal
+              style={{ "--intro-order": 0 }}
             >
               ← Tüm ürünler
             </Link>
@@ -342,7 +346,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
           </div>
 
           <div className="relative z-2 flex flex-col bg-[#F2F2F2] p-[clamp(1.5rem,4vw,3rem)] xl:p-[clamp(3rem,4.2vw,5.5rem)] lg:min-h-full lg:-mb-[clamp(1.5rem,4vw,3.5rem)]">
-            <div className="flex flex-1 flex-col justify-between gap-[clamp(1.75rem,4vh,2.75rem)]" data-page-hero-reveal>
+            <div className="flex flex-1 flex-col justify-between gap-[clamp(1.75rem,4vh,2.75rem)]" data-page-hero-reveal style={{ "--intro-order": 1 }}>
               <div className="flex flex-col gap-[clamp(1.15rem,2.4vh,1.75rem)]">
                 {product.categoryName ? (
                   <span className="inline-flex w-fit rounded-full border border-[#454545]/55 px-5 py-2 text-[0.66rem] font-normal tracking-[0.08em] text-[#333333] uppercase">

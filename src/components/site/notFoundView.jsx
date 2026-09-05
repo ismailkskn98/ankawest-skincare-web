@@ -48,9 +48,9 @@ export function NotFoundView() {
           <VideoText
             className="size-full"
             src="/videos/hero-background3.mp4"
-            fontSize={108}
+            fontSize={98}
             fontWeight={700}
-            fontFamily="var(--font-pp-mori), ui-sans-serif, system-ui, sans-serif"
+            fontFamily="ui-sans-serif, system-ui, sans-serif"
           >
             404
           </VideoText>

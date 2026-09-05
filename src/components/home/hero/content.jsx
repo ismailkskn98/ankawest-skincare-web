@@ -2,6 +2,19 @@ const lineMaskClassName = "mx-[-0.06em] mt-[-0.08em] nav:mt-[-0.11em] mb-[-0.15e
 
 const lineClassName = "block leading-[1.35] whitespace-nowrap nav:leading-[1.35]";
 
+const desktopLines = ["Cildini dinleyen", "bakım, sana özgü."];
+const mobileLines = ["Cildini", "dinleyen bakım,", "sana özgü."];
+
+function TitleLines({ lines }) {
+  return lines.map((line, index) => (
+    <span className={lineMaskClassName} key={line}>
+      <span className={lineClassName} data-hero-line style={{ "--intro-order": index }}>
+        {line}
+      </span>
+    </span>
+  ));
+}
+
 export function Content() {
   return (
     <div className="w-full min-w-0 max-w-[1220px] self-center justify-self-center overflow-hidden pt-[14px] text-center nav:pt-[clamp(10px,2vh,26px)] short-desktop:pt-0">
@@ -11,34 +24,11 @@ export function Content() {
         aria-label="Cildini dinleyen bakım, sana özgü."
       >
         <span className="hidden nav:grid nav:gap-[0.04em]" aria-hidden="true" data-hero-title-group>
-          <span className={lineMaskClassName}>
-            <span className={lineClassName} data-hero-line>
-              Cildini dinleyen
-            </span>
-          </span>
-          <span className={lineMaskClassName}>
-            <span className={lineClassName} data-hero-line>
-              bakım, sana özgü.
-            </span>
-          </span>
+          <TitleLines lines={desktopLines} />
         </span>
 
         <span className="grid gap-[0.035em] nav:hidden" aria-hidden="true" data-hero-title-group>
-          <span className={lineMaskClassName}>
-            <span className={lineClassName} data-hero-line>
-              Cildini
-            </span>
-          </span>
-          <span className={lineMaskClassName}>
-            <span className={lineClassName} data-hero-line>
-              dinleyen bakım,
-            </span>
-          </span>
-          <span className={lineMaskClassName}>
-            <span className={lineClassName} data-hero-line>
-              sana özgü.
-            </span>
-          </span>
+          <TitleLines lines={mobileLines} />
         </span>
       </h1>
 

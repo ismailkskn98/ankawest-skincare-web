@@ -3,6 +3,7 @@ import { InstagramLogoIcon } from "@phosphor-icons/react/dist/ssr/InstagramLogo"
 import { PhoneIcon } from "@phosphor-icons/react/dist/ssr/Phone";
 
 import { INSTAGRAM_URL } from "@/config/site-content";
+import { PageMotionReady } from "@/components/site/pageMotionReady";
 
 import { ContactForm } from "./form";
 
@@ -33,8 +34,9 @@ const mapUrl = "https://www.google.com/maps?q=Anka%20West%20Skincare&output=embe
 export function ContactPage() {
   return (
     <div className="fluid gridContainer bg-site-paper text-site-ink" data-motion-group>
+      <PageMotionReady />
       <section className="relative grid min-h-[54svh] place-items-center overflow-hidden pt-[calc(82px+clamp(2rem,5vw,4rem))] pb-[clamp(3.25rem,6.5vw,5.75rem)] text-center" aria-labelledby="contact-title">
-        <div className="mx-auto max-w-[62rem]" data-page-hero-reveal>
+        <div className="mx-auto max-w-[62rem]" data-page-hero-reveal style={{ "--intro-order": 0 }}>
           <h1 id="contact-title" className="font-canela mt-8 text-[clamp(3.8rem,11.5vw,9.25rem)] leading-[0.86] font-light tracking-[-0.04em] text-[#3b3b3b]">
             <span className="block italic">birlikte</span>
             konuşalım
@@ -49,11 +51,11 @@ export function ContactPage() {
         id="iletisim-form"
         className="grid gap-[clamp(3rem,5vw,5rem)] border-t border-site-ink/10 pt-[clamp(3rem,5.5vw,4.75rem)] pb-[clamp(3.25rem,6vw,5.5rem)] lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-start xl:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)]"
       >
-        <div className="max-w-[58rem] lg:order-1" data-page-hero-reveal>
+        <div className="max-w-[58rem] lg:order-1" data-page-hero-reveal style={{ "--intro-order": 1 }}>
           <ContactForm />
         </div>
 
-        <aside className="w-full lg:order-2 lg:ml-auto" data-page-hero-reveal>
+        <aside className="w-full lg:order-2 lg:ml-auto" data-page-hero-reveal style={{ "--intro-order": 2 }}>
           <p className="text-[0.68rem] font-semibold tracking-[0.14em] text-site-copy uppercase">Bize ulaş</p>
           <h2 className="font-canela mt-5 max-w-[10ch] text-[clamp(2.6rem,5vw,4.4rem)] leading-[0.95] font-light tracking-[-0.04em] text-site-ink">temiz ve açık iletişim</h2>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 export function VideoText({
   src,
@@ -12,57 +12,33 @@ export function VideoText({
   preload = "auto",
   fontSize = 100,
   fontWeight = 700,
-  fontFamily = "var(--font-pp-mori), ui-sans-serif, system-ui, sans-serif",
-  textAnchor = "middle",
-  dominantBaseline = "middle",
+  fontFamily = "ui-sans-serif, system-ui, sans-serif",
 }) {
   const content = Array.isArray(children) ? children.join("") : String(children ?? "");
+  const reactId = useId().replace(/:/g, "");
+  const maskId = `video-text-mask-${reactId}`;
   const [allowVideo, setAllowVideo] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setAllowVideo(!media.matches);
+    const sync = () => {
+      setAllowVideo(!media.matches);
+      if (media.matches) {
+        setIsReady(true);
+      }
+    };
     sync();
     media.addEventListener("change", sync);
     return () => media.removeEventListener("change", sync);
   }, []);
 
-  const svgMask = useMemo(() => {
-    const size = typeof fontSize === "number" ? String(fontSize) : fontSize;
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" width="300" height="120"><text x="150" y="60" dominant-baseline="${dominantBaseline}" text-anchor="${textAnchor}" font-size="${size}" font-weight="${fontWeight}" font-family="${fontFamily}" fill="white">${content}</text></svg>`;
-  }, [content, dominantBaseline, fontFamily, fontSize, fontWeight, textAnchor]);
+  const glyphSize = typeof fontSize === "number" ? fontSize : 100;
+  const fallbackSize = `clamp(5.5rem, ${glyphSize * 0.38}vw, 16rem)`;
 
-  const maskImage = `url("data:image/svg+xml,${encodeURIComponent(svgMask)}")`;
-  const fallbackSize = typeof fontSize === "number" ? `clamp(5.5rem, ${fontSize * 0.38}vw, 16rem)` : fontSize;
-
-  return (
-    <div className={`relative isolate overflow-hidden ${className}`}>
-      {allowVideo ? (
-        <div
-          className="absolute inset-0"
-          style={{
-            WebkitMaskImage: maskImage,
-            maskImage,
-            WebkitMaskSize: "contain",
-            maskSize: "contain",
-            WebkitMaskRepeat: "no-repeat",
-            maskRepeat: "no-repeat",
-            WebkitMaskPosition: "center",
-            maskPosition: "center",
-          }}
-        >
-          <video
-            className="size-full object-cover"
-            src={src}
-            autoPlay={autoPlay}
-            muted={muted}
-            loop={loop}
-            playsInline
-            preload={preload}
-            aria-hidden="true"
-          />
-        </div>
-      ) : (
+  if (!allowVideo) {
+    return (
+      <div className={`relative overflow-hidden ${className}`}>
         <p
           className="absolute inset-0 grid place-items-center font-semibold tracking-[-0.06em] text-site-ink"
           style={{ fontSize: fallbackSize, fontFamily, fontWeight }}
@@ -70,7 +46,86 @@ export function VideoText({
         >
           {content}
         </p>
-      )}
+        <span className="sr-only">{content}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      {!isReady ? (
+        <p
+          className="absolute inset-0 grid place-items-center font-semibold tracking-[-0.06em] text-site-ink/18"
+          style={{ fontSize: fallbackSize, fontFamily, fontWeight }}
+          aria-hidden="true"
+        >
+          {content}
+        </p>
+      ) : null}
+
+      <svg
+        className={`absolute inset-0 size-full transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isReady ? "opacity-100" : "opacity-0"}`}
+        viewBox="0 0 300 120"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <defs>
+          <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="120">
+            <rect width="300" height="120" fill="#000" />
+            <text
+              x="150"
+              y="62"
+              fill="#fff"
+              stroke="#fff"
+              strokeWidth="1"
+              paintOrder="stroke fill"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              fontSize={glyphSize}
+              fontWeight={fontWeight}
+              fontFamily={fontFamily}
+            >
+              {content}
+            </text>
+          </mask>
+        </defs>
+
+        <g mask={`url(#${maskId})`}>
+          <foreignObject x="0" y="0" width="300" height="120">
+            <div
+              xmlns="http://www.w3.org/1999/xhtml"
+              style={{
+                width: "100%",
+                height: "100%",
+                overflow: "hidden",
+                margin: 0,
+              }}
+            >
+              <video
+                src={src}
+                autoPlay={autoPlay}
+                muted={muted}
+                loop={loop}
+                playsInline
+                preload={preload}
+                onLoadedData={() => setIsReady(true)}
+                onCanPlay={() => setIsReady(true)}
+                onPlaying={() => setIsReady(true)}
+                style={{
+                  width: "112%",
+                  height: "112%",
+                  marginTop: "-6%",
+                  marginLeft: "-6%",
+                  objectFit: "cover",
+                  display: "block",
+                  border: 0,
+                  outline: "none",
+                }}
+              />
+            </div>
+          </foreignObject>
+        </g>
+      </svg>
 
       <span className="sr-only">{content}</span>
     </div>

@@ -242,21 +242,96 @@
   outline-offset: 4px;
 }
 
-html[data-motion-intro="pending"] [data-header-reveal],
-html[data-motion-intro="pending"] [data-hero-line],
-html[data-motion-intro="pending"] [data-hero-support],
-html[data-motion-intro="pending"] [data-hero-cta],
-html[data-motion-intro="pending"] [data-page-hero-reveal],
-html[data-motion-intro="pending"] [data-page-hero-media],
-html[data-motion-intro="pending"] [data-page-hero-arrow],
-html[data-page-intro="pending"] [data-hero-line],
-html[data-page-intro="pending"] [data-hero-support],
-html[data-page-intro="pending"] [data-hero-cta],
-html[data-page-intro="pending"] [data-page-hero-reveal],
-html[data-page-intro="pending"] [data-page-hero-media],
-html[data-page-intro="pending"] [data-page-hero-arrow] {
-  opacity: 0;
-  visibility: hidden;
+@keyframes site-header-intro {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -115%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes site-content-intro {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes site-line-intro {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 112%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes logo-wave {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes site-fade-intro {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+  Intro tek sistem: ilk yüklemede data-motion-intro (inline head script),
+  soft nav'da data-page-intro (MotionController, paint öncesi). Header sadece
+  ilk yüklemede iner. Sıra için elemanlar --intro-order alır; attribute
+  animasyonlar bitince silinir, böylece hiçbir eleman sonradan zıplamaz.
+*/
+html[data-motion-intro="pending"] [data-header-reveal] {
+  animation: site-header-intro 820ms 80ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:is(html[data-motion-intro="pending"], html[data-page-intro="pending"]) [data-hero-line] {
+  animation: site-line-intro 1050ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(120ms + var(--intro-order, 0) * 80ms);
+}
+
+:is(html[data-motion-intro="pending"], html[data-page-intro="pending"]) [data-hero-support] {
+  animation: site-content-intro 720ms 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:is(html[data-motion-intro="pending"], html[data-page-intro="pending"]) [data-hero-cta] {
+  animation: site-content-intro 780ms 540ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:is(html[data-motion-intro="pending"], html[data-page-intro="pending"]) [data-page-hero-reveal] {
+  animation: site-content-intro 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(140ms + var(--intro-order, 0) * 70ms);
+}
+
+:is(html[data-motion-intro="pending"], html[data-page-intro="pending"]) [data-page-hero-media] {
+  animation: site-fade-intro 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:is(html[data-motion-intro="pending"], html[data-page-intro="pending"]) [data-page-hero-arrow] {
+  animation: site-fade-intro 950ms 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Route değişiminde header rengi anlık değişir; scroll'da yumuşak kalır. */
+html[data-page-intro="pending"] [data-header] {
+  --header-color-duration: 0ms;
 }
 
 .approach-fixed-visual,
@@ -1584,19 +1659,9 @@ html[data-page-intro="pending"] [data-page-hero-arrow] {
 
 @media (prefers-reduced-motion: reduce) {
 
-  html[data-motion-intro="pending"] [data-header-reveal],
-  html[data-motion-intro="pending"] [data-hero-line],
-  html[data-motion-intro="pending"] [data-hero-support],
-  html[data-motion-intro="pending"] [data-hero-cta],
-  html[data-motion-intro="pending"] [data-page-hero-reveal],
-  html[data-motion-intro="pending"] [data-page-hero-media],
-  html[data-motion-intro="pending"] [data-page-hero-arrow],
-  html[data-page-intro="pending"] [data-hero-line],
-  html[data-page-intro="pending"] [data-hero-support],
-  html[data-page-intro="pending"] [data-hero-cta],
-  html[data-page-intro="pending"] [data-page-hero-reveal],
-  html[data-page-intro="pending"] [data-page-hero-media],
-  html[data-page-intro="pending"] [data-page-hero-arrow] {
+  :is(html[data-motion-intro="pending"], html[data-page-intro="pending"])
+    :is([data-header-reveal], [data-hero-line], [data-hero-support], [data-hero-cta], [data-page-hero-reveal], [data-page-hero-media], [data-page-hero-arrow]) {
+    animation: none !important;
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;

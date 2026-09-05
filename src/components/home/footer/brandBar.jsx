@@ -26,40 +26,19 @@ const legalLinks = [
 
 export function BrandBar() {
   return (
-    <div
-      className="grid gap-10 border-t border-black/15 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12 nav:gap-16 nav:pt-10"
-      data-motion-group
-    >
+    <div className="grid gap-10 border-t border-black/15 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12 nav:gap-16 nav:pt-10" data-motion-group>
       <div data-section-reveal>
-        <Link
-          className="inline-flex min-h-12 w-fit items-center"
-          href="/"
-          aria-label="Anka West Skincare anasayfa"
-        >
-          <span className="relative block h-[52px] w-[166px] overflow-hidden">
-            <Image
-              className="absolute top-[-24px] left-0 h-auto w-[166px] max-w-none"
-              src="/images/logo/ankawestskincare-logo.webp"
-              alt="Anka West Skincare"
-              width={465}
-              height={287}
-              sizes="166px"
-            />
+        <Link className="inline-flex min-h-12 w-fit items-center" href="/" aria-label="Anka West Skincare anasayfa">
+          <span className="relative inline-flex h-full w-fit items-center overflow-hidden">
+            <Image className="h-auto w-full max-w-none object-contain" src="/images/logo/ankawestskincare-logo.webp" alt="Anka West Skincare" width={465} height={287} sizes="166px" />
           </span>
         </Link>
 
-        <p className="mt-3 max-w-[30ch] text-[0.75rem] leading-[1.45] tracking-[-0.012em] text-site-copy/65">
-          Cildini dinleyen bakım, sana özgü.
-        </p>
-        <p className="mt-10 text-[0.7rem] leading-[1.45] text-site-copy/70">
-          © {currentYear} Anka West Skincare. Tüm hakları saklıdır.
-        </p>
+        <p className="mt-3 max-w-[30ch] text-[0.75rem] leading-[1.45] tracking-[-0.012em] text-site-copy/65">Cildini dinleyen bakım, sana özgü.</p>
+        <p className="mt-10 text-[0.7rem] leading-[1.45] text-site-copy/70">© {currentYear} Anka West Skincare. Tüm hakları saklıdır.</p>
       </div>
 
-      <div
-        className="flex max-w-[720px] flex-wrap items-center gap-x-5 gap-y-3 text-[0.68rem] leading-[1.4] text-site-copy/65 md:justify-end"
-        data-section-reveal
-      >
+      <div className="flex max-w-[720px] flex-wrap items-center gap-x-5 gap-y-3 text-[0.68rem] leading-[1.4] text-site-copy/65 md:justify-end" data-section-reveal>
         {legalLinks.map((link) => (
           <a
             key={link.label}
@@ -91,9 +70,7 @@ export function BrandBar() {
               src="/markaforce.png"
               width={16}
             />
-            <span className="underline decoration-current/30 underline-offset-4 group-hover:text-site-ink group-hover:decoration-current">
-              MarkaForce
-            </span>
+            <span className="underline decoration-current/30 underline-offset-4 group-hover:text-site-ink group-hover:decoration-current">MarkaForce</span>
           </a>
         </span>
       </div>

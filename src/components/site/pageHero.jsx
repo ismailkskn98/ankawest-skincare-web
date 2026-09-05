@@ -73,7 +73,7 @@ export function PageHero({
 
   return (
     <section
-      className="fluid gridContainer relative isolate h-svh min-h-[560px] overflow-hidden bg-site-paper max-md:min-h-[calc(100svh+8rem)] xl:min-h-[640px]"
+      className="fluid gridContainer relative isolate min-h-[clamp(44rem,100svh,58rem)] overflow-hidden bg-site-paper max-md:min-h-svh md:h-svh xl:min-h-[clamp(48rem,100svh,62rem)]"
       aria-labelledby="page-hero-title"
       data-scroll-parallax-section
       data-parallax-strength="0.82"
@@ -82,14 +82,14 @@ export function PageHero({
       {imageSrc ? (
         <div className="fluid absolute inset-0 overflow-hidden" data-page-hero-media>
           <div className="fluid absolute inset-x-0 top-0 bottom-0 transform-gpu will-change-transform " data-scroll-parallax-layer data-parallax-distance={parallaxDistance}>
-            <Image className={`object-cover ${objectPosition}`} src={imageSrc} alt={imageAlt || ""} fill unoptimized />
+            <Image className={`object-cover ${objectPosition}`} src={imageSrc} alt={imageAlt || ""} fill sizes="100vw" unoptimized priority />
           </div>
         </div>
       ) : null}
 
       {/* Desktop / tablet: görsel merkezden büyüyen ok, geniş ekranlarda sağ üste kopmaz */}
       <svg
-        className="pointer-events-none absolute top-[clamp(5.5rem,11vh,8.5rem)] left-[47%] z-1 hidden h-auto w-[clamp(19rem,34vw,30rem)] text-site-ink md:block lg:top-[clamp(5.75rem,11.5vh,8rem)] lg:left-[45%] lg:w-[clamp(25rem,38vw,42rem)] xl:top-[clamp(6rem,9.6vh,8.5rem)] xl:left-[42%] xl:w-[clamp(39rem,37vw,62rem)]"
+        className="pointer-events-none absolute top-[clamp(7rem,12.5vh,9.5rem)] left-[47%] z-1 hidden h-auto w-[clamp(19rem,34vw,30rem)] text-site-ink md:block lg:top-[clamp(7.25rem,12.8vh,9.75rem)] lg:left-[45%] lg:w-[clamp(25rem,38vw,42rem)] xl:top-[clamp(7.5rem,11vh,10.25rem)] xl:left-[42%] xl:w-[clamp(39rem,37vw,62rem)]"
         width="560"
         height="349"
         viewBox="0 0 560 349"
@@ -103,7 +103,7 @@ export function PageHero({
 
       {/* Mobile: dar ekranlarda ezilmeyen, dikey bombeli referans ok */}
       <svg
-        className="pointer-events-none absolute top-[clamp(11.4rem,52vw,13.8rem)] right-[clamp(1.6rem,10vw,2.75rem)] z-1 h-auto w-[clamp(4.2rem,23vw,5.6rem)] text-site-ink md:hidden"
+        className="pointer-events-none absolute top-[clamp(12.75rem,58vw,15.5rem)] right-[clamp(1.6rem,10vw,2.75rem)] z-1 h-auto w-[clamp(4.2rem,23vw,5.6rem)] text-site-ink md:hidden"
         width="115"
         height="235"
         viewBox="0 0 115 235"
@@ -115,9 +115,9 @@ export function PageHero({
         <path d={mobileArrowPath} fill="currentColor" />
       </svg>
 
-      <div className="gridContainer relative z-2 flex h-full min-h-[560px] flex-col pt-[calc(72px+clamp(0.75rem,2.4vh,1.75rem))] pb-[clamp(1.15rem,3.2vh,2.25rem)] max-md:min-h-[calc(100svh+8rem)] nav:pt-[calc(76px+clamp(1rem,2.8vh,2rem))]">
-        <div className="flex flex-1 flex-col justify-between gap-6 md:gap-8 lg:gap-10">
-          <div className="relative max-w-[18rem] md:max-w-none" data-page-hero-reveal>
+      <div className="gridContainer relative z-2 flex min-h-[clamp(44rem,100svh,58rem)] flex-col pt-[calc(74px+clamp(2rem,6vh,4.25rem))] pb-[clamp(1.5rem,4vh,2.75rem)] max-md:min-h-svh nav:pt-[calc(78px+clamp(2.25rem,6.2vh,4.5rem))] xl:min-h-[clamp(48rem,100svh,62rem)]">
+        <div className="flex flex-1 flex-col justify-between gap-[clamp(2rem,5vh,4rem)]">
+          <div className="relative max-w-[18rem] md:max-w-none" data-page-hero-reveal style={{ "--intro-order": 0 }}>
             {eyebrow ? <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-site-copy uppercase">{eyebrow}</p> : null}
 
             <h1
@@ -132,17 +132,14 @@ export function PageHero({
               <p className="font-canela mt-2 max-w-[11.5ch] text-[clamp(1.85rem,8.1vw,2.65rem)] leading-[0.98] font-light tracking-[-0.025em] text-site-ink md:hidden">{displayText}</p>
             ) : null}
 
-            {meta ? (
-              <p className="mt-3 hidden text-[0.66rem] tracking-[0.1em] text-site-copy/70 uppercase sm:mt-0 sm:block sm:pt-2 md:absolute md:top-0 md:right-0 md:text-right">
-                {meta}
-              </p>
-            ) : null}
+            {meta ? <p className="mt-3 hidden text-[0.66rem] tracking-[0.1em] text-site-copy/70 uppercase sm:mt-0 sm:block sm:pt-2 md:absolute md:top-0 md:right-0 md:text-right">{meta}</p> : null}
           </div>
 
           <div className="grid items-end gap-5 md:grid-cols-12 md:gap-6 lg:gap-10">
             <div
-              className="relative w-full max-w-[min(100%,24rem)] translate-y-[clamp(2rem,9svh,5.5rem)] rounded-[1.15rem] bg-site-paper/96 p-[clamp(1.25rem,3vw,2.15rem)] shadow-[0_28px_90px_rgba(35,38,34,0.1)] ring-1 ring-site-ink/8 md:col-span-5 md:max-w-[min(100%,26rem)] md:translate-y-0 md:rounded-[1.25rem] xl:max-w-[430px]"
+              className="relative w-full max-w-[min(100%,24rem)] translate-y-[clamp(0.5rem,3svh,2rem)] rounded-[1.15rem] bg-site-paper/96 p-[clamp(1.25rem,3vw,2.15rem)] shadow-[0_28px_90px_rgba(35,38,34,0.1)] ring-1 ring-site-ink/8 md:col-span-5 md:max-w-[min(100%,26rem)] md:translate-y-0 md:rounded-[1.25rem] xl:max-w-[430px]"
               data-page-hero-reveal
+              style={{ "--intro-order": 1 }}
             >
               <h2 className="max-w-[13ch] text-[clamp(1.7rem,5.6vw,2.35rem)] leading-[0.98] font-semibold tracking-[-0.065em] text-site-ink md:text-[clamp(1.85rem,3.2vw,2.75rem)] xl:text-[clamp(2rem,3.4vw,3rem)] xl:leading-[0.95]">
                 {cardHeading}
@@ -155,9 +152,7 @@ export function PageHero({
               </h2>
 
               {cardCopy ? (
-                <p className="mt-4 max-w-[37ch] text-[clamp(0.88rem,2.8vw,0.95rem)] leading-[1.5] text-site-copy/70 md:mt-5 md:text-[clamp(0.9rem,1.1vw,0.95rem)] md:leading-[1.52]">
-                  {cardCopy}
-                </p>
+                <p className="mt-4 max-w-[37ch] text-[clamp(0.88rem,2.8vw,0.95rem)] leading-[1.5] text-site-copy/70 md:mt-5 md:text-[clamp(0.9rem,1.1vw,0.95rem)] md:leading-[1.52]">{cardCopy}</p>
               ) : null}
 
               {ctaLabel ? (
@@ -170,7 +165,7 @@ export function PageHero({
             </div>
 
             {displayText ? (
-              <div className="hidden md:col-span-7 md:flex md:justify-end" data-page-hero-reveal>
+              <div className="hidden md:col-span-7 md:flex md:justify-end" data-page-hero-reveal style={{ "--intro-order": 2 }}>
                 <p className="font-canela max-w-[11ch] text-[clamp(2.6rem,5.8vw,4.6rem)] leading-[0.9] font-light tracking-[-0.05em] text-site-ink md:text-right lg:text-[clamp(3rem,6.4vw,5.6rem)] xl:text-[clamp(3.6rem,6.8vw,7.2rem)] xl:leading-[0.86]">
                   {displayText}
                 </p>

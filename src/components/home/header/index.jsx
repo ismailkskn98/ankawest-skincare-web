@@ -35,9 +35,8 @@ export function Header() {
       data-header
       data-header-reveal
       data-header-tone={isLight ? "light" : "dark"}
-      data-scrolled="false"
     >
-      <div className="relative isolate flex h-full min-h-0 min-w-0 items-center justify-between gap-[18px] text-[#f7f6f1] transition-colors duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[header-tone=light]/header:text-[#2f322f] group-data-[scrolled=true]/header:text-[#2f322f] motion-reduce:transition-none nav:grid nav:grid-cols-[minmax(150px,1fr)_auto_minmax(150px,1fr)] nav:gap-[22px] nav-wide:grid-cols-[minmax(164px,1fr)_auto_minmax(164px,1fr)] nav-wide:gap-[clamp(24px,4vw,72px)]">
+      <div className="relative isolate flex h-full min-h-0 min-w-0 items-center justify-between gap-[18px] text-[#f7f6f1] transition-colors duration-[var(--header-color-duration,520ms)] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[header-tone=light]/header:text-[#2f322f] group-data-[scrolled=true]/header:text-[#2f322f] motion-reduce:transition-none nav:grid nav:grid-cols-[minmax(150px,1fr)_auto_minmax(150px,1fr)] nav:gap-[22px] nav-wide:grid-cols-[minmax(164px,1fr)_auto_minmax(164px,1fr)] nav-wide:gap-[clamp(24px,4vw,72px)]">
         <Logo />
         <Navbar items={navigationItems} />
         <Actions />
