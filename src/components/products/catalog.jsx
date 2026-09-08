@@ -10,6 +10,7 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
   const [activeCategory, setActiveCategory] = useState("all");
   const catalogTopRef = useRef(null);
   const productGridRef = useRef(null);
+  const shouldScrollToCategoryRef = useRef(false);
 
   const availableCategories = useMemo(() => {
     const usedSlugs = new Set(
@@ -34,17 +35,53 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
           ?.name || "Tüm ürünler";
 
   const handleCategoryChange = (slug) => {
-    setActiveCategory(slug);
+    if (slug === activeCategory) {
+      return;
+    }
 
-    window.requestAnimationFrame(() => {
-      catalogTopRef.current?.scrollIntoView({
-        block: "start",
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+    shouldScrollToCategoryRef.current = true;
+    setActiveCategory(slug);
+  };
+
+  useEffect(() => {
+    if (!shouldScrollToCategoryRef.current) {
+      return undefined;
+    }
+
+    shouldScrollToCategoryRef.current = false;
+    let firstFrame;
+    let secondFrame;
+
+    // Filtre sonrası sayfa yüksekliği değiştiği için hedefi yeni layout oluştuktan sonra ölç.
+    firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => {
+        const target = catalogTopRef.current;
+
+        if (!target) {
+          return;
+        }
+
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        window.dispatchEvent(
+          new CustomEvent("ankawest:catalog-scroll", {
+            detail: {
+              target,
+              offset: -96,
+              immediate: reduceMotion,
+            },
+          }),
+        );
       });
     });
-  };
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+    };
+  }, [activeCategory]);
 
   useEffect(() => {
     const grid = productGridRef.current;

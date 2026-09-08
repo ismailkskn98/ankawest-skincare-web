@@ -7,6 +7,7 @@ import { PAGE_MOTION_READY_EVENT } from "@/components/site/pageMotionReady";
 import { attachFloatingScrollbar } from "@/lib/site/attachFloatingScrollbar";
 
 const HEADER_SCROLL_THRESHOLD = 70;
+const HEADER_HIDE_THRESHOLD = 160;
 const PARALLAX_SCROLL_STRENGTH = 1.32;
 const INTRO_ANIMATION_PREFIX = "site-";
 const INTRO_WAIT_LIMIT_MS = 4000;
@@ -128,6 +129,31 @@ export function MotionController() {
     let destroyFloatingScrollbar = null;
     let isHeaderVisible = true;
     let activeVideo = null;
+
+    const handleCatalogScroll = (event) => {
+      const { target, offset = -96, immediate = false } = event.detail || {};
+
+      if (!target) {
+        return;
+      }
+
+      if (lenisInstance) {
+        lenisInstance.scrollTo(target, {
+          offset,
+          immediate,
+          force: true,
+        });
+        return;
+      }
+
+      const targetTop = target.getBoundingClientRect().top + window.scrollY + offset;
+      window.scrollTo({
+        top: Math.max(0, targetTop),
+        behavior: immediate ? "auto" : "smooth",
+      });
+    };
+
+    window.addEventListener("ankawest:catalog-scroll", handleCatalogScroll);
 
     const bootSafetyTimer = window.setTimeout(() => {
       if (!cancelled && document.documentElement.dataset.motionIntro === "pending") {
@@ -735,11 +761,10 @@ export function MotionController() {
       }
 
       removeLenisScroll = lenisInstance.on("scroll", (lenis) => {
-        const isAtTop = lenis.scroll <= HEADER_SCROLL_THRESHOLD;
+        setHeaderTheme(lenis.scroll > HEADER_SCROLL_THRESHOLD);
 
-        setHeaderTheme(!isAtTop);
-
-        if (isAtTop) {
+        // Beyaz tema erken gelsin; kaybolma biraz daha aşağıda başlasın.
+        if (lenis.scroll <= HEADER_HIDE_THRESHOLD) {
           setHeaderVisibility(true);
           return;
         }
@@ -793,6 +818,7 @@ export function MotionController() {
       resetHeaderStyles();
       activeVideo?.removeEventListener("loadedmetadata", handleVideoMetadataLoaded);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("ankawest:catalog-scroll", handleCatalogScroll);
       reduceMotionQuery.removeEventListener("change", handleMotionPreferenceChange);
     };
   }, []);
