@@ -1,15 +1,12 @@
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
-
-import { TRENDYOL_STORE_URL } from "@/config/site-content";
+import Link from "next/link";
 
 export function Cta() {
   return (
-    <a
+    <Link
       className="group/cta grid min-h-14 w-full grid-cols-[1fr_46px] items-center justify-self-center rounded-full bg-[rgba(250,249,246,0.96)] py-[5px] pr-1.5 pl-4 text-center text-[0.66rem] font-normal tracking-[0.02em] uppercase shadow-[0_16px_48px_rgba(10,14,11,0.12)] nav:min-h-[68px] nav:w-[min(70vw,860px)] nav:grid-cols-[1fr_54px] nav:py-1.5 nav:pr-[7px] nav:pl-6 nav:text-[0.74rem] short-desktop:min-h-14 short-desktop:grid-cols-[1fr_46px]"
-      href={TRENDYOL_STORE_URL}
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Ürünleri Trendyol'da aç"
+      href="/urunler"
+      aria-label="Ürünleri keşfet"
       data-hero-cta
     >
       <span className="pl-[46px] text-[#2f322f] nav:pl-[54px] short-desktop:pl-[46px]">
@@ -33,6 +30,6 @@ export function Cta() {
           <ArrowRightIcon size={21} weight="light" />
         </span>
       </span>
-    </a>
+    </Link>
   );
 }
