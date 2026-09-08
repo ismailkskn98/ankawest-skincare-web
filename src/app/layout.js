@@ -46,15 +46,30 @@ const ppMori = localFont({
   preload: true,
 });
 
-const gambarino = localFont({
+const sentient = localFont({
   src: [
     {
-      path: "../fonts/Gambarino-Regular.woff2",
+      path: "../fonts/Sentient-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/Sentient-Regular.woff2",
       weight: "400",
       style: "normal",
     },
+    {
+      path: "../fonts/Sentient-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/Sentient-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
   ],
-  variable: "--font-gambarino-face",
+  variable: "--font-sentient-face",
   display: "swap",
   preload: true,
 });
@@ -150,7 +165,7 @@ export default function RootLayout({ children }) {
     <html
       lang="tr"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${ppMori.variable} ${gambarino.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${ppMori.variable} ${sentient.variable} h-full antialiased`}
     >
       <head>
         <script

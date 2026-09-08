@@ -51,7 +51,7 @@ export function Journal() {
             </p>
             <h2
               id="journal-title"
-              className="font-gambarino mt-4 max-w-[10ch] text-[clamp(2.55rem,9.5vw,4.5rem)] leading-[0.92] font-light tracking-[-0.045em] nav:mt-5 nav:text-[clamp(3.6rem,5.4vw,6.3rem)] xl:text-[clamp(4.2rem,5.9vw,7.1rem)]"
+              className="font-sentient mt-4 max-w-[10ch] text-[clamp(2.55rem,9.5vw,4.5rem)] leading-[0.92] font-light tracking-[-0.045em] nav:mt-5 nav:text-[clamp(3.6rem,5.4vw,6.3rem)] xl:text-[clamp(4.2rem,5.9vw,7.1rem)]"
             >
               Ciltle konuşan
               <span className="block text-[#eee8df]">kısa notlar</span>

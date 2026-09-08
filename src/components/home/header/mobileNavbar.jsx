@@ -17,7 +17,7 @@ const linkEnterDelayClasses = [
 ];
 
 function MenuLink({ item, index, onNavigate }) {
-  const className = `group/link block w-fit py-2.5 font-gambarino text-[clamp(2.35rem,11vw,3.4rem)] leading-[0.95] font-light tracking-[-0.04em] text-site-ink outline-none transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-55 focus-visible:opacity-55 motion-reduce:transition-none group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${linkEnterDelayClasses[index] ?? linkEnterDelayClasses.at(-1)}`;
+  const className = `group/link block w-fit py-2.5 font-sentient text-[clamp(2.35rem,11vw,3.4rem)] leading-[0.95] font-light tracking-[-0.04em] text-site-ink outline-none transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-55 focus-visible:opacity-55 motion-reduce:transition-none group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${linkEnterDelayClasses[index] ?? linkEnterDelayClasses.at(-1)}`;
 
   return (
     <SiteLink

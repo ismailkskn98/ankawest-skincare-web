@@ -33,7 +33,7 @@ export function ProductCollection({ collection, imageSide = "left" }) {
             <p className="text-[0.68rem] font-semibold tracking-[0.13em] text-site-copy uppercase">
               {collection.eyebrow}
             </p>
-            <h3 className="font-gambarino mt-2.5 text-[clamp(2.35rem,4.8vw,4.2rem)] leading-[0.96] font-light tracking-[-0.035em] text-site-ink lg:mt-3 lg:text-[clamp(2.6rem,3.8vw,4.6rem)]">
+            <h3 className="font-sentient mt-2.5 text-[clamp(2.35rem,4.8vw,4.2rem)] leading-[0.96] font-light tracking-[-0.035em] text-site-ink lg:mt-3 lg:text-[clamp(2.6rem,3.8vw,4.6rem)]">
               {collection.title}
               <span className="block">{collection.scriptTitle}</span>
             </h3>

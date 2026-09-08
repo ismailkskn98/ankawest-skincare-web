@@ -20,7 +20,7 @@ export function Content() {
     <div className="w-full min-w-0 max-w-[1220px] self-center justify-self-center overflow-hidden pt-[14px] text-center nav:pt-[clamp(10px,2vh,26px)] short-desktop:pt-0">
       <h1
         id="hero-title"
-        className="font-gambarino w-full text-[clamp(2.35rem,10vw,3.7rem)] leading-[1.08] font-light tracking-[-0.04em] text-[#f7f6f1] max-xs:text-[clamp(2.15rem,10.5vw,2.65rem)] nav:text-[clamp(3.25rem,5.1vw,6.1rem)] nav:tracking-[-0.05em] short-desktop:text-[clamp(3rem,4.8vw,5.3rem)]"
+        className="font-sentient w-full text-[clamp(2.35rem,10vw,3.7rem)] leading-[1.08] font-light tracking-[-0.04em] text-[#f7f6f1] max-xs:text-[clamp(2.15rem,10.5vw,2.65rem)] nav:text-[clamp(3.25rem,5.1vw,6.1rem)] nav:tracking-[-0.05em] short-desktop:text-[clamp(3rem,4.8vw,5.3rem)]"
         aria-label="Cildini dinleyen bakım, sana özgü"
       >
         <span className="hidden nav:grid nav:gap-[0.04em]" aria-hidden="true" data-hero-title-group>

@@ -19,7 +19,7 @@ export function Community() {
             </p>
             <h2
               id="community-title"
-              className="font-gambarino mx-auto mt-4 max-w-[12ch] text-[clamp(2.45rem,9.5vw,4.3rem)] leading-[0.92] font-light tracking-[-0.045em] text-site-ink nav:mt-5 nav:text-[clamp(3.5rem,5.2vw,6.2rem)] xl:text-[clamp(4rem,5.8vw,6.9rem)]"
+              className="font-sentient mx-auto mt-4 max-w-[12ch] text-[clamp(2.45rem,9.5vw,4.3rem)] leading-[0.92] font-light tracking-[-0.045em] text-site-ink nav:mt-5 nav:text-[clamp(3.5rem,5.2vw,6.2rem)] xl:text-[clamp(4rem,5.8vw,6.9rem)]"
             >
               Bakımın ritmi
               <span className="block">Instagram’da</span>

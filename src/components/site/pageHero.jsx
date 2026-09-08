@@ -129,7 +129,7 @@ export function PageHero({
             </h1>
 
             {displayText ? (
-              <p className="font-gambarino mt-2 max-w-[11.5ch] text-[clamp(1.85rem,8.1vw,2.65rem)] leading-[0.98] font-light tracking-[-0.025em] text-site-ink md:hidden">{displayText}</p>
+              <p className="font-sentient mt-2 max-w-[11.5ch] text-[clamp(1.85rem,8.1vw,2.65rem)] leading-[0.98] font-light tracking-[-0.025em] text-site-ink md:hidden">{displayText}</p>
             ) : null}
 
             {meta ? <p className="mt-3 hidden text-[0.66rem] tracking-[0.1em] text-site-copy/70 uppercase sm:mt-0 sm:block sm:pt-2 md:absolute md:top-0 md:right-0 md:text-right">{meta}</p> : null}
@@ -166,7 +166,7 @@ export function PageHero({
 
             {displayText ? (
               <div className="hidden md:col-span-7 md:flex md:justify-end" data-page-hero-reveal style={{ "--intro-order": 2 }}>
-                <p className="font-gambarino max-w-[11ch] text-[clamp(2.6rem,5.8vw,4.6rem)] leading-[0.9] font-light tracking-[-0.05em] text-site-ink md:text-right lg:text-[clamp(3rem,6.4vw,5.6rem)] xl:text-[clamp(3.6rem,6.8vw,7.2rem)] xl:leading-[0.86]">
+                <p className="font-sentient max-w-[11ch] text-[clamp(2.6rem,5.8vw,4.6rem)] leading-[0.9] font-light tracking-[-0.05em] text-site-ink md:text-right lg:text-[clamp(3rem,6.4vw,5.6rem)] xl:text-[clamp(3.6rem,6.8vw,7.2rem)] xl:leading-[0.86]">
                   {displayText}
                 </p>
               </div>

@@ -12,7 +12,7 @@ export function CtaCard() {
       <div className="flex min-h-[clamp(440px,78vw,520px)] flex-col px-6 py-8 text-[#f7f6f1] md:min-h-[clamp(500px,68vw,560px)] md:px-10 md:py-10 nav:min-h-[clamp(540px,58vw,620px)] nav:px-12 nav:py-12 xl:px-16 xl:py-14">
         <p className="text-[0.64rem] font-semibold tracking-[0.16em] text-white/52 uppercase">Anka West Skincare</p>
 
-        <h2 id="footer-cta-title" className="font-gambarino mt-7 text-[clamp(2.4rem,8.5vw,4.2rem)] leading-[0.96] font-light tracking-[-0.04em] uppercase md:mt-8 md:text-[clamp(2.7rem,5.5vw,4.5rem)] nav:mt-9">
+        <h2 id="footer-cta-title" className="font-sentient mt-7 text-[clamp(2.4rem,8.5vw,4.2rem)] leading-[0.96] font-light tracking-[-0.04em] uppercase md:mt-8 md:text-[clamp(2.7rem,5.5vw,4.5rem)] nav:mt-9">
           <span className="block">Bizden</span>
           <span className="block">haberdar ol</span>
         </h2>

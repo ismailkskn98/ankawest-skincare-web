@@ -11,7 +11,7 @@ export function Intro() {
         </p>
         <h2
           id="approach-title"
-          className="font-gambarino text-[clamp(2.45rem,9vw,4.1rem)] leading-[0.96] font-light tracking-[-0.04em] text-site-ink nav:text-[clamp(3.5rem,5vw,5.9rem)] nav-wide:whitespace-nowrap xl:text-[clamp(4rem,5.4vw,6.2rem)]"
+          className="font-sentient text-[clamp(2.45rem,9vw,4.1rem)] leading-[0.96] font-light tracking-[-0.04em] text-site-ink nav:text-[clamp(3.5rem,5vw,5.9rem)] nav-wide:whitespace-nowrap xl:text-[clamp(4rem,5.4vw,6.2rem)]"
         >
           <span className="block">Seçici, açık,</span>
           <span className="mt-[0.02em] block">cildine özgü</span>

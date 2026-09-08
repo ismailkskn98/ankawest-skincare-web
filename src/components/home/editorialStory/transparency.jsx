@@ -28,7 +28,7 @@ export function Transparency() {
             <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-site-copy uppercase">Formül yaklaşımı</p>
             <h2
               id="transparency-title"
-              className="font-gambarino mt-4 max-w-[11ch] text-[clamp(2.5rem,9.5vw,4.4rem)] leading-[0.92] font-light tracking-[-0.045em] text-site-ink nav:mt-5 nav:text-[clamp(3.6rem,5.5vw,6.4rem)] xl:text-[clamp(4.2rem,6vw,7.2rem)]"
+              className="font-sentient mt-4 max-w-[11ch] text-[clamp(2.5rem,9.5vw,4.4rem)] leading-[0.92] font-light tracking-[-0.045em] text-site-ink nav:mt-5 nav:text-[clamp(3.6rem,5.5vw,6.4rem)] xl:text-[clamp(4.2rem,6vw,7.2rem)]"
             >
               İçeriği
               <span className="block">saklamıyoruz</span>
