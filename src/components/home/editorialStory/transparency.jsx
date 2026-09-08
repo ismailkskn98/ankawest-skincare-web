@@ -40,7 +40,7 @@ export function Transparency() {
               Üründe öne çıkan aktifleri, dokuyu ve kullanım adımını açıkça anlatıyoruz. Seçimini belirsiz vaatlerle değil, anlaşılır bilgiyle kurmanı istiyoruz.
             </p>
             <Link className="group mt-5 inline-flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.09em] text-site-ink uppercase nav:mt-7" href="/#urunler">
-              Ürünleri incele
+              <span>Ürünleri incele</span>
               <span className="grid size-8 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper transition-transform duration-500 group-hover:translate-x-1 motion-reduce:transition-none nav:size-9">
                 <ArrowRightIcon size={16} weight="light" aria-hidden="true" />
               </span>
@@ -49,12 +49,7 @@ export function Transparency() {
         </div>
 
         <div className="mt-12 grid gap-8 md:mt-16 lg:mt-20 lg:grid-cols-12 lg:gap-[clamp(1.75rem,4vw,5rem)]">
-          <div
-            className="grid grid-cols-2 items-center gap-3 lg:col-span-6 lg:gap-5"
-            data-scroll-parallax-section
-            data-parallax-desktop-only="true"
-            data-parallax-strength="1.7"
-          >
+          <div className="grid grid-cols-2 items-center gap-3 lg:col-span-6 lg:gap-5" data-scroll-parallax-section data-parallax-desktop-only="true" data-parallax-strength="1.7">
             {formulaImages.map((image) => (
               <figure className={`relative aspect-[4/5] overflow-hidden ${image.className}`} key={image.src} data-scroll-parallax-layer data-parallax-distance={image.distance}>
                 <Image
