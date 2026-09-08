@@ -7,7 +7,7 @@ import { PAGE_MOTION_READY_EVENT } from "@/components/site/pageMotionReady";
 import { attachFloatingScrollbar } from "@/lib/site/attachFloatingScrollbar";
 
 const HEADER_SCROLL_THRESHOLD = 70;
-const HEADER_HIDE_THRESHOLD = 160;
+const HEADER_HIDE_THRESHOLD = 280;
 const PARALLAX_SCROLL_STRENGTH = 1.32;
 const INTRO_ANIMATION_PREFIX = "site-";
 const INTRO_WAIT_LIMIT_MS = 4000;
