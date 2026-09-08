@@ -175,14 +175,15 @@ function ProductIntro({ product }) {
   const suitableFor = normalizeListItems(product.suitableFor).slice(0, 3);
   const goodToKnow = normalizeListItems(product.benefits).slice(0, 3);
   const leadText = product.description || product.shortDescription || `${product.name} ürününü bakım ihtiyacına ve rutin adımına göre değerlendir.`;
+  const detailHeadline = (product.shortDescription || product.name).replace(/[.!]+$/u, "").trim();
 
   return (
     <section className="gridContainer bg-site-paper py-[clamp(5rem,9vw,9rem)]">
       <div data-motion-group>
         <div className="mx-auto grid max-w-[62rem] place-items-center text-center" data-section-reveal>
           <StarIcon className="size-14 text-site-ink md:size-20" />
-          <h2 className="font-canela mt-6 md:mt-8 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">
-            {product.shortDescription || product.name}
+          <h2 className="font-gambarino mt-6 md:mt-8 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">
+            {detailHeadline}
           </h2>
         </div>
 
@@ -226,7 +227,7 @@ function ProductInformation({ product, mainImage }) {
     <section className="gridContainer bg-[#f2f2ef] py-[clamp(4rem,8vw,7rem)]">
       <div data-motion-group>
         <div className="mx-auto max-w-[34rem] text-center" data-section-reveal>
-          <h2 className="font-canela text-[clamp(2.2rem,4vw,3.8rem)] leading-[1.12] font-light tracking-[-0.04em] text-site-ink">Ürün hakkında</h2>
+          <h2 className="font-gambarino text-[clamp(2.2rem,4vw,3.8rem)] leading-[1.12] font-light tracking-[-0.04em] text-site-ink">Ürün hakkında</h2>
         </div>
 
         <div className="mt-[clamp(3rem,6vw,5rem)] grid gap-10 lg:grid-cols-12 lg:items-start">
@@ -265,7 +266,7 @@ function ProductInformation({ product, mainImage }) {
                 <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2">
                   {ingredientGroups.map((item) => (
                     <article key={item.name}>
-                      <h4 className="font-canela text-[clamp(1.2rem,1.9vw,1.7rem)] leading-[1.18] font-light tracking-[-0.035em] text-site-ink">{item.name}</h4>
+                      <h4 className="font-gambarino text-[clamp(1.2rem,1.9vw,1.7rem)] leading-[1.18] font-light tracking-[-0.035em] text-site-ink">{item.name}</h4>
                       {item.descriptions.length ? <p className="mt-3 text-[0.9rem] leading-[1.55] text-site-copy">{item.descriptions.join(" ")}</p> : null}
                     </article>
                   ))}
@@ -404,7 +405,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
         <section className="gridContainer bg-site-paper py-[clamp(4rem,8vw,7rem)]">
           <div data-motion-group>
             <div className="flex items-end justify-between gap-6" data-section-reveal>
-              <h2 className="font-canela text-[clamp(2.15rem,3vw,3.15rem)] leading-[1.12] font-light tracking-[-0.035em] text-site-ink">Diğer ürünler</h2>
+              <h2 className="font-gambarino text-[clamp(2.15rem,3vw,3.15rem)] leading-[1.12] font-light tracking-[-0.035em] text-site-ink">Diğer ürünler</h2>
               <Link
                 className="hidden text-[0.68rem] font-semibold tracking-[0.1em] text-site-ink uppercase underline decoration-site-ink/25 underline-offset-4 transition-colors hover:decoration-site-ink sm:inline-flex"
                 href="/urunler"

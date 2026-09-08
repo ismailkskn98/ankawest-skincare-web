@@ -70,8 +70,8 @@ export function ContactForm() {
     >
       <div>
         <p className="text-[0.68rem] font-semibold tracking-[0.14em] text-site-copy uppercase">Mesaj bırak</p>
-        <h2 className="font-canela mt-4 max-w-[12ch] text-[clamp(2.6rem,5vw,4.8rem)] leading-[0.96] font-light tracking-[-0.045em] text-[#3b3b3b]">
-          Sana dönüş yapalım.
+        <h2 className="font-gambarino mt-4 max-w-[12ch] text-[clamp(2.6rem,5vw,4.8rem)] leading-[0.96] font-light tracking-[-0.045em] text-[#3b3b3b]">
+          Sana dönüş yapalım
         </h2>
       </div>
 
