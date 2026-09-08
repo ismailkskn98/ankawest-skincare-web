@@ -54,6 +54,7 @@ export function ProductCollection({ collection, imageSide = "left" }) {
           products={collection.products}
           ariaLabel={`${collection.title} ${collection.scriptTitle} ürünleri`}
           reverseAutoplay={collection.reverseAutoplay}
+          revealDirection={imageOnRight ? "left" : "right"}
         />
 
         <div

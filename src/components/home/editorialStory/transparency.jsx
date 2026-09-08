@@ -21,7 +21,7 @@ const formulaImages = [
 
 export function Transparency() {
   return (
-    <section id="icerikler" className="fluid gridContainer relative overflow-hidden bg-[#f2f2ef] py-[clamp(3.5rem,6vw,7rem)]" aria-labelledby="transparency-title">
+    <section id="icerikler" className="fluid gridContainer relative bg-[#f2f2ef] py-[clamp(3.5rem,6vw,7rem)]" aria-labelledby="transparency-title">
       <div className="relative z-2" data-motion-group>
         <div className="grid items-end gap-6 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-8" data-section-reveal>
