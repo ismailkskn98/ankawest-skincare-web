@@ -38,7 +38,12 @@ export const productFormSchema = z.object({
   usageInstructions: z.string().trim().optional(),
   warnings: z.string().trim().optional(),
   internalNote: z.string().trim().optional(),
+  status: z.enum(["draft", "published"]).optional(),
   isFeatured: z.boolean(),
+  homepageCarousel1: z.boolean(),
+  homepageCarousel2: z.boolean(),
+  carousel1Order: optionalNumber(z.coerce.number().int().min(0)),
+  carousel2Order: optionalNumber(z.coerce.number().int().min(0)),
   displayOrder: optionalNumber(z.coerce.number().int().min(0)),
   ...seoFields,
 });

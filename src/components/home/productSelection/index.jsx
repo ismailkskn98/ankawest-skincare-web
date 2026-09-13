@@ -1,7 +1,22 @@
 import { ProductCollection } from "./collection";
 import { productCollections } from "./products";
+import { getPublicHomepageCarousels } from "@/lib/catalog/publicCatalog";
 
-export function ProductSelection() {
+export async function ProductSelection() {
+  const homepageProducts = await getPublicHomepageCarousels();
+  const collections = productCollections.map((collection, index) => {
+    const products = index === 0
+      ? homepageProducts.carousel1
+      : homepageProducts.carousel2;
+
+    return {
+      ...collection,
+      products: homepageProducts.available
+        ? products
+        : collection.products.slice(0, 6),
+    };
+  });
+
   return (
     <section
       id="urunler"
@@ -26,7 +41,7 @@ export function ProductSelection() {
       </div>
 
       <div className="mt-10 nav:mt-[clamp(2.75rem,5vw,4.5rem)]">
-        {productCollections.map((collection, index) => (
+        {collections.map((collection, index) => (
           <ProductCollection
             key={`${collection.title}-${collection.scriptTitle}`}
             collection={collection}

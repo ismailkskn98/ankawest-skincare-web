@@ -27,6 +27,7 @@ export default function ProductList({ initialData, categories, userRole }) {
   const [message, setMessage] = useState("");
   const [productToDelete, setProductToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   async function loadProducts(page = 1) {
     setIsLoading(true);
@@ -77,6 +78,30 @@ export default function ProductList({ initialData, categories, userRole }) {
     }
   }
 
+  async function syncTrendyolProducts() {
+    setIsSyncing(true);
+    setMessage("");
+
+    try {
+      const payload = await clientApiRequest("/api/admin/products/sync/trendyol", {
+        method: "POST",
+        body: {},
+      });
+      const result = payload?.data;
+      const summary = (
+        result?.enabled
+          ? `Sync tamamlandı: ${result.created} yeni, ${result.updated} güncel, ${result.failed} hatalı.`
+          : payload?.message || "Trendyol entegrasyonu etkin değil."
+      );
+      await loadProducts(1);
+      setMessage(summary);
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setIsSyncing(false);
+    }
+  }
+
   return (
     <section className="panel">
       <form
@@ -123,13 +148,20 @@ export default function ProductList({ initialData, categories, userRole }) {
             <MagnifyingGlass size={16} aria-hidden="true" /> Filtrele
           </button>
         </div>
-        <button className="button button-ghost" type="button" onClick={() => loadProducts(pagination.page)} disabled={isLoading}>
-          <ArrowClockwise size={16} aria-hidden="true" /> Yenile
-        </button>
+        <div className="toolbar-actions">
+          {userRole === "admin" ? (
+            <button className="button button-secondary" type="button" onClick={syncTrendyolProducts} disabled={isSyncing || isLoading}>
+              <ArrowClockwise size={16} aria-hidden="true" /> {isSyncing ? "Senkronize ediliyor..." : "Trendyol sync"}
+            </button>
+          ) : null}
+          <button className="button button-ghost" type="button" onClick={() => loadProducts(pagination.page)} disabled={isLoading || isSyncing}>
+            <ArrowClockwise size={16} aria-hidden="true" /> Yenile
+          </button>
+        </div>
       </form>
 
       {message ? (
-        <div className="feedback-message feedback-error" role="alert" style={{ margin: 14 }}>
+        <div className="feedback-message" role="status" style={{ margin: 14 }}>
           <WarningCircle size={18} aria-hidden="true" /> {message}
         </div>
       ) : null}
@@ -157,6 +189,15 @@ export default function ProductList({ initialData, categories, userRole }) {
                   <td>
                     <span className="table-primary">{product.name}</span>
                     <span className="table-secondary">{product.sku || product.slug}</span>
+                    <span className="table-badges">
+                      <span className="badge badge-neutral">{product.source === "trendyol" ? "Trendyol" : "Manual"}</span>
+                      {product.source === "trendyol" && !product.primaryImageUrl ? (
+                        <span className="badge badge-warning">Kapak bekliyor</span>
+                      ) : null}
+                      {product.syncStatus === "error" ? (
+                        <span className="badge badge-danger">Sync hatası</span>
+                      ) : null}
+                    </span>
                   </td>
                   <td>{product.categoryName || "-"}</td>
                   <td><StatusBadge status={product.status} /></td>

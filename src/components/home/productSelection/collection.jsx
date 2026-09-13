@@ -50,12 +50,18 @@ export function ProductCollection({ collection, imageSide = "left" }) {
           </a>
         </div>
 
-        <ProductRail
-          products={collection.products}
-          ariaLabel={`${collection.title} ${collection.scriptTitle} ürünleri`}
-          reverseAutoplay={collection.reverseAutoplay}
-          revealDirection={imageOnRight ? "left" : "right"}
-        />
+        {collection.products.length > 0 ? (
+          <ProductRail
+            products={collection.products}
+            ariaLabel={`${collection.title} ${collection.scriptTitle} ürünleri`}
+            reverseAutoplay={collection.reverseAutoplay}
+            revealDirection={imageOnRight ? "left" : "right"}
+          />
+        ) : (
+          <p className="mt-10 text-[0.9rem] leading-[1.5] text-site-copy" role="status">
+            Bu seçkide henüz yayınlanmış ürün bulunmuyor.
+          </p>
+        )}
 
         <div
           className="mt-5 flex flex-col gap-5 border-t border-[rgba(59,59,59,0.15)] pt-5 lg:mt-6 lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:pt-7"

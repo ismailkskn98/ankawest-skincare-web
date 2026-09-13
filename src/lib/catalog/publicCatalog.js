@@ -80,6 +80,15 @@ export function normalizeProduct(product, index = 0) {
     tone: product.tone || pickTone(index),
     priceLabel: product.priceLabel || product.price_label || product.price || "",
     href: product.slug ? `/urunler/${product.slug}` : "#",
+    source: product.source || "manual",
+    trendyolUrl: product.trendyolUrl || product.trendyol_url || "",
+    trendyolAttributes: Array.isArray(product.trendyolAttributes)
+      ? product.trendyolAttributes
+      : [],
+    media: Array.isArray(product.media) ? product.media : [],
+    images: Array.isArray(product.images) ? product.images : [],
+    homepageCarousel1: Boolean(product.homepageCarousel1),
+    homepageCarousel2: Boolean(product.homepageCarousel2),
   };
 }
 
@@ -120,6 +129,25 @@ export async function getPublicCatalog() {
   };
 }
 
+export async function getPublicHomepageCarousels() {
+  const [carousel1Rows, carousel2Rows] = await Promise.all([
+    fetchPublicList(
+      "/public/products/list",
+      "?homepageCarousel=1&limit=6&sort=carousel1Order&direction=ASC",
+    ),
+    fetchPublicList(
+      "/public/products/list",
+      "?homepageCarousel=2&limit=6&sort=carousel2Order&direction=ASC",
+    ),
+  ]);
+
+  return {
+    available: carousel1Rows !== null && carousel2Rows !== null,
+    carousel1: (carousel1Rows || []).slice(0, 6).map(normalizeProduct),
+    carousel2: (carousel2Rows || []).slice(0, 6).map(normalizeProduct),
+  };
+}
+
 export async function getPublicProductBySlug(slug) {
   try {
     const payload = await apiRequest(`/public/products/list/${slug}`);
@@ -135,6 +163,8 @@ export async function getPublicProductBySlug(slug) {
           usageInstructions: payload.data.usageInstructions || "",
           warnings: payload.data.warnings || "",
           images: payload.data.images || [],
+          media: payload.data.media || [],
+          trendyolAttributes: payload.data.trendyolAttributes || [],
           trendyolUrl: payload.data.trendyolUrl || payload.data.trendyol_url || "",
         },
       };

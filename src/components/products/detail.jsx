@@ -7,6 +7,7 @@ import Link from "next/link";
 import { PageMotionReady } from "@/components/site/pageMotionReady";
 
 import { ProductCard } from "@/components/site/productCard";
+import { ProductMediaGallery } from "@/components/products/mediaGallery";
 import { TRENDYOL_STORE_URL } from "@/config/site-content";
 
 function normalizeListItems(items) {
@@ -222,6 +223,10 @@ function ProductIntro({ product }) {
 function ProductInformation({ product, mainImage }) {
   const ingredientGroups = getIngredientGroups(product.activeIngredients);
   const benefits = normalizeListItems(product.benefits);
+  const trendyolAttributes = (Array.isArray(product.trendyolAttributes)
+    ? product.trendyolAttributes
+    : [])
+    .filter((attribute) => attribute?.name && attribute?.value);
 
   return (
     <section className="gridContainer bg-[#f2f2ef] py-[clamp(4rem,8vw,7rem)]">
@@ -271,6 +276,20 @@ function ProductInformation({ product, mainImage }) {
                     </article>
                   ))}
                 </div>
+              </div>
+            ) : null}
+
+            {trendyolAttributes.length ? (
+              <div className="border-t border-site-ink/12 pt-7" data-section-reveal>
+                <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Ürün özellikleri</h3>
+                <dl className="mt-5 grid gap-x-10 gap-y-4 sm:grid-cols-2">
+                  {trendyolAttributes.map((attribute, index) => (
+                    <div className="flex items-baseline justify-between gap-4 border-b border-site-ink/10 pb-3" key={`${attribute.id || attribute.name}-${attribute.value}-${index}`}>
+                      <dt className="text-[0.84rem] text-site-copy">{attribute.name}</dt>
+                      <dd className="m-0 text-right text-[0.88rem] font-medium text-site-ink">{attribute.value}</dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
             ) : null}
 
@@ -349,10 +368,19 @@ export function ProductDetail({ product, relatedProducts = [] }) {
           <div className="relative z-2 flex flex-col bg-[#F2F2F2] p-[clamp(1.5rem,4vw,3rem)] xl:p-[clamp(3rem,4.2vw,5.5rem)] lg:min-h-full lg:-mb-[clamp(1.5rem,4vw,3.5rem)]">
             <div className="flex flex-1 flex-col justify-between gap-[clamp(1.75rem,4vh,2.75rem)]" data-page-hero-reveal style={{ "--intro-order": 1 }}>
               <div className="flex flex-col gap-[clamp(1.15rem,2.4vh,1.75rem)]">
-                {product.categoryName ? (
-                  <span className="inline-flex w-fit rounded-full border border-[#454545]/55 px-5 py-2 text-[0.66rem] font-normal tracking-[0.08em] text-[#333333] uppercase">
-                    {product.categoryName}
-                  </span>
+                {product.categoryName || product.brand ? (
+                  <div className="flex flex-wrap items-center gap-3">
+                    {product.categoryName ? (
+                      <span className="inline-flex w-fit rounded-full border border-[#454545]/55 px-5 py-2 text-[0.66rem] font-normal tracking-[0.08em] text-[#333333] uppercase">
+                        {product.categoryName}
+                      </span>
+                    ) : null}
+                    {product.brand ? (
+                      <span className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">
+                        {product.brand}
+                      </span>
+                    ) : null}
+                  </div>
                 ) : null}
 
                 <h1
@@ -398,6 +426,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
         </div>
       </section>
 
+      <ProductMediaGallery product={product} />
       <ProductIntro product={product} />
       <ProductInformation product={product} mainImage={mainImage} />
 

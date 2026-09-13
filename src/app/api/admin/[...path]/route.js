@@ -13,6 +13,7 @@ const maxJsonSize = 1024 * 1024;
 const routeRules = [
   { pattern: /^products\/list(?:\/[a-zA-Z0-9_-]+)?$/, methods: ["GET"] },
   { pattern: /^products\/create$/, methods: ["POST"] },
+  { pattern: /^products\/sync\/trendyol$/, methods: ["POST"] },
   { pattern: /^products\/(?:update|publish)\/[a-zA-Z0-9_-]+$/, methods: ["PUT"] },
   { pattern: /^products\/delete\/[a-zA-Z0-9_-]+$/, methods: ["DELETE"] },
   {

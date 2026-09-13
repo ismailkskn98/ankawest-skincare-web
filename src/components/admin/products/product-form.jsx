@@ -71,7 +71,12 @@ function buildDefaultValues(product) {
     usageInstructions: product?.usageInstructions || "",
     warnings: product?.warnings || "",
     internalNote: product?.internalNote || "",
+    status: product?.status || "draft",
     isFeatured: Boolean(product?.isFeatured),
+    homepageCarousel1: Boolean(product?.homepageCarousel1),
+    homepageCarousel2: Boolean(product?.homepageCarousel2),
+    carousel1Order: product?.carousel1Order ?? 0,
+    carousel2Order: product?.carousel2Order ?? 0,
     displayOrder: product?.displayOrder ?? 0,
     seoTitle: product?.seoTitle || "",
     seoDescription: product?.seoDescription || "",
@@ -106,7 +111,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
   const previewUrlsRef = useRef(new Set());
   const [selectedImages, setSelectedImages] = useState([]);
   const [existingImages, setExistingImages] = useState(() =>
-    normalizeImages(product?.images),
+    normalizeImages(product?.images).filter((image) => image.source !== "trendyol"),
   );
   const [savedProductId, setSavedProductId] = useState(product?.id || null);
   const [pendingImageId, setPendingImageId] = useState(null);
@@ -114,6 +119,10 @@ export default function ProductForm({ categories, product = null, userRole }) {
   const [uploadError, setUploadError] = useState("");
   const [formMessage, setFormMessage] = useState("");
   const isEditing = Boolean(savedProductId);
+  const isTrendyol = product?.source === "trendyol";
+  const trendyolMedia = normalizeImages(product?.media).filter(
+    (media) => media.source === "trendyol",
+  );
   const {
     register,
     handleSubmit,
@@ -311,6 +320,26 @@ export default function ProductForm({ categories, product = null, userRole }) {
       ) : null}
 
       <section className="panel">
+        {isTrendyol ? (
+          <div className="form-section integration-summary">
+            <div>
+              <span className="badge badge-neutral">Trendyol</span>
+              <h2>Entegrasyon bilgileri</h2>
+              <p>
+                Ürün adı, açıklama, marka, kategori, özellikler ve Trendyol medyası
+                senkronizasyon tarafından güncellenir. Yayın, carousel, SEO ve website
+                kapak görseli yalnızca bu panelden yönetilir.
+              </p>
+            </div>
+            <dl className="integration-meta">
+              <div><dt>Content ID</dt><dd>{product.trendyolContentId || "-"}</dd></div>
+              <div><dt>Product Main ID</dt><dd>{product.trendyolProductMainId || "-"}</dd></div>
+              <div><dt>Barkod</dt><dd>{product.trendyolBarcode || "-"}</dd></div>
+              <div><dt>Sync</dt><dd>{product.syncStatus || "pending"}</dd></div>
+            </dl>
+          </div>
+        ) : null}
+
         <div className="form-section">
           <div className="form-section-heading">
             <h2>Temel bilgiler</h2>
@@ -392,6 +421,42 @@ export default function ProductForm({ categories, product = null, userRole }) {
 
         <div className="form-section">
           <div className="form-section-heading">
+            <h2>Website yayını ve ana sayfa</h2>
+            <p>Her carousel en fazla 6 ürün içerebilir. Limit backend tarafından da doğrulanır.</p>
+          </div>
+          <div className="form-grid">
+            <div className="form-field">
+              <label className="form-label" htmlFor="product-status">Yayın durumu</label>
+              <select className="form-select" id="product-status" disabled={!isEditing} {...register("status")}>
+                <option value="draft">Taslak</option>
+                <option value="published">Yayında</option>
+              </select>
+              {!isEditing ? <p className="form-hint">Yeni ürünler ilk kayıtta taslak oluşturulur.</p> : null}
+              {isTrendyol && existingImages.length === 0 ? (
+                <p className="form-hint">Yayınlamak için önce website kapak görseli yükleyin.</p>
+              ) : null}
+            </div>
+            <div className="form-field">
+              <label className="form-label" htmlFor="carousel-1-order">Carousel 1 sırası</label>
+              <input className="form-control" id="carousel-1-order" type="number" min="0" {...register("carousel1Order")} />
+            </div>
+            <label className="checkbox-field">
+              <input type="checkbox" {...register("homepageCarousel1")} />
+              Anasayfa Carousel 1&apos;de göster
+            </label>
+            <div className="form-field">
+              <label className="form-label" htmlFor="carousel-2-order">Carousel 2 sırası</label>
+              <input className="form-control" id="carousel-2-order" type="number" min="0" {...register("carousel2Order")} />
+            </div>
+            <label className="checkbox-field">
+              <input type="checkbox" {...register("homepageCarousel2")} />
+              Anasayfa Carousel 2&apos;de göster
+            </label>
+          </div>
+        </div>
+
+        <div className="form-section">
+          <div className="form-section-heading">
             <h2>Ürün içeriği</h2>
             <p>Her liste alanında bir öğeyi ayrı satıra yazın.</p>
           </div>
@@ -466,8 +531,8 @@ export default function ProductForm({ categories, product = null, userRole }) {
 
         <div className="form-section">
           <div className="form-section-heading">
-            <h2>Ürün görselleri</h2>
-            <p>JPEG, PNG veya WebP; en fazla 8 yeni görsel ve görsel başına 5 MB.</p>
+            <h2>Website kapak görseli</h2>
+            <p>Kartlarda ve ana sayfada kullanılır. JPEG, PNG veya WebP; görsel başına en fazla 5 MB.</p>
           </div>
           {existingImages.length > 0 ? (
             <div className="image-preview-grid" aria-label="Kayıtlı ürün görselleri">
@@ -541,6 +606,23 @@ export default function ProductForm({ categories, product = null, userRole }) {
             </p>
           )}
         </div>
+
+        {isTrendyol && trendyolMedia.length > 0 ? (
+          <div className="form-section">
+            <div className="form-section-heading">
+              <h2>Trendyol detay medyası</h2>
+              <p>Bu remote görsel ve videolar sync tarafından yönetilir; sunucuya indirilmez.</p>
+            </div>
+            <ul className="integration-media-list">
+              {trendyolMedia.map((media) => (
+                <li key={media.externalId || media.id}>
+                  <span className="badge badge-neutral">{media.type === "video" ? "Video" : "Görsel"}</span>
+                  <a href={media.url || media.imageUrl} target="_blank" rel="noreferrer">Medyayı aç</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </section>
 
       <div className="page-actions">

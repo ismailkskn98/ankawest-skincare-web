@@ -42,6 +42,22 @@ function parseResponseBody(text, contentType) {
   return text;
 }
 
+function getUpstreamErrorMessage(payload, status) {
+  if (typeof payload?.message === "string" && payload.message.trim()) {
+    return payload.message;
+  }
+
+  if (status === 404) {
+    return "API endpoint'i bulunamadı. API'nin güncel sürümünün çalıştığını ve servis adresini kontrol edin.";
+  }
+
+  if (status === 502 || status === 503 || status === 504) {
+    return "API servisine şu anda ulaşılamıyor. Servisin çalıştığını kontrol edip tekrar deneyin.";
+  }
+
+  return "API isteği tamamlanamadı.";
+}
+
 export async function apiRequest(
   pathname,
   { method = "GET", token, json, body, headers, search = "" } = {},
@@ -80,7 +96,7 @@ export async function apiRequest(
 
   if (!response.ok) {
     throw new ApiError(
-      payload?.message || "İşlem tamamlanamadı.",
+      getUpstreamErrorMessage(payload, response.status),
       response.status,
       payload,
     );

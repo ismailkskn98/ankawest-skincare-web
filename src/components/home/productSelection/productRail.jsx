@@ -135,7 +135,7 @@ export function ProductRail({
         slidesPerView={1.08}
         spaceBetween={12}
         speed={820}
-        loop
+        loop={products.length > 1}
         grabCursor
         autoplay={{
           delay: 3000,
@@ -158,7 +158,7 @@ export function ProductRail({
         aria-label={ariaLabel}
       >
         {products.map((product) => (
-          <SwiperSlide key={product.name} tag="li" className="h-auto">
+          <SwiperSlide key={product.id || product.name} tag="li" className="h-auto">
             <div data-product-card-reveal className="h-full">
               <ProductCard product={product} />
             </div>
