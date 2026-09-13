@@ -452,8 +452,18 @@ export function MotionController() {
             return;
           }
 
-          const getLayerTravel = (layer) =>
-            (Number(layer.dataset.parallaxDistance) || 0) * sectionStrength * sectionDirection * strengthScale;
+          const getLayerTravel = (layer) => {
+            const viewportHeightScale = Math.min(
+              1.15,
+              Math.max(0.78, window.innerHeight / 900),
+            );
+
+            return (Number(layer.dataset.parallaxDistance) || 0)
+              * sectionStrength
+              * sectionDirection
+              * strengthScale
+              * viewportHeightScale;
+          };
 
           const scrollTrigger = {
             trigger: section,
@@ -507,7 +517,16 @@ export function MotionController() {
 
             if (heroScrollLayers.length > 0) {
               gsapInstance.to(heroScrollLayers, {
-                y: (_, layer) => (Number(layer.dataset.parallaxDistance) || 0) * PARALLAX_SCROLL_STRENGTH,
+                y: (_, layer) => {
+                  const viewportHeightScale = Math.min(
+                    1.15,
+                    Math.max(0.78, window.innerHeight / 900),
+                  );
+
+                  return (Number(layer.dataset.parallaxDistance) || 0)
+                    * PARALLAX_SCROLL_STRENGTH
+                    * viewportHeightScale;
+                },
                 force3D: true,
                 ease: "none",
                 scrollTrigger: {

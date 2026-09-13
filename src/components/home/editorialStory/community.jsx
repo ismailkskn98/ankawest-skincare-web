@@ -27,13 +27,13 @@ export function Community() {
           </div>
 
           <div
-            className="relative mt-8 md:mt-14 md:min-h-[clamp(560px,88vw,720px)] lg:mt-16 lg:min-h-[clamp(640px,72vw,860px)]"
+            className="relative mt-8 md:mt-14 md:min-h-[clamp(560px,88vw,720px)] lg:mt-16 lg:min-h-[min(87.5vw,54.6875rem)] short-desktop:min-h-[43.75rem]"
             data-scroll-parallax-section
             data-parallax-strength="1.58"
           >
             <div className="relative md:contents">
               <div
-                className="community-fixed-visual relative mx-auto aspect-[4/5] w-[min(82vw,420px)] overflow-hidden rounded-[48%_52%_8%_8%/18%_20%_5%_5%] bg-[#d9e0db] md:absolute md:top-0 md:left-1/2 md:w-[min(78vw,620px)] md:-translate-x-1/2 lg:w-[min(70vw,700px)]"
+                className="community-fixed-visual relative mx-auto aspect-[4/5] w-[min(82vw,420px)] overflow-hidden rounded-[48%_52%_8%_8%/18%_20%_5%_5%] bg-[#d9e0db] md:absolute md:top-0 md:left-1/2 md:w-[min(78vw,620px)] md:-translate-x-1/2 lg:w-[min(70vw,700px)] short-desktop:w-[min(56vw,560px)]"
                 style={{
                   backgroundImage: "url('/images/home/kadin-resmi-1.jpg')",
                 }}

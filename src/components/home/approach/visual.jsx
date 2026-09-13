@@ -34,7 +34,7 @@ const values = [
 export function Visual() {
   return (
     <div
-      className="relative mt-8 nav:mt-12 lg:mt-14 lg:h-[clamp(720px,68vw,1020px)]"
+      className="relative mt-8 nav:mt-12 lg:mt-14 lg:h-[clamp(42rem,min(68vw,78svh),63.75rem)]"
       data-motion-group
       data-scroll-parallax-section
       data-parallax-desktop-only="true"

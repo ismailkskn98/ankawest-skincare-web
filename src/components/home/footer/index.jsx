@@ -9,7 +9,7 @@ export function Footer() {
       className="fluid gridContainer bg-site-paper text-site-ink"
     >
       <section
-        className="fluid gridContainer relative isolate min-h-[clamp(420px,70vw,520px)] overflow-hidden nav:min-h-[clamp(560px,62vw,720px)]"
+        className="fluid gridContainer relative isolate min-h-[clamp(420px,70vw,520px)] overflow-hidden nav:min-h-[clamp(34rem,min(62vw,76svh),45rem)]"
         aria-label="GLUTANEX bakım ürünleri"
       >
         <div
