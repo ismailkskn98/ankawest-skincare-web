@@ -1,7 +1,9 @@
 import { ApiError, apiRequest } from "@/lib/api/server";
 import {
+  clearAuthFlowToken,
   clearSessionToken,
   setAuthFlowToken,
+  setSessionToken,
 } from "@/lib/auth/session";
 import {
   handleRouteError,
@@ -12,7 +14,7 @@ import {
 } from "@/lib/auth/route-utils";
 import { loginSchema } from "@/lib/validation/auth";
 
-const allowedSteps = new Set(["totp_setup", "totp_challenge"]);
+const totpSteps = new Set(["totp_setup", "totp_challenge"]);
 
 export async function POST(request) {
   if (!isSameOriginMutation(request)) {
@@ -36,13 +38,34 @@ export async function POST(request) {
       method: "POST",
       json: result.data,
     });
-    const { nextStep, challengeToken } = payload?.data || {};
+    const {
+      nextStep,
+      challengeToken,
+      accessToken,
+      user,
+    } = payload?.data || {};
 
-    if (!allowedSteps.has(nextStep) || !challengeToken) {
+    await clearSessionToken();
+
+    if (nextStep === "authenticated") {
+      if (!accessToken) {
+        throw new ApiError("Oturum bilgisi API yanıtında bulunamadı.", 502);
+      }
+
+      await setSessionToken(accessToken);
+      await clearAuthFlowToken();
+
+      return Response.json({
+        status: true,
+        message: payload?.message || "Oturum açıldı.",
+        data: { nextStep, user: user || null },
+      });
+    }
+
+    if (!totpSteps.has(nextStep) || !challengeToken) {
       throw new ApiError("Giriş akışı API yanıtında doğrulanamadı.", 502);
     }
 
-    await clearSessionToken();
     await setAuthFlowToken(challengeToken);
 
     return Response.json({

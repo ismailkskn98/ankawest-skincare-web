@@ -1,6 +1,7 @@
 "use client";
 
 import { WarningCircle } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import AuthCard from "@/components/auth/auth-card";
@@ -10,12 +11,19 @@ import TotpSetupForm from "@/components/auth/totp-setup-form";
 import { clientApiRequest } from "@/lib/api/client";
 
 export default function AuthFlow() {
+  const router = useRouter();
   const [step, setStep] = useState("credentials");
   const [setupData, setSetupData] = useState(null);
   const [flowError, setFlowError] = useState("");
 
   async function continueLogin(nextStep) {
     setFlowError("");
+
+    if (nextStep === "authenticated") {
+      router.replace("/admin");
+      router.refresh();
+      return;
+    }
 
     if (nextStep === "totp_challenge") {
       setStep("challenge");
