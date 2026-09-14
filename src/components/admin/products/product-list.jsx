@@ -13,7 +13,6 @@ import {
   WarningCircle,
   X,
 } from "@phosphor-icons/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -255,7 +254,13 @@ export default function ProductList({ initialData, categories, userRole }) {
                       <div className="product-cell">
                         <div className="product-thumbnail">
                           {product.primaryImageUrl ? (
-                            <Image src={product.primaryImageUrl} alt="" fill sizes="48px" />
+                            // Dinamik API görselleri Next optimizer izin listesinden bağımsız yüklenir.
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              className="absolute inset-0 h-full w-full object-contain p-[3px]"
+                              src={product.primaryImageUrl}
+                              alt=""
+                            />
                           ) : (
                             <ImageSquare size={20} aria-hidden="true" />
                           )}

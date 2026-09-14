@@ -584,11 +584,12 @@ export default function ProductForm({ categories, product = null, userRole }) {
                         unoptimized
                       />
                     ) : existingCoverImage ? (
-                      <Image
+                      // Dinamik API görselleri Next optimizer izin listesinden bağımsız yüklenir.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        className="absolute inset-0 h-full w-full object-contain"
                         src={existingCoverImage.imageUrl}
                         alt={existingCoverImage.altText || product?.name || "Kapak görseli"}
-                        fill
-                        sizes="(max-width: 900px) 100vw, 40vw"
                       />
                     ) : (
                       <div className="product-image-slot-empty">
@@ -642,11 +643,12 @@ export default function ProductForm({ categories, product = null, userRole }) {
                         unoptimized
                       />
                     ) : existingHoverImage ? (
-                      <Image
+                      // Dinamik API görselleri Next optimizer izin listesinden bağımsız yüklenir.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        className="absolute inset-0 h-full w-full object-contain"
                         src={existingHoverImage.imageUrl}
                         alt={existingHoverImage.altText || product?.name || "Hover görseli"}
-                        fill
-                        sizes="(max-width: 900px) 100vw, 40vw"
                       />
                     ) : (
                       <div className="product-image-slot-empty">
