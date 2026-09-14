@@ -7,14 +7,13 @@ export function ProductCard({ product }) {
   const category = product.category || product.categoryName || "";
   const size = product.size || product.sizeLabel || "";
   const imageAlt = product.imageAlt || product.fullName || product.name || "";
-  const tone = product.tone || "bg-[#dbe5e9]";
   const href = product.href || null;
 
   const content = (
     <>
       {image ? (
         <Image
-          className={`absolute inset-0 h-full w-full select-none object-cover transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.025] motion-reduce:transition-none ${hoverImage ? "group-hover:opacity-0" : ""}`}
+          className={`absolute inset-0 h-full w-full select-none object-contain transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none ${hoverImage ? "group-hover:opacity-0" : ""}`}
           src={image}
           alt={imageAlt}
           fill
@@ -26,7 +25,7 @@ export function ProductCard({ product }) {
       ) : null}
       {hoverImage ? (
         <Image
-          className="absolute inset-0 h-full w-full select-none object-cover opacity-0 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.025] group-hover:opacity-100 motion-reduce:transition-none"
+          className="absolute inset-0 h-full w-full select-none object-contain opacity-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-100 motion-reduce:transition-none"
           src={hoverImage}
           alt=""
           fill
@@ -49,9 +48,9 @@ export function ProductCard({ product }) {
       </div>
 
       <div className="absolute inset-x-2.5 bottom-2.5 z-2 flex items-end justify-between gap-2 sm:inset-x-4 sm:bottom-4 sm:gap-4 lg:inset-x-5 lg:bottom-5 lg:gap-5">
-        <div>
+        <div className="">
           <p className="text-[0.52rem] font-light tracking-[0.09em] text-site-copy uppercase sm:text-[0.6rem] sm:tracking-[0.11em] lg:text-[0.64rem]">{product.brand}</p>
-          <h3 className="mt-1 max-w-[14ch] text-[clamp(0.92rem,2.8vw,1.4rem)] leading-[1.05] font-extralight text-site-ink sm:mt-1.5 sm:leading-[1.02]">{product.name}</h3>
+          <h3 className="mt-1 max-w-[21ch] text-[clamp(0.92rem,2.8vw,1.4rem)] leading-[1.05] font-extralight text-site-ink sm:mt-1.5 sm:leading-[1.02]">{product.name}</h3>
         </div>
         {size ? (
           <div className="pb-0.5 text-right text-[0.56rem] leading-[1.4] text-site-copy sm:pb-1 sm:text-[0.64rem] sm:leading-[1.5] lg:text-[0.68rem]">
@@ -62,7 +61,7 @@ export function ProductCard({ product }) {
     </>
   );
 
-  const className = `group relative block aspect-[514/719] w-full overflow-hidden rounded-[1.15rem] sm:rounded-[1.75rem] ${tone} transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 motion-reduce:transition-none`;
+  const className = "group relative block aspect-[514/719] w-full overflow-hidden rounded-[1.15rem] bg-white sm:rounded-[1.75rem] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 motion-reduce:transition-none";
 
   if (href) {
     return (
