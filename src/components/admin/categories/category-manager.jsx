@@ -6,9 +6,10 @@ import {
   Plus,
   Trash,
   WarningCircle,
+  X,
 } from "@phosphor-icons/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import SeoFields from "@/components/admin/seo-fields";
@@ -54,6 +55,7 @@ export default function CategoryManager({ initialRecords, userRole }) {
   const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [message, setMessage] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -73,12 +75,35 @@ export default function CategoryManager({ initialRecords, userRole }) {
     setEditingCategory(category);
     reset(toFormValues(category));
     setMessage("");
+    setIsEditorOpen(true);
   }
 
   function startCreating() {
     setEditingCategory(null);
     reset(emptyValues);
+    setIsEditorOpen(true);
   }
+
+  function closeEditor() {
+    setIsEditorOpen(false);
+    setEditingCategory(null);
+    reset(emptyValues);
+  }
+
+  useEffect(() => {
+    if (!isEditorOpen) return undefined;
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsEditorOpen(false);
+        setEditingCategory(null);
+        reset(emptyValues);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isEditorOpen, reset]);
 
   async function saveCategory(values) {
     setMessage("");
@@ -93,7 +118,7 @@ export default function CategoryManager({ initialRecords, userRole }) {
       });
       setMessage(payload.message || "Kategori kaydedildi.");
       await reloadCategories();
-      startCreating();
+      closeEditor();
     } catch (error) {
       setError("root", { message: error.message });
     }
@@ -129,7 +154,7 @@ export default function CategoryManager({ initialRecords, userRole }) {
   }
 
   return (
-    <div className="manager-layout">
+    <div className="manager-layout manager-layout-single">
       <section className="panel">
         <header className="panel-header">
           <h2>Kategori listesi</h2>
@@ -175,9 +200,12 @@ export default function CategoryManager({ initialRecords, userRole }) {
         )}
       </section>
 
-      <section className="panel sticky-panel">
+      {isEditorOpen ? <>
+      <button className="manager-drawer-backdrop" type="button" aria-label="Kategori formunu kapat" onClick={closeEditor} />
+      <section className="panel manager-drawer" role="dialog" aria-modal="true" aria-labelledby="category-editor-title">
         <header className="panel-header">
-          <h2>{editingCategory ? "Kategoriyi düzenle" : "Yeni kategori"}</h2>
+          <h2 id="category-editor-title">{editingCategory ? "Kategoriyi düzenle" : "Yeni kategori"}</h2>
+          <button className="icon-button" type="button" onClick={closeEditor} aria-label="Kategori formunu kapat" autoFocus><X size={18} /></button>
         </header>
         <form onSubmit={handleSubmit(saveCategory)} noValidate>
           <div className="panel-body form-stack">
@@ -209,11 +237,12 @@ export default function CategoryManager({ initialRecords, userRole }) {
             </details>
           </div>
           <footer className="panel-footer">
-            {editingCategory ? <button className="button button-ghost" type="button" onClick={startCreating}>Vazgeç</button> : null}
+            <button className="button button-ghost" type="button" onClick={closeEditor}>Vazgeç</button>
             <button className="button button-primary" type="submit" disabled={isSubmitting}>{isSubmitting ? "Kaydediliyor..." : "Kaydet"}</button>
           </footer>
         </form>
       </section>
+      </> : null}
 
       <ConfirmDialog
         isOpen={Boolean(categoryToDelete)}

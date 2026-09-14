@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowClockwise,
   ArrowLeft,
   CheckCircle,
   ImageSquare,
@@ -18,6 +19,12 @@ import { useForm } from "react-hook-form";
 
 import SeoFields from "@/components/admin/seo-fields";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import { clientApiRequest } from "@/lib/api/client";
 import { productFormSchema } from "@/lib/validation/admin";
 
@@ -127,7 +134,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isDirty, isSubmitting },
   } = useForm({
     resolver: zodResolver(productFormSchema),
     defaultValues: buildDefaultValues(product),
@@ -137,6 +144,16 @@ export default function ProductForm({ categories, product = null, userRole }) {
     const previewUrls = previewUrlsRef.current;
     return () => previewUrls.forEach((url) => URL.revokeObjectURL(url));
   }, []);
+
+  useEffect(() => {
+    function warnAboutUnsavedChanges(event) {
+      if (!isDirty && selectedImages.length === 0) return;
+      event.preventDefault();
+    }
+
+    window.addEventListener("beforeunload", warnAboutUnsavedChanges);
+    return () => window.removeEventListener("beforeunload", warnAboutUnsavedChanges);
+  }, [isDirty, selectedImages.length]);
 
   function handleAcceptedImages(files) {
     setUploadError("");
@@ -297,14 +314,17 @@ export default function ProductForm({ categories, product = null, userRole }) {
 
   return (
     <form className="form-stack" onSubmit={handleSubmit(saveProduct)} noValidate>
-      <div className="page-actions" style={{ justifyContent: "space-between" }}>
+      <div className="product-save-bar">
         <Link className="button button-secondary" href="/admin/products">
           <ArrowLeft size={17} aria-hidden="true" />
           Ürünlere dön
         </Link>
-        <button className="button button-primary" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Kaydediliyor..." : isEditing ? "Değişiklikleri kaydet" : "Ürünü kaydet"}
-        </button>
+        <div className="product-save-status">
+          {isDirty || selectedImages.length > 0 ? <span><i aria-hidden="true" /> Kaydedilmemiş değişiklikler</span> : null}
+          <button className="button button-primary" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? <><ArrowClockwise className="spin" size={16} /> Kaydediliyor</> : isEditing ? "Değişiklikleri kaydet" : "Ürünü kaydet"}
+          </button>
+        </div>
       </div>
 
       {errors.root ? (
@@ -319,28 +339,19 @@ export default function ProductForm({ categories, product = null, userRole }) {
         </div>
       ) : null}
 
-      <section className="panel">
-        {isTrendyol ? (
-          <div className="form-section integration-summary">
-            <div>
-              <span className="badge badge-neutral">Trendyol</span>
-              <h2>Entegrasyon bilgileri</h2>
-              <p>
-                Ürün adı, açıklama, marka, kategori, özellikler ve Trendyol medyası
-                senkronizasyon tarafından güncellenir. Yayın, carousel, SEO ve website
-                kapak görseli yalnızca bu panelden yönetilir.
-              </p>
-            </div>
-            <dl className="integration-meta">
-              <div><dt>Content ID</dt><dd>{product.trendyolContentId || "-"}</dd></div>
-              <div><dt>Product Main ID</dt><dd>{product.trendyolProductMainId || "-"}</dd></div>
-              <div><dt>Barkod</dt><dd>{product.trendyolBarcode || "-"}</dd></div>
-              <div><dt>Sync</dt><dd>{product.syncStatus || "pending"}</dd></div>
-            </dl>
-          </div>
-        ) : null}
+      <Tabs defaultValue="general" className="product-form-tabs">
+        <TabsList className="product-section-nav" aria-label="Ürün formu bölümleri">
+          <TabsTrigger value="general">Genel</TabsTrigger>
+          <TabsTrigger value="publication">Yayın</TabsTrigger>
+          <TabsTrigger value="content">Ürün bilgileri</TabsTrigger>
+          <TabsTrigger value="seo">SEO</TabsTrigger>
+          <TabsTrigger value="media">Medya</TabsTrigger>
+          {isTrendyol ? <TabsTrigger value="integration">Entegrasyon</TabsTrigger> : null}
+        </TabsList>
 
-        <div className="form-section">
+        <section className="panel product-form-panel">
+          <TabsContent value="general" className="product-form-tab-content">
+            <div className="form-section">
           <div className="form-section-heading">
             <h2>Temel bilgiler</h2>
             <p>Katalogda ve ürün detayında kullanılan ana ürün bilgileri.</p>
@@ -419,13 +430,16 @@ export default function ProductForm({ categories, product = null, userRole }) {
           </div>
         </div>
 
-        <div className="form-section">
+          </TabsContent>
+
+          <TabsContent value="publication" className="product-form-tab-content">
+            <div className="form-section">
           <div className="form-section-heading">
             <h2>Website yayını ve ana sayfa</h2>
             <p>Her carousel en fazla 6 ürün içerebilir. Limit backend tarafından da doğrulanır.</p>
           </div>
-          <div className="form-grid">
-            <div className="form-field">
+          <div className="publication-form-layout">
+            <div className="form-field publication-status-field">
               <label className="form-label" htmlFor="product-status">Yayın durumu</label>
               <select className="form-select" id="product-status" disabled={!isEditing} {...register("status")}>
                 <option value="draft">Taslak</option>
@@ -436,26 +450,35 @@ export default function ProductForm({ categories, product = null, userRole }) {
                 <p className="form-hint">Yayınlamak için önce website kapak görseli yükleyin.</p>
               ) : null}
             </div>
-            <div className="form-field">
-              <label className="form-label" htmlFor="carousel-1-order">Carousel 1 sırası</label>
-              <input className="form-control" id="carousel-1-order" type="number" min="0" {...register("carousel1Order")} />
+            <div className="carousel-settings-grid">
+              <div className="carousel-setting">
+                <label className="checkbox-field">
+                  <input type="checkbox" {...register("homepageCarousel1")} />
+                  Anasayfa Carousel 1&apos;de göster
+                </label>
+                <div className="form-field">
+                  <label className="form-label" htmlFor="carousel-1-order">Gösterim sırası</label>
+                  <input className="form-control" id="carousel-1-order" type="number" min="0" {...register("carousel1Order")} />
+                </div>
+              </div>
+              <div className="carousel-setting">
+                <label className="checkbox-field">
+                  <input type="checkbox" {...register("homepageCarousel2")} />
+                  Anasayfa Carousel 2&apos;de göster
+                </label>
+                <div className="form-field">
+                  <label className="form-label" htmlFor="carousel-2-order">Gösterim sırası</label>
+                  <input className="form-control" id="carousel-2-order" type="number" min="0" {...register("carousel2Order")} />
+                </div>
+              </div>
             </div>
-            <label className="checkbox-field">
-              <input type="checkbox" {...register("homepageCarousel1")} />
-              Anasayfa Carousel 1&apos;de göster
-            </label>
-            <div className="form-field">
-              <label className="form-label" htmlFor="carousel-2-order">Carousel 2 sırası</label>
-              <input className="form-control" id="carousel-2-order" type="number" min="0" {...register("carousel2Order")} />
-            </div>
-            <label className="checkbox-field">
-              <input type="checkbox" {...register("homepageCarousel2")} />
-              Anasayfa Carousel 2&apos;de göster
-            </label>
           </div>
         </div>
 
-        <div className="form-section">
+          </TabsContent>
+
+          <TabsContent value="content" className="product-form-tab-content">
+            <div className="form-section">
           <div className="form-section-heading">
             <h2>Ürün içeriği</h2>
             <p>Her liste alanında bir öğeyi ayrı satıra yazın.</p>
@@ -521,15 +544,24 @@ export default function ProductForm({ categories, product = null, userRole }) {
           </div>
         </div>
 
-        <div className="form-section">
+          </TabsContent>
+
+          <TabsContent value="seo" className="product-form-tab-content">
+            <div className="form-section">
           <div className="form-section-heading">
             <h2>Arama ve sosyal paylaşım</h2>
             <p>Boş bırakılan alanlar ürünün temel bilgilerinden üretilebilir.</p>
           </div>
-          <SeoFields register={register} errors={errors} />
+          <details className="advanced-fields" open>
+            <summary>SEO ve sosyal paylaşım alanlarını düzenle</summary>
+            <div className="advanced-fields-body"><SeoFields register={register} errors={errors} /></div>
+          </details>
         </div>
 
-        <div className="form-section">
+          </TabsContent>
+
+          <TabsContent value="media" className="product-form-tab-content">
+            <div className="form-section">
           <div className="form-section-heading">
             <h2>Website kapak görseli</h2>
             <p>Kartlarda ve ana sayfada kullanılır. JPEG, PNG veya WebP; görsel başına en fazla 5 MB.</p>
@@ -606,24 +638,81 @@ export default function ProductForm({ categories, product = null, userRole }) {
             </p>
           )}
         </div>
+          </TabsContent>
 
-        {isTrendyol && trendyolMedia.length > 0 ? (
-          <div className="form-section">
-            <div className="form-section-heading">
-              <h2>Trendyol detay medyası</h2>
-              <p>Bu remote görsel ve videolar sync tarafından yönetilir; sunucuya indirilmez.</p>
-            </div>
-            <ul className="integration-media-list">
-              {trendyolMedia.map((media) => (
-                <li key={media.externalId || media.id}>
-                  <span className="badge badge-neutral">{media.type === "video" ? "Video" : "Görsel"}</span>
-                  <a href={media.url || media.imageUrl} target="_blank" rel="noreferrer">Medyayı aç</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
-      </section>
+          {isTrendyol ? (
+            <TabsContent value="integration" className="product-form-tab-content">
+              <div className="form-section">
+                <div className="form-section-heading product-integration-heading">
+                  <div>
+                    <h2><span className="badge badge-neutral">Trendyol</span> Entegrasyon bilgileri</h2>
+                    <p>Bu alanlar senkronizasyon tarafından güncellenir; website yayını ve görselleri bu panelden yönetilir.</p>
+                  </div>
+                  <span className="badge badge-sage">{product.syncStatus === "success" ? "Senkronize" : product.syncStatus || "Bekliyor"}</span>
+                </div>
+                <dl className="integration-meta">
+                  <div><dt>Content ID</dt><dd>{product.trendyolContentId || "-"}</dd></div>
+                  <div><dt>Product Main ID</dt><dd>{product.trendyolProductMainId || "-"}</dd></div>
+                  <div><dt>Barkod</dt><dd>{product.trendyolBarcode || "-"}</dd></div>
+                  <div><dt>Sync</dt><dd>{product.syncStatus || "pending"}</dd></div>
+                </dl>
+              </div>
+
+              {trendyolMedia.length > 0 ? (
+                <div className="form-section">
+                  <div className="form-section-heading">
+                    <h2>Trendyol detay medyası</h2>
+                    <p>Bu remote görsel ve videolar sync tarafından yönetilir; sunucuya indirilmez.</p>
+                  </div>
+                  <ul className="integration-media-list">
+                    {trendyolMedia.map((media) => {
+                      const mediaUrl = media.url || media.imageUrl;
+                      const isVideo = media.type === "video";
+
+                      return (
+                        <li key={media.externalId || media.id}>
+                          {isVideo ? (
+                            <div className="integration-media-preview integration-media-preview-video">
+                              Video önizlemesi
+                            </div>
+                          ) : (
+                            <a
+                              className="integration-media-preview"
+                              href={mediaUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              aria-label="Trendyol ürün görselini yeni sekmede aç"
+                            >
+                              {/* Trendyol CDN adresleri değişken olduğu için Next Image yapılandırmasına bağlı kalma. */}
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={mediaUrl}
+                                alt="Trendyol ürün görseli"
+                                loading="lazy"
+                                decoding="async"
+                                referrerPolicy="no-referrer"
+                                onError={(event) => {
+                                  event.currentTarget
+                                    .closest(".integration-media-preview")
+                                    ?.setAttribute("data-image-error", "true");
+                                }}
+                              />
+                            </a>
+                          )}
+                          <div className="integration-media-card-footer">
+                            <span className="badge badge-neutral">{isVideo ? "Video" : "Görsel"}</span>
+                            <a href={mediaUrl} target="_blank" rel="noreferrer">Medyayı aç</a>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null}
+            </TabsContent>
+          ) : null}
+        </section>
+      </Tabs>
 
       <div className="page-actions">
         <Link className="button button-secondary" href="/admin/products">Vazgeç</Link>

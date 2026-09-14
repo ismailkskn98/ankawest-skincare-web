@@ -9,6 +9,7 @@ import AdminSidebar from "@/components/admin/admin-sidebar";
 export default function AdminShell({ children, user }) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -17,12 +18,19 @@ export default function AdminShell({ children, user }) {
     };
   }, [isMenuOpen]);
 
+  function toggleSidebar() {
+    setIsSidebarCollapsed((current) => !current);
+  }
+
   return (
-    <div className="admin-shell">
+    <div className="admin-shell" data-sidebar-collapsed={isSidebarCollapsed}>
+      <a className="skip-link" href="#admin-content">Ana içeriğe geç</a>
       <AdminSidebar
         currentPath={pathname}
+        isCollapsed={isSidebarCollapsed}
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
+        onCollapse={toggleSidebar}
         user={user}
       />
       {isMenuOpen ? (
@@ -33,7 +41,7 @@ export default function AdminShell({ children, user }) {
           aria-label="Menüyü kapat"
         />
       ) : null}
-      <div className="admin-main-area">
+      <div className="admin-main-area" id="admin-content">
         <AdminHeader
           currentPath={pathname}
           isMenuOpen={isMenuOpen}

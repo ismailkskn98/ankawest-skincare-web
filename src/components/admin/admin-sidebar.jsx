@@ -2,6 +2,8 @@
 
 import {
   Article,
+  CaretLeft,
+  CaretRight,
   GearSix,
   House,
   Package,
@@ -34,7 +36,14 @@ function getInitials(fullName) {
     .toUpperCase();
 }
 
-export default function AdminSidebar({ currentPath, isOpen, onClose, user }) {
+export default function AdminSidebar({
+  currentPath,
+  isCollapsed,
+  isOpen,
+  onClose,
+  onCollapse,
+  user,
+}) {
   const visibleNavigation = adminNavigation.filter(
     (entry) => !entry.adminOnly || user.role === "admin",
   );
@@ -43,11 +52,12 @@ export default function AdminSidebar({ currentPath, isOpen, onClose, user }) {
     <aside
       className="admin-sidebar"
       data-open={isOpen}
+      data-collapsed={isCollapsed}
       id="admin-sidebar"
       aria-label="Yönetim menüsü"
     >
       <div className="admin-sidebar-logo">
-        <Link href="/admin" onClick={onClose} aria-label="Yönetim paneli ana sayfa">
+        <Link className="admin-brand" href="/admin" onClick={onClose} aria-label="Yönetim paneli ana sayfa">
           <Image
             src="/images/logo/ankawestskincare-logo.webp"
             alt="Anka West Skincare"
@@ -55,6 +65,7 @@ export default function AdminSidebar({ currentPath, isOpen, onClose, user }) {
             height={93}
             priority
           />
+          <span className="admin-brand-mark" aria-hidden="true">AW</span>
         </Link>
         <button
           className="icon-button mobile-menu-button"
@@ -83,25 +94,45 @@ export default function AdminSidebar({ currentPath, isOpen, onClose, user }) {
               key={entry.href}
               onClick={onClose}
               aria-current={isActive ? "page" : undefined}
+              title={isCollapsed ? entry.label : undefined}
             >
               <Icon size={18} weight={isActive ? "fill" : "regular"} aria-hidden="true" />
-              {entry.label}
+              <span>{entry.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="admin-sidebar-user">
-        <div className="admin-user-summary">
-          <span className="admin-user-avatar" aria-hidden="true">
-            {getInitials(user.fullName)}
-          </span>
-          <div>
-            <strong>{user.fullName}</strong>
-            <span>{user.role === "admin" ? "Yönetici" : "Editör"}</span>
+      <div className="admin-sidebar-footer">
+        <button
+          className="sidebar-collapse-button"
+          type="button"
+          onClick={onCollapse}
+          aria-label={isCollapsed ? "Kenar çubuğunu genişlet" : "Kenar çubuğunu daralt"}
+          title={isCollapsed ? "Kenar çubuğunu genişlet" : "Kenar çubuğunu daralt"}
+        >
+          {isCollapsed ? <CaretRight size={17} aria-hidden="true" /> : <CaretLeft size={17} aria-hidden="true" />}
+          <span>Kenar çubuğunu daralt</span>
+        </button>
+        <details className="admin-user-menu">
+          <summary className="admin-user-summary">
+            <span className="admin-user-avatar" aria-hidden="true">
+              {getInitials(user.fullName)}
+            </span>
+            <span className="admin-user-copy">
+              <strong>{user.fullName}</strong>
+              <span>{user.role === "admin" ? "Yönetici" : "Editör"}</span>
+            </span>
+          </summary>
+          <div className="admin-user-popover">
+            <div className="admin-user-popover-meta">
+              <strong>{user.fullName}</strong>
+              <span>{user.email}</span>
+            </div>
+            <Link href="/admin/account" onClick={onClose}>Hesap ayarları</Link>
+            <LogoutButton />
           </div>
-        </div>
-        <LogoutButton />
+        </details>
       </div>
     </aside>
   );

@@ -109,12 +109,15 @@ export function CategoryFilter({
   };
 
   return (
-    <nav aria-label="Ürün kategorileri">
-      <div className="hidden lg:block" data-section-reveal>
+    <nav
+      className="lg:flex lg:max-h-[calc(100dvh-8.75rem)] lg:flex-col"
+      aria-label="Ürün kategorileri"
+    >
+      <div className="hidden min-h-0 lg:flex lg:flex-1 lg:flex-col" data-section-reveal>
         <p className="text-[0.62rem] font-semibold tracking-[0.14em] text-site-copy uppercase">
           Kategoriler
         </p>
-        <div className="mt-5">
+        <div className="mt-5 min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:pr-3">
           <CategoryList
             items={items}
             activeCategory={activeCategory}
@@ -158,8 +161,8 @@ export function CategoryFilter({
           }
         }}
       >
-        <div className="max-h-[min(80vh,720px)] overflow-y-auto rounded-t-[1.75rem] bg-site-paper px-[clamp(1.25rem,5vw,1.75rem)] pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-18px_48px_rgba(20,20,18,0.12)]">
-          <div className="flex items-center justify-between gap-4">
+        <div className="flex max-h-[min(80dvh,45rem)] flex-col overflow-hidden rounded-t-[1.75rem] bg-site-paper px-[clamp(1.25rem,5vw,1.75rem)] pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-18px_48px_rgba(20,20,18,0.12)]">
+          <div className="flex shrink-0 items-center justify-between gap-4">
             <div>
               <p
                 id="category-filter-title"
@@ -180,7 +183,7 @@ export function CategoryFilter({
             </button>
           </div>
 
-          <div className="mt-5 border-t border-site-ink/10 pt-3">
+          <div className="mt-5 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-site-ink/10 pt-3 pr-2">
             <CategoryList
               items={items}
               activeCategory={activeCategory}

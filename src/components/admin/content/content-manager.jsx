@@ -6,9 +6,10 @@ import {
   Plus,
   Trash,
   WarningCircle,
+  X,
 } from "@phosphor-icons/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import SeoFields from "@/components/admin/seo-fields";
@@ -64,6 +65,7 @@ export default function ContentManager({ initialRecords, userRole }) {
   const [contentToDelete, setContentToDelete] = useState(null);
   const [message, setMessage] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -85,13 +87,36 @@ export default function ContentManager({ initialRecords, userRole }) {
   function startCreating() {
     setEditingContent(null);
     reset(emptyValues);
+    setIsEditorOpen(true);
   }
 
   function startEditing(content) {
     setEditingContent(content);
     reset(toFormValues(content));
     setMessage("");
+    setIsEditorOpen(true);
   }
+
+  function closeEditor() {
+    setIsEditorOpen(false);
+    setEditingContent(null);
+    reset(emptyValues);
+  }
+
+  useEffect(() => {
+    if (!isEditorOpen) return undefined;
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsEditorOpen(false);
+        setEditingContent(null);
+        reset(emptyValues);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isEditorOpen, reset]);
 
   async function saveContent(values) {
     let body;
@@ -114,7 +139,7 @@ export default function ContentManager({ initialRecords, userRole }) {
       });
       setMessage(payload.message || "İçerik kaydedildi.");
       await reloadContents();
-      startCreating();
+      closeEditor();
     } catch (error) {
       setError("root", { message: error.message });
     }
@@ -150,7 +175,7 @@ export default function ContentManager({ initialRecords, userRole }) {
   }
 
   return (
-    <div className="manager-layout">
+    <div className="manager-layout manager-layout-single">
       <section className="panel">
         <header className="panel-header">
           <h2>İçerik listesi</h2>
@@ -186,8 +211,10 @@ export default function ContentManager({ initialRecords, userRole }) {
         )}
       </section>
 
-      <section className="panel sticky-panel">
-        <header className="panel-header"><h2>{editingContent ? "İçeriği düzenle" : "Yeni içerik"}</h2></header>
+      {isEditorOpen ? <>
+      <button className="manager-drawer-backdrop" type="button" aria-label="İçerik formunu kapat" onClick={closeEditor} />
+      <section className="panel manager-drawer" role="dialog" aria-modal="true" aria-labelledby="content-editor-title">
+        <header className="panel-header"><h2 id="content-editor-title">{editingContent ? "İçeriği düzenle" : "Yeni içerik"}</h2><button className="icon-button" type="button" onClick={closeEditor} aria-label="İçerik formunu kapat" autoFocus><X size={18} /></button></header>
         <form onSubmit={handleSubmit(saveContent)} noValidate>
           <div className="panel-body form-stack">
             {errors.root ? <div className="feedback-message feedback-error" role="alert"><WarningCircle size={18} /> {errors.root.message}</div> : null}
@@ -199,6 +226,7 @@ export default function ContentManager({ initialRecords, userRole }) {
             <div className="form-field">
               <label className="form-label" htmlFor="content-key">İçerik anahtarı</label>
               <input className="form-control" id="content-key" placeholder="homepage.hero.title" aria-invalid={Boolean(errors.contentKey)} {...register("contentKey")} />
+              <p className="form-hint">Sayfa ve alanı nokta ile ayırın; örn. homepage.hero.title.</p>
               {errors.contentKey ? <p className="form-error">{errors.contentKey.message}</p> : null}
             </div>
             <div className="form-field">
@@ -211,25 +239,28 @@ export default function ContentManager({ initialRecords, userRole }) {
               {errors.body ? <p className="form-error">{errors.body.message}</p> : null}
             </div>
             <div className="form-field">
-              <label className="form-label" htmlFor="content-metadata">Metadata (JSON)</label>
-              <textarea className="form-textarea" id="content-metadata" rows={5} spellCheck="false" aria-invalid={Boolean(errors.metadataText)} {...register("metadataText")} />
-              {errors.metadataText ? <p className="form-error">{errors.metadataText.message}</p> : null}
-            </div>
-            <div className="form-field">
               <label className="form-label" htmlFor="content-order">Görüntüleme sırası</label>
               <input className="form-control" id="content-order" type="number" min="0" {...register("displayOrder")} />
             </div>
-            <details>
-              <summary className="text-link">SEO alanları</summary>
-              <div style={{ marginTop: 16 }}><SeoFields register={register} errors={errors} /></div>
+            <details className="advanced-fields">
+              <summary>Gelişmiş alanlar</summary>
+              <div className="advanced-fields-body form-stack">
+                <div className="form-field">
+                  <label className="form-label" htmlFor="content-metadata">Metadata (JSON)</label>
+                  <textarea className="form-textarea" id="content-metadata" rows={5} spellCheck="false" aria-invalid={Boolean(errors.metadataText)} {...register("metadataText")} />
+                  {errors.metadataText ? <p className="form-error">{errors.metadataText.message}</p> : null}
+                </div>
+                <SeoFields register={register} errors={errors} />
+              </div>
             </details>
           </div>
           <footer className="panel-footer">
-            {editingContent ? <button className="button button-ghost" type="button" onClick={startCreating}>Vazgeç</button> : null}
+            <button className="button button-ghost" type="button" onClick={closeEditor}>Vazgeç</button>
             <button className="button button-primary" type="submit" disabled={isSubmitting}>{isSubmitting ? "Kaydediliyor..." : "Kaydet"}</button>
           </footer>
         </form>
       </section>
+      </> : null}
 
       <ConfirmDialog isOpen={Boolean(contentToDelete)} title="İçeriği kaldır" description={`${contentToDelete?.contentKey || "Bu içerik"} yayından ve yönetim listesinden kaldırılacak.`} confirmLabel="İçeriği kaldır" isSubmitting={isDeleting} onCancel={() => setContentToDelete(null)} onConfirm={deleteContent} />
     </div>

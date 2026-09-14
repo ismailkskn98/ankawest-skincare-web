@@ -23,7 +23,7 @@ export default function LogoutButton() {
 
   return (
     <button
-      className="button button-ghost button-block"
+      className="admin-user-menu-action"
       type="button"
       onClick={logout}
       disabled={isSubmitting}

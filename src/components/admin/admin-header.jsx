@@ -1,6 +1,6 @@
 "use client";
 
-import { List, Storefront } from "@phosphor-icons/react";
+import { CaretRight, List, Storefront } from "@phosphor-icons/react";
 import Link from "next/link";
 
 const routeTitles = [
@@ -32,7 +32,11 @@ export default function AdminHeader({ currentPath, isMenuOpen, onMenuOpen }) {
         >
           <List size={19} aria-hidden="true" />
         </button>
-        <strong>{title}</strong>
+        <nav className="admin-breadcrumb" aria-label="Sayfa yolu">
+          <Link href="/admin">Yönetim</Link>
+          <CaretRight size={13} aria-hidden="true" />
+          <strong>{title}</strong>
+        </nav>
       </div>
       <Link
         className="button button-secondary button-small"

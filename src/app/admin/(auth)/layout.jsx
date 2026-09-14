@@ -23,16 +23,22 @@ export default function AdminAuthLayout({ children }) {
           />
         </Link>
         <div className="auth-brand-copy">
-          <p className="eyebrow">Yönetim merkezi</p>
+          <p className="auth-kicker">Anka West yönetim merkezi</p>
           <h1>İçeriği tek ve güvenli bir yerden yönetin.</h1>
           <p>
             Ürünleri, kategorileri ve site içeriklerini kontrollü bir yayın
             akışıyla güncelleyin.
           </p>
         </div>
-        <span className="auth-brand-footer">Anka West Skincare</span>
+        <span className="auth-brand-footer">Güvenli katalog ve içerik yönetimi</span>
       </aside>
-      <main className="auth-content-panel">{children}</main>
+      <main className="auth-content-panel">
+        <Link className="auth-mobile-brand" href="/" aria-label="Anka West Skincare ana sayfa">
+          <Image src="/images/logo/ankawestskincare-logo.webp" alt="Anka West Skincare" width={150} height={93} priority />
+        </Link>
+        {children}
+        <p className="auth-security-note">Korumalı yönetim oturumu</p>
+      </main>
     </div>
   );
 }
