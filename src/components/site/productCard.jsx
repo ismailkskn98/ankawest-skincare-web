@@ -14,7 +14,7 @@ export function ProductCard({ product }) {
     <>
       {image ? (
         <Image
-          className="absolute inset-0 h-full w-full select-none object-cover transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.025] group-hover:opacity-0 motion-reduce:transition-none"
+          className={`absolute inset-0 h-full w-full select-none object-cover transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.025] motion-reduce:transition-none ${hoverImage ? "group-hover:opacity-0" : ""}`}
           src={image}
           alt={imageAlt}
           fill

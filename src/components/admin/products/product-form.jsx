@@ -3,7 +3,6 @@
 import {
   ArrowClockwise,
   ArrowLeft,
-  CheckCircle,
   ImageSquare,
   Trash,
   UploadSimple,
@@ -116,7 +115,7 @@ function toProductPayload(values) {
 export default function ProductForm({ categories, product = null, userRole }) {
   const router = useRouter();
   const previewUrlsRef = useRef(new Set());
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState({ cover: null, hover: null });
   const [existingImages, setExistingImages] = useState(() =>
     normalizeImages(product?.images).filter((image) => image.source !== "trendyol"),
   );
@@ -125,8 +124,16 @@ export default function ProductForm({ categories, product = null, userRole }) {
   const [imageToDelete, setImageToDelete] = useState(null);
   const [uploadError, setUploadError] = useState("");
   const [formMessage, setFormMessage] = useState("");
+  const [activeTab, setActiveTab] = useState("general");
   const isEditing = Boolean(savedProductId);
   const isTrendyol = product?.source === "trendyol";
+  const existingCoverImage = existingImages.find(
+    (image) => image.role === "cover" || image.isPrimary,
+  );
+  const existingHoverImage = existingImages.find(
+    (image) => image.role === "hover" || (!image.role && !image.isPrimary),
+  );
+  const hasSelectedImages = Boolean(selectedImages.cover || selectedImages.hover);
   const trendyolMedia = normalizeImages(product?.media).filter(
     (media) => media.source === "trendyol",
   );
@@ -147,78 +154,64 @@ export default function ProductForm({ categories, product = null, userRole }) {
 
   useEffect(() => {
     function warnAboutUnsavedChanges(event) {
-      if (!isDirty && selectedImages.length === 0) return;
+      if (!isDirty && !hasSelectedImages) return;
       event.preventDefault();
     }
 
     window.addEventListener("beforeunload", warnAboutUnsavedChanges);
     return () => window.removeEventListener("beforeunload", warnAboutUnsavedChanges);
-  }, [isDirty, selectedImages.length]);
+  }, [hasSelectedImages, isDirty]);
 
-  function handleAcceptedImages(files) {
+  function handleAcceptedImage(role, files) {
     setUploadError("");
-    const availableSlots = 8 - selectedImages.length;
+    const file = files[0];
+    if (!file) return;
 
-    if (availableSlots <= 0) {
-      setUploadError("En fazla 8 yeni görsel seçebilirsiniz.");
-      return;
-    }
+    const preview = URL.createObjectURL(file);
+    previewUrlsRef.current.add(preview);
+    setSelectedImages((current) => {
+      if (current[role]?.preview) {
+        URL.revokeObjectURL(current[role].preview);
+        previewUrlsRef.current.delete(current[role].preview);
+      }
 
-    const newImages = files.slice(0, availableSlots).map((file) => {
-      const preview = URL.createObjectURL(file);
-      previewUrlsRef.current.add(preview);
-      return { file, preview };
+      return { ...current, [role]: { file, preview } };
     });
-
-    setSelectedImages((current) => [...current, ...newImages]);
-
-    if (files.length > availableSlots) {
-      setUploadError("En fazla 8 yeni görsel seçebilirsiniz.");
-    }
   }
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const coverDropzone = useDropzone({
     accept: imageAccept,
-    maxFiles: 8,
+    maxFiles: 1,
     maxSize: 5 * 1024 * 1024,
-    multiple: true,
-    onDropAccepted: handleAcceptedImages,
+    multiple: false,
+    onDropAccepted: (files) => handleAcceptedImage("cover", files),
     onDropRejected: () => {
       setUploadError(
-        "Yalnızca JPEG, PNG veya WebP formatında ve en fazla 5 MB görseller seçin.",
+        "Kapak görseli JPEG, PNG veya WebP formatında ve en fazla 5 MB olmalıdır.",
       );
     },
   });
 
-  function removeImage(preview) {
-    URL.revokeObjectURL(preview);
-    previewUrlsRef.current.delete(preview);
-    setSelectedImages((current) =>
-      current.filter((image) => image.preview !== preview),
-    );
-  }
-
-  async function makeImagePrimary(imageId) {
-    setPendingImageId(imageId);
-    setUploadError("");
-
-    try {
-      await clientApiRequest(
-        `/api/admin/products/${savedProductId}/images/update/${imageId}`,
-        { method: "PUT", body: { isPrimary: true } },
+  const hoverDropzone = useDropzone({
+    accept: imageAccept,
+    maxFiles: 1,
+    maxSize: 5 * 1024 * 1024,
+    multiple: false,
+    onDropAccepted: (files) => handleAcceptedImage("hover", files),
+    onDropRejected: () => {
+      setUploadError(
+        "Hover görseli JPEG, PNG veya WebP formatında ve en fazla 5 MB olmalıdır.",
       );
-      setExistingImages((current) =>
-        current.map((image) => ({
-          ...image,
-          isPrimary: String(image.id) === String(imageId),
-        })),
-      );
-      setFormMessage("Birincil ürün görseli güncellendi.");
-    } catch (error) {
-      setUploadError(error.message);
-    } finally {
-      setPendingImageId(null);
-    }
+    },
+  });
+
+  function removeSelectedImage(role) {
+    const image = selectedImages[role];
+    if (!image) return;
+
+    URL.revokeObjectURL(image.preview);
+    previewUrlsRef.current.delete(image.preview);
+    setSelectedImages((current) => ({ ...current, [role]: null }));
   }
 
   async function deleteExistingImage() {
@@ -235,22 +228,9 @@ export default function ProductForm({ categories, product = null, userRole }) {
         { method: "DELETE" },
       );
       setExistingImages((current) => {
-        const remainingImages = current.filter(
+        return current.filter(
           (image) => String(image.id) !== String(imageToDelete.id),
         );
-
-        if (
-          imageToDelete.isPrimary &&
-          remainingImages.length > 0 &&
-          !remainingImages.some((image) => image.isPrimary)
-        ) {
-          return remainingImages.map((image, index) => ({
-            ...image,
-            isPrimary: index === 0,
-          }));
-        }
-
-        return remainingImages;
       });
       setImageToDelete(null);
       setFormMessage("Ürün görseli kaldırıldı.");
@@ -264,6 +244,13 @@ export default function ProductForm({ categories, product = null, userRole }) {
   async function saveProduct(values) {
     setFormMessage("");
     setUploadError("");
+
+    if (!existingCoverImage && !selectedImages.cover) {
+      setUploadError("Ürün kartı için bir kapak görseli seçmelisiniz.");
+      setActiveTab("media");
+      return;
+    }
+
     const endpoint = isEditing
       ? `/api/admin/products/update/${savedProductId}`
       : "/api/admin/products/create";
@@ -283,12 +270,22 @@ export default function ProductForm({ categories, product = null, userRole }) {
         setSavedProductId(currentProductId);
       }
 
-      if (selectedImages.length > 0) {
+      const selectedImageEntries = Object.entries(selectedImages).filter(
+        ([, image]) => Boolean(image),
+      );
+
+      if (selectedImageEntries.length > 0) {
         const formData = new FormData();
-        selectedImages.forEach(({ file }) => formData.append("images", file));
+        selectedImageEntries.forEach(([, image]) => {
+          formData.append("images", image.file);
+        });
         formData.append(
           "altTexts",
-          JSON.stringify(selectedImages.map(() => values.name)),
+          JSON.stringify(selectedImageEntries.map(() => values.name)),
+        );
+        formData.append(
+          "roles",
+          JSON.stringify(selectedImageEntries.map(([role]) => role)),
         );
 
         try {
@@ -320,7 +317,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
           Ürünlere dön
         </Link>
         <div className="product-save-status">
-          {isDirty || selectedImages.length > 0 ? <span><i aria-hidden="true" /> Kaydedilmemiş değişiklikler</span> : null}
+          {isDirty || hasSelectedImages ? <span><i aria-hidden="true" /> Kaydedilmemiş değişiklikler</span> : null}
           <button className="button button-primary" type="submit" disabled={isSubmitting}>
             {isSubmitting ? <><ArrowClockwise className="spin" size={16} /> Kaydediliyor</> : isEditing ? "Değişiklikleri kaydet" : "Ürünü kaydet"}
           </button>
@@ -339,7 +336,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
         </div>
       ) : null}
 
-      <Tabs defaultValue="general" className="product-form-tabs">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="product-form-tabs">
         <TabsList className="product-section-nav" aria-label="Ürün formu bölümleri">
           <TabsTrigger value="general">Genel</TabsTrigger>
           <TabsTrigger value="publication">Yayın</TabsTrigger>
@@ -446,7 +443,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
                 <option value="published">Yayında</option>
               </select>
               {!isEditing ? <p className="form-hint">Yeni ürünler ilk kayıtta taslak oluşturulur.</p> : null}
-              {isTrendyol && existingImages.length === 0 ? (
+              {isTrendyol && !existingCoverImage && !selectedImages.cover ? (
                 <p className="form-hint">Yayınlamak için önce website kapak görseli yükleyin.</p>
               ) : null}
             </div>
@@ -561,87 +558,151 @@ export default function ProductForm({ categories, product = null, userRole }) {
           </TabsContent>
 
           <TabsContent value="media" className="product-form-tab-content">
-            <div className="form-section">
-          <div className="form-section-heading">
-            <h2>Website kapak görseli</h2>
-            <p>Kartlarda ve ana sayfada kullanılır. JPEG, PNG veya WebP; görsel başına en fazla 5 MB.</p>
-          </div>
-          {existingImages.length > 0 ? (
-            <div className="image-preview-grid" aria-label="Kayıtlı ürün görselleri">
-              {existingImages.map((image) => (
-                <figure className="image-preview" key={image.id}>
-                  <Image
-                    src={image.imageUrl}
-                    alt={image.altText || product?.name || "Ürün görseli"}
-                    fill
-                    sizes="160px"
-                  />
-                  {image.isPrimary ? (
-                    <span className="image-primary-badge">Birincil</span>
-                  ) : null}
-                  <div className="image-preview-toolbar">
-                    {!image.isPrimary ? (
-                      <button
-                        type="button"
-                        onClick={() => makeImagePrimary(image.id)}
-                        disabled={pendingImageId !== null}
-                        aria-label={`${image.altText || "Ürün görselini"} birincil yap`}
-                        title="Birincil yap"
-                      >
-                        <CheckCircle size={15} aria-hidden="true" />
-                      </button>
-                    ) : null}
-                    {userRole === "admin" ? (
-                      <button
-                        type="button"
-                        onClick={() => setImageToDelete(image)}
-                        disabled={pendingImageId !== null}
-                        aria-label={`${image.altText || "Ürün görselini"} kaldır`}
-                        title="Görseli kaldır"
-                      >
-                        <Trash size={15} aria-hidden="true" />
-                      </button>
-                    ) : null}
+            <div className="form-section product-media-section">
+              <div className="form-section-heading">
+                <h2>Ürün kartı görselleri</h2>
+                <p>Kapak görseli zorunludur. Hover görseli eklenirse kartın üzerine gelindiğinde gösterilir.</p>
+              </div>
+
+              <div className="product-image-slots">
+                <section className="product-image-slot" aria-labelledby="cover-image-title">
+                  <div className="product-image-slot-heading">
+                    <div>
+                      <h3 id="cover-image-title">Kapak görseli</h3>
+                      <p>Ürün kartlarında varsayılan olarak görünür.</p>
+                    </div>
+                    <span className="badge badge-neutral">Zorunlu</span>
                   </div>
-                </figure>
-              ))}
+
+                  <figure className="product-image-slot-preview">
+                    {selectedImages.cover ? (
+                      <Image
+                        src={selectedImages.cover.preview}
+                        alt={selectedImages.cover.file.name}
+                        fill
+                        sizes="(max-width: 900px) 100vw, 40vw"
+                        unoptimized
+                      />
+                    ) : existingCoverImage ? (
+                      <Image
+                        src={existingCoverImage.imageUrl}
+                        alt={existingCoverImage.altText || product?.name || "Kapak görseli"}
+                        fill
+                        sizes="(max-width: 900px) 100vw, 40vw"
+                      />
+                    ) : (
+                      <div className="product-image-slot-empty">
+                        <ImageSquare size={30} aria-hidden="true" />
+                        <span>Henüz kapak görseli yok</span>
+                      </div>
+                    )}
+                    {selectedImages.cover ? (
+                      <button
+                        className="product-image-remove"
+                        type="button"
+                        onClick={() => removeSelectedImage("cover")}
+                        aria-label="Seçilen kapak görselini kaldır"
+                      >
+                        <Trash size={16} aria-hidden="true" />
+                      </button>
+                    ) : null}
+                  </figure>
+
+                  <div
+                    {...coverDropzone.getRootProps({
+                      className: "dropzone product-image-dropzone",
+                      "data-active": coverDropzone.isDragActive,
+                    })}
+                  >
+                    <input {...coverDropzone.getInputProps()} />
+                    <UploadSimple size={22} aria-hidden="true" />
+                    <div>
+                      <strong>{coverDropzone.isDragActive ? "Görseli bırakın" : existingCoverImage ? "Kapak görselini değiştir" : "Kapak görseli seç"}</strong>
+                      <span>JPEG, PNG veya WebP · En fazla 5 MB</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section className="product-image-slot" aria-labelledby="hover-image-title">
+                  <div className="product-image-slot-heading">
+                    <div>
+                      <h3 id="hover-image-title">Hover görseli</h3>
+                      <p>Fareyle kartın üzerine gelindiğinde kapak yerine görünür.</p>
+                    </div>
+                    <span className="badge badge-sage">Opsiyonel</span>
+                  </div>
+
+                  <figure className="product-image-slot-preview">
+                    {selectedImages.hover ? (
+                      <Image
+                        src={selectedImages.hover.preview}
+                        alt={selectedImages.hover.file.name}
+                        fill
+                        sizes="(max-width: 900px) 100vw, 40vw"
+                        unoptimized
+                      />
+                    ) : existingHoverImage ? (
+                      <Image
+                        src={existingHoverImage.imageUrl}
+                        alt={existingHoverImage.altText || product?.name || "Hover görseli"}
+                        fill
+                        sizes="(max-width: 900px) 100vw, 40vw"
+                      />
+                    ) : (
+                      <div className="product-image-slot-empty">
+                        <ImageSquare size={30} aria-hidden="true" />
+                        <span>Hover görseli eklenmedi</span>
+                      </div>
+                    )}
+                    {selectedImages.hover ? (
+                      <button
+                        className="product-image-remove"
+                        type="button"
+                        onClick={() => removeSelectedImage("hover")}
+                        aria-label="Seçilen hover görselini kaldır"
+                      >
+                        <Trash size={16} aria-hidden="true" />
+                      </button>
+                    ) : existingHoverImage && userRole === "admin" ? (
+                      <button
+                        className="product-image-remove"
+                        type="button"
+                        onClick={() => setImageToDelete(existingHoverImage)}
+                        disabled={pendingImageId !== null}
+                        aria-label="Hover görselini kaldır"
+                      >
+                        <Trash size={16} aria-hidden="true" />
+                      </button>
+                    ) : null}
+                  </figure>
+
+                  <div
+                    {...hoverDropzone.getRootProps({
+                      className: "dropzone product-image-dropzone",
+                      "data-active": hoverDropzone.isDragActive,
+                    })}
+                  >
+                    <input {...hoverDropzone.getInputProps()} />
+                    <UploadSimple size={22} aria-hidden="true" />
+                    <div>
+                      <strong>{hoverDropzone.isDragActive ? "Görseli bırakın" : existingHoverImage ? "Hover görselini değiştir" : "Hover görseli ekle"}</strong>
+                      <span>İsteğe bağlı · JPEG, PNG veya WebP · En fazla 5 MB</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              {uploadError ? (
+                <p className="feedback-message feedback-error" role="alert">
+                  <WarningCircle size={18} aria-hidden="true" />
+                  {uploadError}
+                </p>
+              ) : null}
             </div>
-          ) : null}
-          <div {...getRootProps({ className: "dropzone", "data-active": isDragActive })}>
-            <input {...getInputProps()} />
-            <div>
-              <UploadSimple size={25} aria-hidden="true" />
-              <strong>{isDragActive ? "Görselleri bırakın" : "Görselleri seçin veya sürükleyin"}</strong>
-              <span>Seçilen dosyalar ürün kaydedildikten sonra yüklenir.</span>
-            </div>
-          </div>
-          {uploadError ? (
-            <p className="feedback-message feedback-error" role="alert">
-              <WarningCircle size={18} aria-hidden="true" />
-              {uploadError}
-            </p>
-          ) : null}
-          {selectedImages.length > 0 ? (
-            <div className="image-preview-grid" aria-label="Seçilen görseller">
-              {selectedImages.map(({ file, preview }) => (
-                <figure className="image-preview" key={preview}>
-                  <Image src={preview} alt={file.name} fill sizes="160px" unoptimized />
-                  <button type="button" onClick={() => removeImage(preview)} aria-label={`${file.name} görselini kaldır`}>
-                    <Trash size={15} aria-hidden="true" />
-                  </button>
-                </figure>
-              ))}
-            </div>
-          ) : (
-            <p className="form-hint" style={{ marginTop: 10 }}>
-              <ImageSquare size={16} aria-hidden="true" /> Henüz yeni görsel seçilmedi.
-            </p>
-          )}
-        </div>
           </TabsContent>
 
           {isTrendyol ? (
-            <TabsContent value="integration" className="product-form-tab-content">
+            <TabsContent value="integration" forceMount className="product-form-tab-content">
               <div className="form-section">
                 <div className="form-section-heading product-integration-heading">
                   <div>
@@ -665,7 +726,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
                     <p>Bu remote görsel ve videolar sync tarafından yönetilir; sunucuya indirilmez.</p>
                   </div>
                   <ul className="integration-media-list">
-                    {trendyolMedia.map((media) => {
+                    {trendyolMedia.map((media, mediaIndex) => {
                       const mediaUrl = media.url || media.imageUrl;
                       const isVideo = media.type === "video";
 
@@ -688,9 +749,15 @@ export default function ProductForm({ categories, product = null, userRole }) {
                               <img
                                 src={mediaUrl}
                                 alt="Trendyol ürün görseli"
-                                loading="lazy"
+                                loading="eager"
+                                fetchPriority={mediaIndex < 3 ? "high" : "auto"}
                                 decoding="async"
                                 referrerPolicy="no-referrer"
+                                onLoad={(event) => {
+                                  event.currentTarget
+                                    .closest(".integration-media-preview")
+                                    ?.setAttribute("data-image-loaded", "true");
+                                }}
                                 onError={(event) => {
                                   event.currentTarget
                                     .closest(".integration-media-preview")
@@ -723,9 +790,9 @@ export default function ProductForm({ categories, product = null, userRole }) {
 
       <ConfirmDialog
         isOpen={Boolean(imageToDelete)}
-        title="Ürün görselini kaldır"
-        description="Bu görsel ürün galerisinden kaldırılacak. Kaldırma işlemi sonrasında görsel panelde gösterilmez."
-        confirmLabel="Görseli kaldır"
+        title="Hover görselini kaldır"
+        description="Hover görseli kaldırılacak. Ürün kartı kapak görseliyle çalışmaya devam eder."
+        confirmLabel="Hover görselini kaldır"
         isSubmitting={pendingImageId !== null}
         onCancel={() => setImageToDelete(null)}
         onConfirm={deleteExistingImage}
