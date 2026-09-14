@@ -112,7 +112,7 @@ function toProductPayload(values) {
   };
 }
 
-export default function ProductForm({ categories, product = null, userRole }) {
+export default function ProductForm({ categories, product = null, userRole, returnTo = "/admin/products" }) {
   const router = useRouter();
   const previewUrlsRef = useRef(new Set());
   const [selectedImages, setSelectedImages] = useState({ cover: null, hover: null });
@@ -302,7 +302,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
         }
       }
 
-      router.push("/admin/products");
+      router.push(returnTo);
       router.refresh();
     } catch (error) {
       setError("root", { message: error.message });
@@ -312,7 +312,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
   return (
     <form className="form-stack" onSubmit={handleSubmit(saveProduct)} noValidate>
       <div className="product-save-bar">
-        <Link className="button button-secondary" href="/admin/products">
+        <Link className="button button-secondary" href={returnTo}>
           <ArrowLeft size={17} aria-hidden="true" />
           Ürünlere dön
         </Link>
@@ -784,7 +784,7 @@ export default function ProductForm({ categories, product = null, userRole }) {
       </Tabs>
 
       <div className="page-actions">
-        <Link className="button button-secondary" href="/admin/products">Vazgeç</Link>
+        <Link className="button button-secondary" href={returnTo}>Vazgeç</Link>
         <button className="button button-primary" type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Kaydediliyor..." : isEditing ? "Değişiklikleri kaydet" : "Ürünü kaydet"}
         </button>

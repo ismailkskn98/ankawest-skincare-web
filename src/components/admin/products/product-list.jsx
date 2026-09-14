@@ -149,6 +149,7 @@ export default function ProductList({ initialData, categories, userRole }) {
   const firstRecord = pagination.total === 0 ? 0 : (pagination.page - 1) * PAGE_SIZE + 1;
   const lastRecord = Math.min(pagination.page * PAGE_SIZE, pagination.total);
   const visiblePages = getVisiblePages(pagination.page, pagination.totalPages);
+  const returnTo = `/admin/products?page=${pagination.page}`;
 
   return (
     <section className="panel product-list-panel">
@@ -266,7 +267,7 @@ export default function ProductList({ initialData, categories, userRole }) {
                           )}
                         </div>
                         <div className="product-cell-copy">
-                          <Link className="table-primary product-name-link" href={`/admin/products/${product.id}/edit`}>
+                          <Link className="table-primary product-name-link" href={`/admin/products/${product.id}/edit?returnTo=${encodeURIComponent(returnTo)}`}>
                             {product.name}
                           </Link>
                           <span className="table-secondary">{product.sku || product.trendyolBarcode || product.slug}</span>
@@ -298,7 +299,7 @@ export default function ProductList({ initialData, categories, userRole }) {
                       <details className="row-actions-menu">
                         <summary aria-label={`${product.name} için işlemleri aç`}><DotsThree size={20} weight="bold" aria-hidden="true" /></summary>
                         <div className="row-actions-popover">
-                          <Link href={`/admin/products/${product.id}/edit`}><NotePencil size={16} /> Düzenle</Link>
+                          <Link href={`/admin/products/${product.id}/edit?returnTo=${encodeURIComponent(returnTo)}`}><NotePencil size={16} /> Düzenle</Link>
                           {isPublished && product.slug ? <Link href={`/urunler/${product.slug}`} target="_blank"><Eye size={16} /> Önizle</Link> : null}
                           <button type="button" onClick={() => updatePublication(product)} disabled={isUpdating}><Check size={16} /> {isPublished ? "Taslağa al" : "Yayınla"}</button>
                           {userRole === "admin" ? <button className="danger-text" type="button" onClick={() => setProductToDelete(product)}><Trash size={16} /> Sil</button> : null}
