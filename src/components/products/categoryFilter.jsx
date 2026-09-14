@@ -2,15 +2,14 @@
 
 import { FunnelSimpleIcon } from "@phosphor-icons/react/dist/ssr/FunnelSimple";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
+import { LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-function CategoryButton({ label, isActive, onClick }) {
+function CategoryButton({ label, isActive, indicatorId, onClick, reduceMotion }) {
   return (
     <button
-      className={`relative block w-full py-2.5 text-left text-[0.96rem] leading-[1.35] tracking-[-0.02em] transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none motion-reduce:transition-none ${
-        isActive
-          ? "font-medium text-site-ink"
-          : "font-light text-site-copy hover:opacity-70"
+      className={`relative block w-full py-2.5 pr-1 pl-4 text-left text-[0.96rem] leading-[1.35] tracking-[-0.02em] transition-[color,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none motion-reduce:transition-none ${
+        isActive ? "font-medium text-site-ink" : "font-light text-site-copy hover:opacity-70"
       }`}
       type="button"
       role="tab"
@@ -19,8 +18,14 @@ function CategoryButton({ label, isActive, onClick }) {
     >
       {label}
       {isActive ? (
-        <span
-          className="absolute inset-x-0 bottom-1 h-px bg-site-ink/70"
+        <motion.span
+          className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-site-ink"
+          layoutId={indicatorId}
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 520, damping: 42, mass: 0.65 }
+          }
           aria-hidden="true"
         />
       ) : null}
@@ -28,31 +33,33 @@ function CategoryButton({ label, isActive, onClick }) {
   );
 }
 
-function CategoryList({ items, activeCategory, onChange }) {
+function CategoryList({ items, activeCategory, indicatorId, onChange }) {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <div className="grid gap-0.5" role="tablist">
-      {items.map((category) => (
-        <CategoryButton
-          key={category.slug}
-          label={category.name}
-          isActive={activeCategory === category.slug}
-          onClick={() => onChange(category.slug)}
-        />
-      ))}
-    </div>
+    <LayoutGroup id={indicatorId}>
+      <div className="grid gap-0.5" role="tablist">
+        {items.map((category) => (
+          <CategoryButton
+            key={category.slug}
+            label={category.name}
+            isActive={activeCategory === category.slug}
+            indicatorId={indicatorId}
+            onClick={() => onChange(category.slug)}
+            reduceMotion={reduceMotion}
+          />
+        ))}
+      </div>
+    </LayoutGroup>
   );
 }
 
-export function CategoryFilter({
-  categories,
-  activeCategory,
-  activeCategoryName,
-  onChange,
-}) {
+export function CategoryFilter({ categories, activeCategory, activeCategoryName, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
   const closeButtonRef = useRef(null);
+  const desktopScrollRef = useRef(null);
   const previousOverflowRef = useRef("");
   const items = [{ slug: "all", name: "Tüm ürünler" }, ...categories];
 
@@ -108,32 +115,42 @@ export function CategoryFilter({
     closeDrawer(false);
   };
 
+  const handleDesktopSelect = (slug) => {
+    const scrollContainer = desktopScrollRef.current;
+    const currentScrollTop = scrollContainer?.scrollTop || 0;
+
+    onChange(slug);
+
+    window.requestAnimationFrame(() => {
+      if (scrollContainer) {
+        scrollContainer.scrollTop = currentScrollTop;
+      }
+    });
+  };
+
   return (
-    <nav
-      className="lg:flex lg:max-h-[calc(100dvh-8.75rem)] lg:flex-col"
-      aria-label="Ürün kategorileri"
-    >
-      <div className="hidden min-h-0 lg:flex lg:flex-1 lg:flex-col" data-section-reveal>
-        <p className="text-[0.62rem] font-semibold tracking-[0.14em] text-site-copy uppercase">
-          Kategoriler
-        </p>
-        <div className="mt-5 min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:pr-3">
-          <CategoryList
-            items={items}
-            activeCategory={activeCategory}
-            onChange={onChange}
-          />
+    <nav aria-label="Ürün kategorileri">
+      <div className="hidden lg:block" data-section-reveal>
+        <p className="text-[0.62rem] font-semibold tracking-[0.14em] text-site-copy uppercase">Kategoriler</p>
+        <div className="relative mt-5">
+          <div
+            ref={desktopScrollRef}
+            className="category-scroll-content max-h-[min(50dvh,23rem)] overflow-y-auto overscroll-contain pr-5 xl:max-h-[min(54dvh,25rem)]"
+            data-lenis-prevent
+          >
+            <CategoryList
+              items={items}
+              activeCategory={activeCategory}
+              indicatorId="desktop-category-indicator"
+              onChange={handleDesktopSelect}
+            />
+          </div>
         </div>
       </div>
 
-      <div
-        className="flex items-center justify-between gap-4 lg:hidden"
-        data-section-reveal
-      >
+      <div className="flex items-center justify-between gap-4 lg:hidden" data-section-reveal>
         <div className="min-w-0">
-          <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-site-copy uppercase">
-            {activeCategoryName}
-          </p>
+          <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-site-copy uppercase">{activeCategoryName}</p>
         </div>
 
         <button
@@ -164,10 +181,7 @@ export function CategoryFilter({
         <div className="flex max-h-[min(80dvh,45rem)] flex-col overflow-hidden rounded-t-[1.75rem] bg-site-paper px-[clamp(1.25rem,5vw,1.75rem)] pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-18px_48px_rgba(20,20,18,0.12)]">
           <div className="flex shrink-0 items-center justify-between gap-4">
             <div>
-              <p
-                id="category-filter-title"
-                className="text-[0.66rem] font-semibold tracking-[0.14em] text-site-copy uppercase"
-              >
+              <p id="category-filter-title" className="text-[0.66rem] font-semibold tracking-[0.14em] text-site-copy uppercase">
                 Kategori
               </p>
             </div>
@@ -183,10 +197,14 @@ export function CategoryFilter({
             </button>
           </div>
 
-          <div className="mt-5 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-site-ink/10 pt-3 pr-2">
+          <div
+            className="mt-5 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-site-ink/10 pt-3 pr-2"
+            data-lenis-prevent
+          >
             <CategoryList
               items={items}
               activeCategory={activeCategory}
+              indicatorId="drawer-category-indicator"
               onChange={handleSelect}
             />
           </div>

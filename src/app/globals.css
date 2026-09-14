@@ -1526,6 +1526,32 @@ html[data-page-intro="pending"] [data-header] {
   list-style: none;
 }
 
+.category-scroll-content {
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #6d695e transparent;
+}
+
+.category-scroll-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.category-scroll-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.category-scroll-content::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #6d695e;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.category-scroll-content::-webkit-scrollbar-thumb:hover {
+  background: #575349;
+  background-clip: content-box;
+}
+
 .integration-media-list li {
   display: grid;
   overflow: hidden;

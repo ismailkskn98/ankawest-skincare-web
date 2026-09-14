@@ -52,7 +52,6 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
     let firstFrame;
     let secondFrame;
 
-    // Filtre sonrası sayfa yüksekliği değiştiği için hedefi yeni layout oluştuktan sonra ölç.
     firstFrame = window.requestAnimationFrame(() => {
       secondFrame = window.requestAnimationFrame(() => {
         const target = catalogTopRef.current;

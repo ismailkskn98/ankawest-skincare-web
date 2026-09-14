@@ -183,9 +183,7 @@ function ProductIntro({ product }) {
       <div data-motion-group>
         <div className="mx-auto grid max-w-[62rem] place-items-center text-center" data-section-reveal>
           <StarIcon className="size-14 text-site-ink md:size-20" />
-          <h2 className="font-sentient mt-6 md:mt-8 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">
-            {detailHeadline}
-          </h2>
+          <h2 className="font-sentient mt-6 md:mt-8 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">{detailHeadline}</h2>
         </div>
 
         <div className="mt-[clamp(3rem,7vw,6rem)] grid gap-8 border-t border-site-ink/10 pt-8 md:grid-cols-2 lg:max-w-[42rem]">
@@ -223,10 +221,7 @@ function ProductIntro({ product }) {
 function ProductInformation({ product, mainImage }) {
   const ingredientGroups = getIngredientGroups(product.activeIngredients);
   const benefits = normalizeListItems(product.benefits);
-  const trendyolAttributes = (Array.isArray(product.trendyolAttributes)
-    ? product.trendyolAttributes
-    : [])
-    .filter((attribute) => attribute?.name && attribute?.value);
+  const trendyolAttributes = (Array.isArray(product.trendyolAttributes) ? product.trendyolAttributes : []).filter((attribute) => attribute?.name && attribute?.value);
 
   return (
     <section className="gridContainer bg-[#f2f2ef] py-[clamp(4rem,8vw,7rem)]">
@@ -342,10 +337,7 @@ export function ProductDetail({ product, relatedProducts = [] }) {
             </Link>
 
             {mainImage ? (
-              <div
-                className="relative z-1 mx-auto flex w-full flex-1 items-center justify-center px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(0.5rem,2vw,1.25rem)]"
-                data-page-hero-media
-              >
+              <div className="relative z-1 mx-auto flex w-full flex-1 items-center justify-center px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(0.5rem,2vw,1.25rem)]" data-page-hero-media>
                 <div
                   className="relative h-[clamp(14rem,42svh,23rem)] w-full max-w-[clamp(10rem,44vw,17rem)] transform-gpu will-change-transform md:h-[clamp(19rem,50svh,29rem)] md:max-w-[clamp(15rem,30vw,22rem)] lg:h-[clamp(24rem,55svh,36rem)] lg:max-w-[clamp(18rem,25vw,29rem)] xl:h-[min(66svh,44rem)] xl:max-w-[32rem]"
                   data-scroll-parallax-layer
@@ -375,18 +367,11 @@ export function ProductDetail({ product, relatedProducts = [] }) {
                         {product.categoryName}
                       </span>
                     ) : null}
-                    {product.brand ? (
-                      <span className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">
-                        {product.brand}
-                      </span>
-                    ) : null}
+                    {product.brand ? <span className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">{product.brand}</span> : null}
                   </div>
                 ) : null}
 
-                <h1
-                  id="product-title"
-                  className="max-w-[15ch] text-[clamp(2.55rem,5.4vw,5rem)] leading-[1.05] font-semibold tracking-[-0.055em] text-[#3b3b3b] xl:text-[clamp(4.4rem,5.05vw,6.35rem)]"
-                >
+                <h1 id="product-title" className="max-w-[15ch] text-[clamp(2.55rem,5.4vw,5rem)] leading-[1.05] font-semibold tracking-[-0.055em] text-[#3b3b3b] xl:text-[clamp(3.8rem,4vw,5rem)]">
                   {product.name}
                 </h1>
 
