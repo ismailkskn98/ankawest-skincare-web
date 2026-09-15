@@ -8,6 +8,9 @@ import {
   demoProducts,
 } from "./demoProducts";
 
+// Demo verileri silinmeden geçici olarak devre dışı bırakıldı.
+const DEMO_CATALOG_FALLBACK_ENABLED = false;
+
 function getShortProductName(name, brand = "") {
   if (!name) {
     return "Ürün";
@@ -154,7 +157,10 @@ export async function getPublicCatalog() {
     fetchPublicList("/public/categories/list", "?limit=40&sort=displayOrder&direction=ASC"),
   ]);
 
-  if (!productRows || productRows.length === 0) {
+  if (
+    DEMO_CATALOG_FALLBACK_ENABLED &&
+    (!productRows || productRows.length === 0)
+  ) {
     return {
       source: "demo",
       products: demoProducts.map(normalizeProduct),
@@ -163,8 +169,8 @@ export async function getPublicCatalog() {
   }
 
   return {
-    source: "api",
-    products: productRows.map(normalizeProduct),
+    source: productRows === null ? "unavailable" : "api",
+    products: (productRows || []).map(normalizeProduct),
     categories:
       categoryRows && categoryRows.length > 0
         ? categoryRows.map((category) => ({
@@ -172,7 +178,9 @@ export async function getPublicCatalog() {
             name: category.name,
             slug: category.slug,
           }))
-        : demoCategories,
+        : DEMO_CATALOG_FALLBACK_ENABLED
+          ? demoCategories
+          : [],
   };
 }
 
@@ -216,6 +224,10 @@ export async function getPublicProductBySlug(slug) {
     }
   } catch {
     // Demo kataloğa düş
+  }
+
+  if (!DEMO_CATALOG_FALLBACK_ENABLED) {
+    return null;
   }
 
   const demoProduct = demoProducts.find((product) => product.slug === slug);

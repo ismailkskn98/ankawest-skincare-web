@@ -294,7 +294,7 @@ export function MotionController() {
     };
 
     const scheduleScrollRefresh = () => {
-      if (refreshFrame || !scrollTriggerInstance) {
+      if (refreshFrame) {
         return;
       }
 
@@ -302,9 +302,28 @@ export function MotionController() {
         refreshFrame = 0;
 
         if (!cancelled) {
+          lenisInstance?.resize();
           scrollTriggerInstance?.refresh();
         }
       });
+    };
+
+    const observeMainResize = () => {
+      if (!mainElement || typeof ResizeObserver === "undefined") {
+        return;
+      }
+
+      let skipInitialEntry = true;
+
+      resizeObserver = new ResizeObserver(() => {
+        if (skipInitialEntry) {
+          skipInitialEntry = false;
+          return;
+        }
+
+        scheduleScrollRefresh();
+      });
+      resizeObserver.observe(mainElement);
     };
 
     const pauseAtStart = (video) => {
@@ -672,21 +691,6 @@ export function MotionController() {
           scheduleScrollRefresh();
         }
       });
-
-      // Suspense (katalog) ve görseller yüklendiğinde trigger konumları güncel kalsın.
-      if (mainElement && typeof ResizeObserver !== "undefined") {
-        let skipInitialEntry = true;
-
-        resizeObserver = new ResizeObserver(() => {
-          if (skipInitialEntry) {
-            skipInitialEntry = false;
-            return;
-          }
-
-          scheduleScrollRefresh();
-        });
-        resizeObserver.observe(mainElement);
-      }
     };
 
     const bindPageAnimations = () => {
@@ -712,6 +716,8 @@ export function MotionController() {
         once: true,
       });
 
+      lenisInstance.resize();
+
       if (!window.location.hash) {
         lenisInstance.scrollTo(0, { immediate: true, force: true });
       }
@@ -728,6 +734,10 @@ export function MotionController() {
       } else {
         revealScrollDrawPath();
       }
+
+      // Route ve geç yüklenen içerikler, Lenis ile ScrollTrigger'a aynı ölçümü vermeli.
+      observeMainResize();
+      scheduleScrollRefresh();
 
       if (isIntroPending()) {
         waitForIntroEnd(epoch);

@@ -57,6 +57,7 @@ export function ProductMediaGallery({ mediaItems, productName }) {
     [failedMedia, mediaItems],
   );
   const currentIndex = Math.min(activeIndex, Math.max(media.length - 1, 0));
+  const currentMedia = media[currentIndex];
   const currentLightboxIndex = lightboxIndex === null
     ? null
     : Math.min(lightboxIndex, Math.max(media.length - 1, 0));
@@ -131,9 +132,6 @@ export function ProductMediaGallery({ mediaItems, productName }) {
                         sizes="(min-width: 64rem) 50vw, 92vw"
                         onError={() => hideFailedMedia(key)}
                       />
-                      <span className="absolute right-3 bottom-3 rounded-full bg-site-paper/90 px-4 py-2 text-[0.62rem] font-semibold tracking-[0.1em] text-site-ink uppercase shadow-sm backdrop-blur transition-transform group-hover:-translate-y-0.5">
-                        Büyüt
-                      </span>
                     </button>
                   ) : (
                     <ProductMedia
@@ -171,6 +169,17 @@ export function ProductMediaGallery({ mediaItems, productName }) {
               →
             </button>
           </div>
+        ) : null}
+
+        {currentMedia?.type === "image" ? (
+          <button
+            className="absolute right-3 bottom-3 z-20 rounded-full bg-site-paper/90 px-4 py-2 text-[0.62rem] font-semibold tracking-[0.1em] text-site-ink uppercase shadow-sm backdrop-blur transition-transform hover:-translate-y-0.5"
+            type="button"
+            onClick={() => setLightboxIndex(currentIndex)}
+            aria-label={`${productName} görselini büyüt`}
+          >
+            Büyüt
+          </button>
         ) : null}
       </div>
 

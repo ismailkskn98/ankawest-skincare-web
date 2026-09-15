@@ -107,7 +107,16 @@ export function CategoryFilter({ categories, activeCategory, activeCategoryName,
     };
 
     dialog.addEventListener("close", handleClose);
-    return () => dialog.removeEventListener("close", handleClose);
+
+    return () => {
+      dialog.removeEventListener("close", handleClose);
+
+      if (dialog.open) {
+        dialog.close();
+      }
+
+      unlockPage();
+    };
   }, [unlockPage]);
 
   const handleSelect = (slug) => {

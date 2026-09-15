@@ -43,6 +43,7 @@ export async function getAdminList(resource, query = {}) {
 
   return {
     records: Array.isArray(payload?.data?.records) ? payload.data.records : [],
+    summary: payload?.data?.summary || null,
     pagination: payload?.data?.pagination || {
       page: 1,
       limit: query.limit || 20,

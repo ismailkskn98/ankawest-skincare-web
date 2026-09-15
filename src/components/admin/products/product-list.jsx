@@ -20,7 +20,7 @@ import ConfirmDialog from "@/components/ui/confirm-dialog";
 import EmptyState from "@/components/ui/empty-state";
 import { clientApiRequest } from "@/lib/api/client";
 
-const PAGE_SIZE = 20;
+const PAGE_SIZES = [10, 15, 20, 50];
 
 function formatSyncDate(value) {
   if (!value) return "Henüz değil";
@@ -40,6 +40,13 @@ function getVisiblePages(currentPage, totalPages) {
 export default function ProductList({ initialData, categories, userRole }) {
   const [records, setRecords] = useState(initialData.records);
   const [pagination, setPagination] = useState(initialData.pagination);
+  const [summary, setSummary] = useState(initialData.summary || {
+    trendyol: 0,
+    manual: 0,
+    published: 0,
+    draft: 0,
+  });
+  const [pageSize, setPageSize] = useState(initialData.pagination.limit || 20);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -52,13 +59,13 @@ export default function ProductList({ initialData, categories, userRole }) {
 
   const hasActiveFilters = Boolean(search.trim() || status || categoryId);
 
-  async function loadProducts(page = 1, filters = {}) {
+  async function loadProducts(page = 1, filters = {}, requestedPageSize = pageSize) {
     const nextSearch = filters.search ?? search;
     const nextStatus = filters.status ?? status;
     const nextCategoryId = filters.categoryId ?? categoryId;
     setIsLoading(true);
     setMessage(null);
-    const params = new URLSearchParams({ page: String(page), limit: String(PAGE_SIZE) });
+    const params = new URLSearchParams({ page: String(page), limit: String(requestedPageSize) });
     if (nextSearch.trim()) params.set("search", nextSearch.trim());
     if (nextStatus) params.set("status", nextStatus);
     if (nextCategoryId) params.set("categoryId", nextCategoryId);
@@ -67,6 +74,12 @@ export default function ProductList({ initialData, categories, userRole }) {
       const payload = await clientApiRequest(`/api/admin/products/list?${params}`);
       setRecords(payload?.data?.records || []);
       setPagination(payload?.data?.pagination || pagination);
+      setSummary(payload?.data?.summary || summary);
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `/admin/products?page=${page}&limit=${requestedPageSize}`,
+      );
     } catch (error) {
       setMessage({ tone: "error", text: error.message });
     } finally {
@@ -80,18 +93,14 @@ export default function ProductList({ initialData, categories, userRole }) {
 
     try {
       const nextStatus = product.status === "published" ? "draft" : "published";
-      await clientApiRequest(`/api/admin/products/update/${product.id}`, {
+      const payload = await clientApiRequest(`/api/admin/products/update/${product.id}`, {
         method: "PUT",
         body: { status: nextStatus },
       });
-      setRecords((current) =>
-        current.map((record) =>
-          record.id === product.id ? { ...record, status: nextStatus } : record,
-        ),
-      );
+      await loadProducts(pagination.page);
       setMessage({
         tone: "success",
-        text: nextStatus === "published" ? "Ürün yayınlandı." : "Ürün taslağa alındı.",
+        text: payload?.message || (nextStatus === "published" ? "Ürün yayınlandı." : "Ürün taslağa alındı."),
       });
     } catch (error) {
       setMessage({ tone: "error", text: error.message });
@@ -146,13 +155,31 @@ export default function ProductList({ initialData, categories, userRole }) {
     loadProducts(1, { search: "", status: "", categoryId: "" });
   }
 
-  const firstRecord = pagination.total === 0 ? 0 : (pagination.page - 1) * PAGE_SIZE + 1;
-  const lastRecord = Math.min(pagination.page * PAGE_SIZE, pagination.total);
+  const firstRecord = pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.limit + 1;
+  const lastRecord = Math.min(pagination.page * pagination.limit, pagination.total);
   const visiblePages = getVisiblePages(pagination.page, pagination.totalPages);
-  const returnTo = `/admin/products?page=${pagination.page}`;
+  const returnTo = `/admin/products?page=${pagination.page}&limit=${pageSize}`;
+  const summaryCards = [
+    { label: "Trendyol ürünleri", value: summary.trendyol, icon: ArrowClockwise, tone: "sage" },
+    { label: "Manuel ürünler", value: summary.manual, icon: NotePencil, tone: "neutral" },
+    { label: "Yayındaki ürünler", value: summary.published, icon: Check, tone: "success" },
+    { label: "Taslak / pasif", value: summary.draft, icon: WarningCircle, tone: "warning" },
+  ];
 
   return (
     <section className="panel product-list-panel">
+      <div className="stats-grid product-summary-grid" aria-label="Ürün özeti">
+        {summaryCards.map(({ label, value, icon: Icon, tone }) => (
+          <article className="stat-card" data-tone={tone} key={label}>
+            <span className="stat-card-icon"><Icon size={18} aria-hidden="true" /></span>
+            <span className="stat-card-copy">
+              <strong className="stat-card-value">{value}</strong>
+              <span className="stat-card-label">{label}</span>
+            </span>
+          </article>
+        ))}
+      </div>
+
       <form
         className="product-toolbar"
         onSubmit={(event) => {
@@ -316,7 +343,25 @@ export default function ProductList({ initialData, categories, userRole }) {
 
       {pagination.total > 0 ? (
         <div className="pagination">
-          <span>{firstRecord}–{lastRecord} / {pagination.total} ürün</span>
+          <div className="pagination-overview">
+            <span>{firstRecord}–{lastRecord} / {pagination.total} ürün</span>
+            <label className="page-size-control" htmlFor="product-page-size">
+              Sayfa başına
+              <select
+                className="form-select"
+                id="product-page-size"
+                value={pageSize}
+                disabled={isLoading}
+                onChange={(event) => {
+                  const nextPageSize = Number(event.target.value);
+                  setPageSize(nextPageSize);
+                  loadProducts(1, {}, nextPageSize);
+                }}
+              >
+                {PAGE_SIZES.map((size) => <option value={size} key={size}>{size}</option>)}
+              </select>
+            </label>
+          </div>
           <nav className="pagination-actions" aria-label="Ürün sayfaları">
             <button className="button button-secondary button-small" type="button" disabled={isLoading || pagination.page <= 1} onClick={() => loadProducts(pagination.page - 1)}>Önceki</button>
             <div className="pagination-pages">

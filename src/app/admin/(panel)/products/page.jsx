@@ -8,14 +8,18 @@ import { requireAdminSession } from "@/lib/auth/dal";
 
 export const metadata = { title: "Ürünler" };
 
+const ALLOWED_PAGE_SIZES = new Set([10, 15, 20, 50]);
+
 export default async function ProductsPage({ searchParams }) {
   const params = await searchParams;
   const requestedPage = Number(params?.page);
   const page = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  const requestedLimit = Number(params?.limit);
+  const limit = ALLOWED_PAGE_SIZES.has(requestedLimit) ? requestedLimit : 20;
 
   const [user, products, categories] = await Promise.all([
     requireAdminSession(),
-    getAdminList("products", { page, limit: 20, sortBy: "displayOrder", sortOrder: "asc" }),
+    getAdminList("products", { page, limit, sortBy: "displayOrder", sortOrder: "asc" }),
     getAdminList("categories", { page: 1, limit: 100, sortBy: "displayOrder", sortOrder: "asc" }),
   ]);
 

@@ -1742,6 +1742,27 @@ html[data-page-intro="pending"] [data-header] {
   gap: 7px;
 }
 
+.pagination-overview,
+.page-size-control {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-overview {
+  gap: 16px;
+}
+
+.page-size-control {
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.page-size-control .form-select {
+  min-height: 34px;
+  width: 72px;
+  padding-block: 5px;
+}
+
 .skeleton {
   position: relative;
   overflow: hidden;
@@ -2454,6 +2475,24 @@ html[data-page-intro="pending"] [data-header] {
   gap: 8px;
   padding: 10px;
   border-bottom: 1px solid var(--border);
+}
+
+.product-summary-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-subtle);
+}
+
+.product-summary-grid .stat-card {
+  min-height: 78px;
+  padding: 12px 14px;
+  background: var(--surface);
+}
+
+.product-summary-grid .stat-card-value {
+  font-size: clamp(1.2rem, 1.7vw, 1.45rem);
 }
 
 .product-search-field {
@@ -3222,6 +3261,10 @@ html[data-page-intro="pending"] [data-header] {
     grid-template-columns: minmax(240px, 1fr) auto;
   }
 
+  .product-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .product-filter-row {
     grid-column: 1 / -1;
     grid-row: 2;
@@ -3327,6 +3370,13 @@ html[data-page-intro="pending"] [data-header] {
   .pagination {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .pagination-overview {
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .pagination-pages {

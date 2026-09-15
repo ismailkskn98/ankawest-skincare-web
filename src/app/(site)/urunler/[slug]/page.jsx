@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { ProductDetail } from "@/components/products/detail";
+import { ProductDetail } from "@/components/products/productDetail";
 import { JsonLd } from "@/components/site/jsonLd";
 import { SITE_ASSETS } from "@/config/site";
 import {
