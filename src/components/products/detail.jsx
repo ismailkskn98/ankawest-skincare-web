@@ -8,7 +8,88 @@ import { PageMotionReady } from "@/components/site/pageMotionReady";
 
 import { ProductCard } from "@/components/site/productCard";
 import { ProductMediaGallery } from "@/components/products/mediaGallery";
-import { TRENDYOL_STORE_URL } from "@/config/site-content";
+
+const HIDDEN_PRODUCT_ATTRIBUTES = new Set([
+  "içerik yazısı",
+  "kullanım talimatı/uyarıları",
+  "ürün güvenliği bilgisi",
+  "birincil ithalatçı adı",
+  "üretici adres bilgisi",
+  "üretici mail adresi",
+]);
+
+function isSafeMediaUrl(value) {
+  if (typeof value !== "string" || !value.trim()) return false;
+  if (value.startsWith("/") && !value.startsWith("//")) return true;
+
+  try {
+    return ["http:", "https:"].includes(new URL(value).protocol);
+  } catch {
+    return false;
+  }
+}
+
+function getProductMedia(product) {
+  const media = [];
+  const seen = new Set();
+  const addMedia = (item) => {
+    const url = item?.url || item?.imageUrl || "";
+    const type = item?.type === "video" ? "video" : "image";
+    const key = `${type}:${url}`;
+
+    if (!isSafeMediaUrl(url) || seen.has(key)) return;
+    if (type === "video" && item?.isApproved !== true) return;
+
+    seen.add(key);
+    media.push({
+      ...item,
+      key: item?.externalId || item?.id || key,
+      type,
+      url,
+    });
+  };
+
+  addMedia({
+    type: "image",
+    source: "website",
+    url: product.primaryImageUrl,
+    altText: product.fullName || product.name,
+  });
+
+  for (const item of Array.isArray(product.media) ? product.media : []) {
+    addMedia(item);
+  }
+
+  for (const item of Array.isArray(product.images) ? product.images : []) {
+    addMedia(item);
+  }
+
+  addMedia({
+    type: "image",
+    source: "website",
+    url: product.transparentImageUrl,
+    altText: product.fullName || product.name,
+  });
+  addMedia({
+    type: "image",
+    source: "website",
+    url: product.detailImageUrl,
+    altText: product.fullName || product.name,
+  });
+
+  return media;
+}
+
+function getTrendyolProductUrl(value) {
+  if (typeof value !== "string") return null;
+
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
 
 function normalizeListItems(items) {
   if (!items?.length) {
@@ -68,11 +149,46 @@ function getIngredientGroups(items) {
       continue;
     }
 
-    current = { name: line, descriptions: [] };
+    const separatorIndex = line.indexOf(":");
+    const hasDescription = separatorIndex > 0 && separatorIndex < line.length - 1;
+    current = {
+      name: hasDescription ? line.slice(0, separatorIndex).trim() : line,
+      descriptions: hasDescription ? [line.slice(separatorIndex + 1).trim()] : [],
+    };
     grouped.push(current);
   }
 
   return grouped;
+}
+
+function getProductFacts(product) {
+  const attributes = Array.isArray(product.trendyolAttributes)
+    ? product.trendyolAttributes
+    : [];
+  const facts = product.sizeLabel
+    ? [{ value: product.sizeLabel, label: "Net içerik" }]
+    : [];
+
+  for (const attributeName of ["Cilt Tipi", "Form", "Kullanma Amacı"]) {
+    const attribute = attributes.find((item) => (
+      String(item?.name || "").toLocaleLowerCase("tr-TR") === attributeName.toLocaleLowerCase("tr-TR")
+    ));
+
+    if (attribute?.value && facts.length < 4) {
+      facts.push({ value: "", label: `${attributeName}: ${attribute.value}` });
+    }
+  }
+
+  return facts;
+}
+
+function getDisplayAttributes(product) {
+  return (Array.isArray(product.trendyolAttributes) ? product.trendyolAttributes : [])
+    .filter((attribute) => attribute?.name && attribute?.value)
+    .filter((attribute) => !HIDDEN_PRODUCT_ATTRIBUTES.has(
+      String(attribute.name).toLocaleLowerCase("tr-TR").trim(),
+    ))
+    .filter((attribute) => String(attribute.value).toLocaleLowerCase("tr-TR").trim() !== "tehlikeli değil");
 }
 
 function StarIcon({ className = "size-11" }) {
@@ -175,15 +291,21 @@ function HeroDetailNotes({ product }) {
 function ProductIntro({ product }) {
   const suitableFor = normalizeListItems(product.suitableFor).slice(0, 3);
   const goodToKnow = normalizeListItems(product.benefits).slice(0, 3);
-  const leadText = product.description || product.shortDescription || `${product.name} ürününü bakım ihtiyacına ve rutin adımına göre değerlendir.`;
-  const detailHeadline = (product.shortDescription || product.name).replace(/[.!]+$/u, "").trim();
+  const leadText = product.shortDescription || product.description || "";
+  const detailHeadline = (product.shortDescription || product.fullName || product.name)
+    .replace(/[.!]+$/u, "")
+    .trim();
+
+  if (!leadText && suitableFor.length === 0 && goodToKnow.length === 0) {
+    return null;
+  }
 
   return (
     <section className="gridContainer bg-site-paper py-[clamp(5rem,9vw,9rem)]">
       <div data-motion-group>
         <div className="mx-auto grid max-w-[62rem] place-items-center text-center" data-section-reveal>
           <StarIcon className="size-14 text-site-ink md:size-20" />
-          <h2 className="font-sentient mt-6 md:mt-8 max-w-[18ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">{detailHeadline}</h2>
+          <h2 className="font-sentient mt-6 md:mt-8 max-w-[21ch] text-[clamp(2.15rem,4.4vw,4.6rem)] leading-[1.14] font-light tracking-[-0.04em] text-site-ink">{detailHeadline}</h2>
         </div>
 
         <div className="mt-[clamp(3rem,7vw,6rem)] grid gap-8 border-t border-site-ink/10 pt-8 md:grid-cols-2 lg:max-w-[42rem]">
@@ -210,9 +332,11 @@ function ProductIntro({ product }) {
           ) : null}
         </div>
 
-        <p className="mt-10 max-w-[56rem] text-[clamp(1rem,1.35vw,1.16rem)] leading-[1.6] text-site-copy lg:ml-auto" data-section-reveal>
-          {leadText}
-        </p>
+        {leadText ? (
+          <p className="mt-10 max-w-[56rem] whitespace-pre-line text-[clamp(1rem,1.35vw,1.16rem)] leading-[1.6] text-site-copy lg:ml-auto" data-section-reveal>
+            {leadText}
+          </p>
+        ) : null}
       </div>
     </section>
   );
@@ -221,7 +345,19 @@ function ProductIntro({ product }) {
 function ProductInformation({ product, mainImage }) {
   const ingredientGroups = getIngredientGroups(product.activeIngredients);
   const benefits = normalizeListItems(product.benefits);
-  const trendyolAttributes = (Array.isArray(product.trendyolAttributes) ? product.trendyolAttributes : []).filter((attribute) => attribute?.name && attribute?.value);
+  const trendyolAttributes = getDisplayAttributes(product);
+  const hasInformation = Boolean(
+    product.description
+      || benefits.length
+      || ingredientGroups.length
+      || trendyolAttributes.length
+      || product.usageInstructions
+      || product.warnings,
+  );
+
+  if (!mainImage && !hasInformation) {
+    return null;
+  }
 
   return (
     <section className="gridContainer bg-[#f2f2ef] py-[clamp(4rem,8vw,7rem)]">
@@ -231,8 +367,8 @@ function ProductInformation({ product, mainImage }) {
         </div>
 
         <div className="mt-[clamp(3rem,6vw,5rem)] grid gap-10 lg:grid-cols-12 lg:items-start">
-          <figure className="relative aspect-[1/1] overflow-hidden bg-site-paper lg:col-span-5" data-section-reveal>
-            {mainImage ? (
+          {mainImage ? (
+            <figure className="relative aspect-[1/1] overflow-hidden bg-site-paper lg:col-span-5" data-section-reveal>
               <Image
                 className="object-contain p-[clamp(2rem,5vw,4.5rem)] drop-shadow-[0_20px_28px_rgba(59,59,59,0.1)]"
                 src={mainImage}
@@ -240,10 +376,17 @@ function ProductInformation({ product, mainImage }) {
                 fill
                 sizes="(min-width: 64rem) 36vw, 92vw"
               />
-            ) : null}
-          </figure>
+            </figure>
+          ) : null}
 
-          <div className="grid gap-8 lg:col-span-7 lg:pt-4">
+          <div className={`grid gap-8 lg:pt-4 ${mainImage ? "lg:col-span-7" : "lg:col-span-12 lg:max-w-[68rem] lg:justify-self-center"}`}>
+            {product.description && product.description !== product.shortDescription ? (
+              <div className="border-t border-site-ink/12 pt-7" data-section-reveal>
+                <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Detaylı açıklama</h3>
+                <p className="mt-4 max-w-[68ch] whitespace-pre-line text-[0.94rem] leading-[1.65] text-site-copy">{product.description}</p>
+              </div>
+            ) : null}
+
             {benefits.length ? (
               <div className="border-t border-site-ink/12 pt-7" data-section-reveal>
                 <h3 className="text-[0.66rem] font-semibold tracking-[0.12em] text-site-copy uppercase">Öne çıkan özellikler</h3>
@@ -309,9 +452,17 @@ function ProductInformation({ product, mainImage }) {
 }
 
 export function ProductDetail({ product, relatedProducts = [] }) {
-  const mainImage = product.transparentImageUrl || product.detailImageUrl || product.primaryImageUrl || product.image || null;
-  const detailUrl = product.trendyolUrl || TRENDYOL_STORE_URL;
+  const detailMedia = getProductMedia(product);
+  const firstImage = detailMedia.find((item) => item.type === "image")?.url || null;
+  const mainImage = product.transparentImageUrl
+    || product.detailImageUrl
+    || product.primaryImageUrl
+    || firstImage;
+  const detailUrl = getTrendyolProductUrl(product.trendyolUrl);
   const heroTone = product.tone || "bg-[#ded7eb]";
+  const productFacts = getProductFacts(product);
+  const productTitle = product.fullName || product.name;
+  const compactTitle = productTitle.length > 72;
 
   return (
     <article className="fluid bg-site-paper text-site-ink">
@@ -322,9 +473,6 @@ export function ProductDetail({ product, relatedProducts = [] }) {
         >
           <div
             className={`relative isolate z-3 flex min-h-[clamp(18rem,52svh,28rem)] flex-col pb-[clamp(1.25rem,4vw,3rem)] ${heroTone} md:min-h-[clamp(22rem,58svh,34rem)] lg:min-h-0`}
-            data-scroll-parallax-section
-            data-parallax-strength="0.55"
-            data-parallax-centered="true"
           >
             <IntroArrow />
             <Link
@@ -336,25 +484,12 @@ export function ProductDetail({ product, relatedProducts = [] }) {
               ← Tüm ürünler
             </Link>
 
-            {mainImage ? (
-              <div className="relative z-1 mx-auto flex w-full flex-1 items-center justify-center px-[clamp(1.25rem,5vw,3.5rem)] py-[clamp(0.5rem,2vw,1.25rem)]" data-page-hero-media>
-                <div
-                  className="relative h-[clamp(14rem,42svh,23rem)] w-full max-w-[clamp(10rem,44vw,17rem)] transform-gpu will-change-transform md:h-[clamp(19rem,50svh,29rem)] md:max-w-[clamp(15rem,30vw,22rem)] lg:h-[clamp(24rem,55svh,36rem)] lg:max-w-[clamp(18rem,25vw,29rem)] xl:h-[min(66svh,44rem)] xl:max-w-[32rem]"
-                  data-scroll-parallax-layer
-                  data-parallax-distance="90"
-                >
-                  <Image
-                    className="object-contain drop-shadow-[0_22px_34px_rgba(59,59,59,0.12)]"
-                    src={mainImage}
-                    alt={product.fullName || product.name}
-                    fill
-                    sizes="(min-width: 80rem) 32rem, (min-width: 64rem) 29rem, (min-width: 48rem) 22rem, 44vw"
-                    unoptimized
-                    priority
-                  />
-                </div>
-              </div>
-            ) : null}
+            <div className="relative z-1 flex flex-1" data-page-hero-media>
+              <ProductMediaGallery
+                mediaItems={detailMedia}
+                productName={productTitle}
+              />
+            </div>
           </div>
 
           <div className="relative z-2 flex flex-col bg-[#F2F2F2] p-[clamp(1.5rem,4vw,3rem)] xl:p-[clamp(3rem,4.2vw,5.5rem)] lg:min-h-full lg:-mb-[clamp(1.5rem,4vw,3.5rem)]">
@@ -371,8 +506,11 @@ export function ProductDetail({ product, relatedProducts = [] }) {
                   </div>
                 ) : null}
 
-                <h1 id="product-title" className="max-w-[15ch] text-[clamp(2.55rem,5.4vw,5rem)] leading-[1.05] font-semibold tracking-[-0.055em] text-[#3b3b3b] xl:text-[clamp(3.8rem,4vw,5rem)]">
-                  {product.name}
+                <h1
+                  id="product-title"
+                  className={`${compactTitle ? "max-w-[24ch] text-[clamp(2rem,3.5vw,3.65rem)]" : "max-w-[16ch] text-[clamp(2.55rem,5.4vw,5rem)] xl:text-[clamp(3.8rem,4vw,5rem)]"} leading-[1.05] font-semibold tracking-[-0.055em] text-[#3b3b3b]`}
+                >
+                  {productTitle}
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-4">
@@ -388,30 +526,26 @@ export function ProductDetail({ product, relatedProducts = [] }) {
               </div>
 
               <div className="flex flex-col gap-[clamp(1.5rem,3.5vh,2.25rem)]">
-                <DetailCta href={detailUrl} />
+                {detailUrl ? <DetailCta href={detailUrl} /> : null}
 
-                <div className="grid grid-cols-2 gap-x-5 gap-y-5 text-center sm:grid-cols-4">
-                  {[
-                    ["30", "Günlük rutin"],
-                    ["", "Net içerik"],
-                    ["", "Cruelty Free"],
-                    ["", "Anlaşılır seçim"],
-                  ].map(([short, label]) => (
-                    <div key={label}>
-                      <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#ebebe9] text-site-ink lg:size-[3.75rem]">
-                        {short ? <span className="text-[0.8rem] font-semibold">{short}</span> : <LeafIcon size={22} weight="light" aria-hidden="true" />}
-                      </span>
-                      <p className="mt-3 text-[0.8rem] leading-[1.3] text-site-copy">{label}</p>
-                    </div>
-                  ))}
-                </div>
+                {productFacts.length ? (
+                  <div className="grid grid-cols-2 gap-x-5 gap-y-5 text-center sm:grid-cols-4">
+                    {productFacts.map(({ value, label }) => (
+                      <div key={label}>
+                        <span className="mx-auto grid size-14 place-items-center rounded-full bg-[#ebebe9] px-2 text-site-ink lg:size-[3.75rem]">
+                          {value ? <span className="text-[0.72rem] leading-tight font-semibold">{value}</span> : <LeafIcon size={22} weight="light" aria-hidden="true" />}
+                        </span>
+                        <p className="mt-3 text-[0.8rem] leading-[1.3] text-site-copy">{label}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <ProductMediaGallery product={product} />
       <ProductIntro product={product} />
       <ProductInformation product={product} mainImage={mainImage} />
 

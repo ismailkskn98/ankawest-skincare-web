@@ -88,7 +88,17 @@ export function buildProductSchema(product) {
     ? image.startsWith("http")
       ? image
       : absoluteUrl(image)
-    : absoluteUrl(SITE_ASSETS.ogImage);
+    : null;
+  const mediaImages = (Array.isArray(product.media) ? product.media : [])
+    .filter((media) => media?.type === "image" && media?.url)
+    .map((media) => media.url.startsWith("http") ? media.url : absoluteUrl(media.url));
+  const productImages = [...new Set([imageUrl, ...mediaImages].filter(Boolean))];
+  const schemaImages = productImages.length
+    ? productImages
+    : [absoluteUrl(SITE_ASSETS.ogImage)];
+  const sameAs = /^https?:\/\//i.test(String(product.trendyolUrl || ""))
+    ? product.trendyolUrl
+    : undefined;
 
   const schema = {
     "@context": "https://schema.org",
@@ -98,8 +108,9 @@ export function buildProductSchema(product) {
       product.shortDescription ||
       product.description ||
       `${product.brand || SITE_NAME} ${product.name}`,
-    image: [imageUrl],
-    sku: product.slug || undefined,
+    image: schemaImages,
+    sku: product.sku || product.slug || undefined,
+    gtin13: /^\d{13}$/.test(String(product.barcode || "")) ? String(product.barcode) : undefined,
     brand: {
       "@type": "Brand",
       name: product.brand || SITE_NAME,
@@ -107,20 +118,7 @@ export function buildProductSchema(product) {
     category: product.categoryName || undefined,
     url: pageUrl,
     mainEntityOfPage: pageUrl,
-  };
-
-  const offerUrl = product.trendyolUrl || pageUrl;
-
-  schema.offers = {
-    "@type": "Offer",
-    url: offerUrl,
-    priceCurrency: "TRY",
-    availability: "https://schema.org/InStock",
-    itemCondition: "https://schema.org/NewCondition",
-    seller: {
-      "@type": "Organization",
-      name: SITE_NAME,
-    },
+    sameAs,
   };
 
   return schema;

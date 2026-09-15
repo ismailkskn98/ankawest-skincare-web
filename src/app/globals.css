@@ -1552,6 +1552,31 @@ html[data-page-intro="pending"] [data-header] {
   background-clip: content-box;
 }
 
+.product-media-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(59 59 59 / 45%) transparent;
+}
+
+.product-media-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.product-media-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.product-media-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgb(59 59 59 / 45%);
+  background-clip: content-box;
+}
+
+.product-media-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(59 59 59 / 70%);
+  background-clip: content-box;
+}
+
 .integration-media-list li {
   display: grid;
   overflow: hidden;

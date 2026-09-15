@@ -32,6 +32,41 @@ function pickTone(index) {
   return CARD_TONES[index % CARD_TONES.length];
 }
 
+function isSafeMediaUrl(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return false;
+  }
+
+  if (value.startsWith("/") && !value.startsWith("//")) {
+    return true;
+  }
+
+  try {
+    return ["http:", "https:"].includes(new URL(value).protocol);
+  } catch {
+    return false;
+  }
+}
+
+function normalizeMedia(items) {
+  const seen = new Set();
+
+  return (Array.isArray(items) ? items : [])
+    .map((item) => {
+      const url = item?.url || item?.imageUrl || "";
+      const type = item?.type === "video" ? "video" : "image";
+      return { ...item, type, url, imageUrl: url };
+    })
+    .filter((item) => isSafeMediaUrl(item.url))
+    .filter((item) => item.type !== "video" || item.isApproved === true)
+    .filter((item) => {
+      const key = `${item.type}:${item.url}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
 function resolveDetailImageUrl(primaryImageUrl) {
   if (!primaryImageUrl) {
     return "";
@@ -63,8 +98,12 @@ export function normalizeProduct(product, index = 0) {
     resolveDetailImageUrl(primaryImageUrl) ||
     primaryImageUrl;
 
+  const media = normalizeMedia(product.media);
+  const images = normalizeMedia(product.images).filter((item) => item.type === "image");
+
   return {
     id: product.id,
+    barcode: product.barcode || "",
     brand,
     name: displayName,
     fullName: product.name,
@@ -85,8 +124,16 @@ export function normalizeProduct(product, index = 0) {
     trendyolAttributes: Array.isArray(product.trendyolAttributes)
       ? product.trendyolAttributes
       : [],
-    media: Array.isArray(product.media) ? product.media : [],
-    images: Array.isArray(product.images) ? product.images : [],
+    media,
+    images,
+    sku: product.sku || "",
+    seoTitle: product.seoTitle || "",
+    seoDescription: product.seoDescription || "",
+    seoKeywords: product.seoKeywords || "",
+    canonicalUrl: product.canonicalUrl || "",
+    ogTitle: product.ogTitle || "",
+    ogDescription: product.ogDescription || "",
+    ogImageUrl: product.ogImageUrl || "",
     homepageCarousel1: Boolean(product.homepageCarousel1),
     homepageCarousel2: Boolean(product.homepageCarousel2),
   };
@@ -162,8 +209,6 @@ export async function getPublicProductBySlug(slug) {
           suitableFor: payload.data.suitableFor || [],
           usageInstructions: payload.data.usageInstructions || "",
           warnings: payload.data.warnings || "",
-          images: payload.data.images || [],
-          media: payload.data.media || [],
           trendyolAttributes: payload.data.trendyolAttributes || [],
           trendyolUrl: payload.data.trendyolUrl || payload.data.trendyol_url || "",
         },

@@ -24,19 +24,24 @@ export async function generateMetadata({ params }) {
 
   const product = result.product;
   const image =
+    product.ogImageUrl ||
     product.primaryImageUrl ||
     product.detailImageUrl ||
     product.transparentImageUrl ||
     SITE_ASSETS.ogImage;
 
   return buildPageMetadata({
-    title: product.name,
+    title: product.seoTitle || product.name,
     description:
+      product.seoDescription ||
       product.shortDescription ||
       `${product.brand} ${product.name} ürün detayı. Aktif içerikler, kullanım ve uygunluk bilgisi.`,
     path: `/urunler/${product.slug}`,
     image,
     type: "website",
+    canonicalUrl: product.canonicalUrl || undefined,
+    socialTitle: product.ogTitle || undefined,
+    socialDescription: product.ogDescription || undefined,
   });
 }
 

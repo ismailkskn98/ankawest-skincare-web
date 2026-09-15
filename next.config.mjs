@@ -15,6 +15,11 @@ const nextConfig = {
         port: apiBaseUrl.port,
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.dsmcdn.com",
+        pathname: "/**",
+      },
     ],
   },
   async headers() {

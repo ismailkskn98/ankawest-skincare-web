@@ -14,11 +14,17 @@ export function buildPageMetadata({
   image = SITE_ASSETS.ogImage,
   type = "website",
   noIndex = false,
+  canonicalUrl,
+  socialTitle,
+  socialDescription,
 } = {}) {
-  const url = absoluteUrl(path);
+  const url = canonicalUrl
+    ? canonicalUrl.startsWith("http") ? canonicalUrl : absoluteUrl(canonicalUrl)
+    : absoluteUrl(path);
   const imageUrl = image.startsWith("http") ? image : absoluteUrl(image);
   const allowIndex = isIndexingAllowed() && !noIndex;
-  const socialTitle = title || SITE_NAME;
+  const resolvedSocialTitle = socialTitle || title || SITE_NAME;
+  const resolvedSocialDescription = socialDescription || description;
 
   return {
     title,
@@ -34,10 +40,10 @@ export function buildPageMetadata({
       : {
           index: false,
           follow: false,
-        },
+    },
     openGraph: {
-      title: socialTitle,
-      description,
+      title: resolvedSocialTitle,
+      description: resolvedSocialDescription,
       url,
       siteName: SITE_NAME,
       locale: SITE_LOCALE,
@@ -53,8 +59,8 @@ export function buildPageMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: socialTitle,
-      description,
+      title: resolvedSocialTitle,
+      description: resolvedSocialDescription,
       images: [imageUrl],
     },
   };
