@@ -10,6 +10,148 @@ import {
 
 // Demo verileri silinmeden geçici olarak devre dışı bırakıldı.
 const DEMO_CATALOG_FALLBACK_ENABLED = false;
+const HOMEPAGE_CAROUSEL_LIMIT = 6;
+
+const HOMEPAGE_CAROUSEL_RULES = {
+  1: {
+    flag: "homepageCarousel1",
+    order: "carousel1Order",
+    terms: [
+      ["glow therapy", 12],
+      ["hydroglow", 10],
+      ["aydinlatici", 6],
+      ["pdrn", 5],
+      ["glutatyon", 4],
+      ["nemlendirici", 4],
+      ["serum", 3],
+      ["tonik", 3],
+      ["maske", 2],
+      ["krem", 1],
+    ],
+    penalties: [
+      ["gunes", 24],
+      ["spf", 24],
+      ["deodorant", 14],
+      ["koltuk alti", 14],
+    ],
+  },
+  2: {
+    flag: "homepageCarousel2",
+    order: "carousel2Order",
+    terms: [
+      ["gunes", 24],
+      ["spf", 24],
+      ["sun", 18],
+      ["uv", 18],
+      ["leke karsiti", 9],
+      ["ton esitleyici", 8],
+      ["tonu esitleyici", 8],
+      ["spot cream", 8],
+      ["deodorant", 7],
+      ["stick", 6],
+      ["balm", 3],
+    ],
+    penalties: [],
+  },
+};
+
+function normalizeSelectionText(value) {
+  return String(value || "")
+    .toLocaleLowerCase("tr-TR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/ı/g, "i");
+}
+
+function getSelectionText(product) {
+  return normalizeSelectionText([
+    product.name,
+    product.brand,
+    product.categoryName || product.category?.name,
+    product.shortDescription,
+    product.description,
+  ].filter(Boolean).join(" "));
+}
+
+function getCarouselScore(product, rule) {
+  const selectionText = getSelectionText(product);
+  const positiveScore = rule.terms.reduce(
+    (score, [term, weight]) => score + (selectionText.includes(term) ? weight : 0),
+    0,
+  );
+
+  return rule.penalties.reduce(
+    (score, [term, weight]) => score - (selectionText.includes(term) ? weight : 0),
+    positiveScore,
+  );
+}
+
+function getProductIdentity(product) {
+  return String(product.id || product.slug || "");
+}
+
+function getCarouselOrder(product, orderField) {
+  const snakeCaseField = orderField === "carousel1Order"
+    ? "carousel_1_order"
+    : "carousel_2_order";
+
+  return Number(product[orderField] ?? product[snakeCaseField] ?? 0);
+}
+
+function isUsableHomepageProduct(product) {
+  const imageUrl = product.primaryImageUrl || product.image || "";
+  return Boolean(product.slug && isSafeMediaUrl(imageUrl));
+}
+
+function selectHomepageProducts(rows, carouselNumber, claimedProductIds) {
+  const rule = HOMEPAGE_CAROUSEL_RULES[carouselNumber];
+  const otherRule = HOMEPAGE_CAROUSEL_RULES[carouselNumber === 1 ? 2 : 1];
+  const eligibleRows = rows.filter((product) => {
+    const productId = getProductIdentity(product);
+    return productId && !claimedProductIds.has(productId) && isUsableHomepageProduct(product);
+  });
+  const manuallySelectedRows = eligibleRows
+    .filter((product) => Boolean(product[rule.flag]))
+    .sort((first, second) => (
+      getCarouselOrder(first, rule.order) - getCarouselOrder(second, rule.order)
+    ));
+  const selectedRows = manuallySelectedRows.slice(0, HOMEPAGE_CAROUSEL_LIMIT);
+  const selectedIds = new Set(selectedRows.map(getProductIdentity));
+  const rankedRows = eligibleRows
+    .filter((product) => !selectedIds.has(getProductIdentity(product)))
+    .filter((product) => !product[otherRule.flag])
+    .map((product, index) => ({
+      product,
+      index,
+      score: getCarouselScore(product, rule),
+    }))
+    .filter(({ score }) => score > 0)
+    .sort((first, second) => second.score - first.score || first.index - second.index);
+
+  for (const { product } of rankedRows) {
+    if (selectedRows.length >= HOMEPAGE_CAROUSEL_LIMIT) {
+      break;
+    }
+
+    selectedRows.push(product);
+    selectedIds.add(getProductIdentity(product));
+  }
+
+  for (const product of eligibleRows) {
+    if (selectedRows.length >= HOMEPAGE_CAROUSEL_LIMIT) {
+      break;
+    }
+
+    const productId = getProductIdentity(product);
+    if (!selectedIds.has(productId) && !product[otherRule.flag]) {
+      selectedRows.push(product);
+      selectedIds.add(productId);
+    }
+  }
+
+  selectedIds.forEach((productId) => claimedProductIds.add(productId));
+  return selectedRows.map(normalizeProduct);
+}
 
 function getShortProductName(name, brand = "") {
   if (!name) {
@@ -121,7 +263,7 @@ export function normalizeProduct(product, index = 0) {
     detailImageUrl,
     tone: product.tone || pickTone(index),
     priceLabel: product.priceLabel || product.price_label || product.price || "",
-    href: product.slug ? `/urunler/${product.slug}` : "#",
+    href: product.slug ? `/urunler/${product.slug}` : null,
     source: product.source || "manual",
     trendyolUrl: product.trendyolUrl || product.trendyol_url || "",
     trendyolAttributes: Array.isArray(product.trendyolAttributes)
@@ -185,21 +327,27 @@ export async function getPublicCatalog() {
 }
 
 export async function getPublicHomepageCarousels() {
-  const [carousel1Rows, carousel2Rows] = await Promise.all([
-    fetchPublicList(
-      "/public/products/list",
-      "?homepageCarousel=1&limit=6&sort=carousel1Order&direction=ASC",
-    ),
-    fetchPublicList(
-      "/public/products/list",
-      "?homepageCarousel=2&limit=6&sort=carousel2Order&direction=ASC",
-    ),
-  ]);
+  const productRows = await fetchPublicList(
+    "/public/products/list",
+    "?limit=60&sort=displayOrder&direction=ASC",
+  );
+
+  if (productRows === null) {
+    return {
+      available: false,
+      carousel1: [],
+      carousel2: [],
+    };
+  }
+
+  const claimedProductIds = new Set();
+  const carousel2 = selectHomepageProducts(productRows, 2, claimedProductIds);
+  const carousel1 = selectHomepageProducts(productRows, 1, claimedProductIds);
 
   return {
-    available: carousel1Rows !== null && carousel2Rows !== null,
-    carousel1: (carousel1Rows || []).slice(0, 6).map(normalizeProduct),
-    carousel2: (carousel2Rows || []).slice(0, 6).map(normalizeProduct),
+    available: true,
+    carousel1,
+    carousel2,
   };
 }
 

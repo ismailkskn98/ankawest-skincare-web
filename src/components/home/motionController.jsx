@@ -527,7 +527,7 @@ export function MotionController() {
         (mediaContext) => {
           const { isDesktop, hasFinePointer, reduceMotion } = mediaContext.conditions;
 
-          if (!isDesktop || reduceMotion) {
+          if (!isDesktop || !hasFinePointer || reduceMotion) {
             return undefined;
           }
 

@@ -37,7 +37,7 @@ function MenuLink({ item, index, onNavigate }) {
   );
 }
 
-export function MobileNavbar({ items, storeUrl }) {
+export function MobileNavbar({ items }) {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef(null);
   const triggerRef = useRef(null);
@@ -198,11 +198,9 @@ export function MobileNavbar({ items, storeUrl }) {
           </nav>
 
           <div className="mt-auto flex flex-col gap-5 pt-10">
-            <a
+            <Link
               className="group/cta inline-flex min-h-14 w-full items-center justify-between gap-4 rounded-full bg-site-ink py-1.5 pr-1.5 pl-5 text-[0.68rem] font-semibold tracking-[0.06em] text-site-paper uppercase outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-2 focus-visible:ring-site-ink/25 focus-visible:ring-offset-2 focus-visible:ring-offset-site-paper active:scale-[0.98] motion-reduce:transition-none group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none [animation-delay:320ms]"
-              href={storeUrl}
-              target="_blank"
-              rel="noreferrer"
+              href="/urunler"
               onClick={() => closeMenu()}
             >
               Ürünleri keşfet
@@ -220,7 +218,7 @@ export function MobileNavbar({ items, storeUrl }) {
                   aria-hidden="true"
                 />
               </span>
-            </a>
+            </Link>
 
             <div className="flex items-end justify-between gap-4 border-t border-site-ink/10 pt-5">
               <p className="max-w-[18ch] text-[0.78rem] leading-[1.45] text-site-copy">

@@ -20,8 +20,6 @@ export function ProductRail({
   const revealDirectionRef = useRef(revealDirection);
   const cancelledRef = useRef(false);
 
-  revealDirectionRef.current = revealDirection;
-
   useEffect(() => {
     const reducedMotionQuery = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -52,6 +50,7 @@ export function ProductRail({
   }, []);
 
   useEffect(() => {
+    revealDirectionRef.current = revealDirection;
     cancelledRef.current = false;
     revealContextRef.current?.revert();
     revealContextRef.current = null;
@@ -124,7 +123,7 @@ export function ProductRail({
   };
 
   return (
-    <div ref={railRef} className="mt-8 nav:mt-10 xl:mt-12">
+    <div ref={railRef} className="mt-[clamp(2rem,3.5vw,3.75rem)] short-desktop:mt-[clamp(1.75rem,3vw,2.5rem)]">
       <Swiper
         className="cursor-grab active:cursor-grabbing"
         style={{
@@ -149,6 +148,7 @@ export function ProductRail({
           1024: { slidesPerView: 1.75, spaceBetween: 16 },
           1280: { slidesPerView: 1.95, spaceBetween: 18 },
           1536: { slidesPerView: 2.18, spaceBetween: 20 },
+          1920: { slidesPerView: 2.18, spaceBetween: 22 },
         }}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
@@ -160,7 +160,7 @@ export function ProductRail({
         {products.map((product) => (
           <SwiperSlide key={product.id || product.name} tag="li" className="h-auto">
             <div data-product-card-reveal className="h-full">
-              <ProductCard product={product} />
+              <ProductCard product={product} variant="carousel" />
             </div>
           </SwiperSlide>
         ))}

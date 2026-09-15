@@ -26,19 +26,19 @@ const legalLinks = [
 
 export function BrandBar() {
   return (
-    <div className="grid gap-10 border-t border-black/15 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-12 nav:gap-16 nav:pt-10" data-motion-group>
+    <div className="grid gap-[clamp(2rem,5vw,4rem)] border-t border-black/15 pt-[clamp(1.75rem,3vw,2.5rem)] md:grid-cols-[minmax(0,1fr)_auto] md:items-end" data-motion-group>
       <div data-section-reveal>
         <Link className="inline-flex min-h-12 w-fit items-center" href="/" aria-label="Anka West Skincare anasayfa">
-          <span className="relative inline-flex h-full w-fit items-center overflow-hidden">
-            <Image className="h-auto w-full max-w-none object-contain" src="/images/logo/ankawestskincare-logo.webp" alt="Anka West Skincare" width={465} height={287} sizes="166px" />
+          <span className="relative inline-flex w-[clamp(8.5rem,12vw,10.5rem)] items-center overflow-hidden">
+            <Image className="h-auto w-full object-contain" src="/images/logo/ankawestskincare-logo.webp" alt="Anka West Skincare" width={465} height={287} sizes="(min-width: 64rem) 10.5rem, 8.5rem" />
           </span>
         </Link>
 
-        <p className="mt-3 max-w-[30ch] text-[0.75rem] leading-[1.45] tracking-[-0.012em] text-site-copy/65">Cildini dinleyen bakım, sana özgü.</p>
-        <p className="mt-10 text-[0.7rem] leading-[1.45] text-site-copy/70">© {currentYear} Anka West Skincare. Tüm hakları saklıdır.</p>
+        <p className="mt-[clamp(0.65rem,1vw,0.9rem)] max-w-[30ch] text-[clamp(0.72rem,0.8vw,0.78rem)] leading-[1.5] tracking-[-0.012em] text-site-copy/65">Cildini dinleyen bakım, sana özgü.</p>
+        <p className="mt-[clamp(2rem,4vw,3.5rem)] text-[clamp(0.66rem,0.72vw,0.72rem)] leading-[1.45] text-site-copy/70">© {currentYear} Anka West Skincare. Tüm hakları saklıdır.</p>
       </div>
 
-      <div className="flex max-w-[720px] flex-wrap items-center gap-x-5 gap-y-3 text-[0.68rem] leading-[1.4] text-site-copy/65 md:justify-end" data-section-reveal>
+      <div className="flex max-w-[720px] flex-wrap items-center gap-x-[clamp(1rem,1.5vw,1.5rem)] gap-y-[clamp(0.6rem,1vw,0.9rem)] text-[clamp(0.65rem,0.7vw,0.72rem)] leading-[1.45] text-site-copy/65 md:justify-end" data-section-reveal>
         {legalLinks.map((link) => (
           <a
             key={link.label}

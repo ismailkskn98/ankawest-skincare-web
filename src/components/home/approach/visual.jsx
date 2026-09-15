@@ -34,7 +34,7 @@ const values = [
 export function Visual() {
   return (
     <div
-      className="relative mt-8 nav:mt-12 lg:mt-14 lg:h-[clamp(42rem,min(68vw,78svh),63.75rem)]"
+      className="relative mt-[clamp(2.25rem,5vw,4.5rem)] lg:mt-[clamp(3rem,5vw,5rem)] lg:min-h-[clamp(42rem,min(62vw,78svh),60rem)] short-desktop:lg:min-h-[clamp(38rem,72svh,46rem)]"
       data-motion-group
       data-scroll-parallax-section
       data-parallax-desktop-only="true"
@@ -42,7 +42,7 @@ export function Visual() {
       data-parallax-direction="-1"
       data-parallax-centered="true"
     >
-      <div className="relative z-1 mx-auto w-full max-w-[720px] md:max-w-[960px] lg:mt-[52px] lg:w-[min(68vw,1080px)]">
+      <div className="relative z-1 mx-auto w-full max-w-[720px] md:max-w-[960px] lg:mt-[clamp(2rem,3vw,3.5rem)] lg:w-[min(62vw,64rem)] xl:w-[min(60vw,68rem)]">
         <div
           className="pointer-events-none absolute -top-[7%] -right-[7%] hidden h-[44%] w-[46%] rotate-[16deg] rounded-[50%] border-t border-r border-site-ink/35 lg:block"
           aria-hidden="true"
@@ -60,7 +60,7 @@ export function Visual() {
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4 sm:gap-5 md:grid-cols-2 md:gap-6 lg:contents">
+      <div className="mt-[clamp(1.25rem,3vw,2rem)] grid gap-[clamp(1rem,2.5vw,1.5rem)] md:grid-cols-2 lg:contents">
         {values.map((value) => (
           <ValueCard key={value.title} {...value} />
         ))}

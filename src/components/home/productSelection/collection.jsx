@@ -1,6 +1,5 @@
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowRight";
-
-import { TRENDYOL_STORE_URL } from "@/config/site-content";
+import Link from "next/link";
 
 import { ProductRail } from "./productRail";
 import { Showcase } from "./showcase";
@@ -20,34 +19,32 @@ export function ProductCollection({ collection, imageSide = "left" }) {
       />
 
       <div
-        className={`min-w-0 px-[clamp(1.15rem,3.5vw,4.5rem)] py-10 md:py-12 lg:py-[clamp(3.25rem,5.5vw,6.25rem)] ${
+        className={`min-w-0 px-[clamp(1.25rem,3.5vw,4.5rem)] py-[clamp(2.75rem,6vw,4rem)] lg:py-[clamp(3.5rem,5.5vw,6.25rem)] short-desktop:py-[clamp(2.75rem,4vh,4.5rem)] ${
           imageOnRight ? "lg:order-1" : ""
         }`}
         data-motion-group
       >
         <div
-          className="flex items-start justify-between gap-5 nav:gap-8"
+          className="flex items-start justify-between gap-[clamp(1rem,2.5vw,2rem)]"
           data-section-reveal
         >
           <div>
-            <p className="text-[0.68rem] font-semibold tracking-[0.13em] text-site-copy uppercase">
+            <p className="text-[clamp(0.58rem,0.8vw,0.68rem)] font-semibold tracking-[0.13em] text-site-copy uppercase">
               {collection.eyebrow}
             </p>
-            <h3 className="font-sentient mt-2.5 text-[clamp(2.35rem,4.8vw,4.2rem)] leading-[0.96] font-light tracking-[-0.035em] text-site-ink lg:mt-3 lg:text-[clamp(2.6rem,3.8vw,4.6rem)]">
+            <h3 className="font-sentient mt-2.5 text-[clamp(2.1rem,8.5vw,3.2rem)] leading-[0.96] font-light tracking-[-0.035em] text-site-ink md:text-[clamp(2.35rem,5.2vw,3.75rem)] lg:mt-3 lg:text-[clamp(2.5rem,3.8vw,4.6rem)]">
               {collection.title}
               <span className="block">{collection.scriptTitle}</span>
             </h3>
           </div>
 
-          <a
-            className="group grid size-12 shrink-0 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.04] active:scale-[0.98] motion-reduce:transition-none nav:size-14 xl:size-16"
-            href={TRENDYOL_STORE_URL}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`${collection.title} ${collection.scriptTitle} ürünlerini Trendyol'da aç`}
+          <Link
+            className="group grid size-[clamp(3rem,3.2vw,4rem)] shrink-0 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.04] active:scale-[0.98] motion-reduce:transition-none"
+            href="/urunler"
+            aria-label={`${collection.title} ${collection.scriptTitle} ürünlerini incele`}
           >
             <ArrowRightIcon size={22} weight="light" aria-hidden="true" />
-          </a>
+          </Link>
         </div>
 
         {collection.products.length > 0 ? (
@@ -58,26 +55,24 @@ export function ProductCollection({ collection, imageSide = "left" }) {
             revealDirection={imageOnRight ? "left" : "right"}
           />
         ) : (
-          <p className="mt-10 text-[0.9rem] leading-[1.5] text-site-copy" role="status">
+          <p className="mt-[clamp(2rem,3.5vw,3.75rem)] text-[clamp(0.84rem,1vw,0.94rem)] leading-[1.55] text-site-copy" role="status">
             Bu seçkide henüz yayınlanmış ürün bulunmuyor.
           </p>
         )}
 
         <div
-          className="mt-5 flex flex-col gap-5 border-t border-[rgba(59,59,59,0.15)] pt-5 lg:mt-6 lg:flex-row lg:items-end lg:justify-between lg:gap-6 lg:pt-7"
+          className="mt-[clamp(1.25rem,2vw,2rem)] flex flex-col gap-[clamp(1rem,2vw,1.5rem)] border-t border-[rgba(59,59,59,0.15)] pt-[clamp(1.25rem,2vw,1.75rem)] lg:flex-row lg:items-end lg:justify-between"
           data-section-reveal
         >
-          <p className="max-w-[460px] text-[clamp(0.88rem,1.1vw,0.94rem)] leading-[1.5] text-site-copy">
+          <p className="max-w-[460px] text-[clamp(0.84rem,1vw,1rem)] leading-[1.55] text-site-copy">
             {collection.description}
           </p>
-          <a
-            className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-full bg-site-paper py-1.5 pr-1.5 pl-5 text-[0.68rem] font-semibold tracking-[0.05em] text-site-ink uppercase transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] motion-reduce:transition-none lg:gap-4 lg:pl-6 lg:text-[0.7rem]"
-            href={TRENDYOL_STORE_URL}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-full bg-site-paper py-[0.38rem] pr-[0.38rem] pl-[clamp(1.1rem,1.5vw,1.5rem)] text-[clamp(0.65rem,0.55vw,0.75rem)] font-semibold tracking-[0.05em] text-site-ink uppercase transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] motion-reduce:transition-none"
+            href="/urunler"
           >
             Tüm ürünleri incele
-            <span className="relative grid size-9 place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper lg:size-10">
+            <span className="relative grid size-[clamp(2.25rem,2.4vw,2.5rem)] place-items-center overflow-hidden rounded-full bg-site-ink text-site-paper">
               <ArrowRightIcon
                 className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-[170%] motion-reduce:transition-none"
                 size={17}
@@ -91,7 +86,7 @@ export function ProductCollection({ collection, imageSide = "left" }) {
                 aria-hidden="true"
               />
             </span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

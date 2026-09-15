@@ -33,20 +33,20 @@ const navigationGroups = [
 export function FooterNavigation() {
   return (
     <nav
-      className="grid gap-10 sm:grid-cols-3 sm:gap-7 nav:gap-[clamp(28px,3vw,52px)]"
+      className="grid gap-[clamp(2rem,6vw,3.5rem)] sm:grid-cols-3 sm:gap-[clamp(1.5rem,3vw,3.25rem)] nav:gap-[clamp(1.75rem,3vw,3.75rem)]"
       aria-label="Footer menüsü"
       data-motion-group
     >
       {navigationGroups.map((group) => (
         <section key={group.title} data-section-reveal>
-          <h3 className="text-[0.63rem] font-semibold tracking-[0.12em] text-site-copy/60 uppercase">
+          <h3 className="text-[clamp(0.58rem,0.7vw,0.66rem)] font-semibold tracking-[0.12em] text-site-copy/60 uppercase">
             {group.title}
           </h3>
-          <ul className="mt-5 grid gap-3">
+          <ul className="mt-[clamp(1rem,1.6vw,1.5rem)] grid gap-[clamp(0.55rem,1vw,0.8rem)]">
             {group.links.map((link) => (
               <li key={link.label}>
                 <SiteLink
-                  className="group relative inline-flex min-h-7 items-center text-[0.94rem] leading-[1.35] tracking-[-0.022em] text-site-ink"
+                  className="group relative inline-flex min-h-7 items-center text-[clamp(0.88rem,1vw,1rem)] leading-[1.4] tracking-[-0.022em] text-site-ink"
                   href={link.href}
                   external={link.external}
                 >

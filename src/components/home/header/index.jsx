@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-import { TRENDYOL_STORE_URL, ANKAWEST_URL } from "@/config/site-content";
+import { ANKAWEST_URL } from "@/config/site-content";
 
 import { Actions } from "./actions";
 import { Logo } from "./logo";
@@ -40,7 +40,7 @@ export function Header() {
         <Logo />
         <Navbar items={navigationItems} />
         <Actions />
-        <MobileNavbar items={navigationItems} storeUrl={TRENDYOL_STORE_URL} />
+        <MobileNavbar items={navigationItems} />
       </div>
     </header>
   );

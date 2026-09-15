@@ -369,8 +369,8 @@ html[data-page-intro="pending"] [data-header] {
   }
 
   .community-fixed-visual {
-    background-attachment: fixed;
-    background-size: clamp(720px, 58vw, 1180px) auto;
+    background-attachment: scroll;
+    background-size: cover;
   }
 }
 
