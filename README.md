@@ -38,7 +38,7 @@ npm install
 npm run dev
 ```
 
-Uygulama varsayılan olarak [http://localhost:3001](http://localhost:3001) adresinde açılır. Yönetim girişi `/admin/login` rotasındadır. Ana AnkaWest web projesi için `3000` portu boş bırakılır.
+Uygulama varsayılan olarak [http://localhost:3013](http://localhost:3013) adresinde açılır. Yönetim girişi `/admin/login` rotasındadır.
 
 ## Komutlar
 
@@ -67,7 +67,10 @@ Tarayıcı doğrudan API erişim tokenı tutmaz. Kısa ömürlü giriş doğrula
 
 ## Üretim notları
 
-- `ANKAWEST_SKINCARE_API_BASE_URL` değerini üretim API adresine ayarlayın.
+- Web uygulaması production ortamında `3013` portundan çalışır.
+- `ANKAWEST_SKINCARE_API_BASE_URL` değerini `https://api.ankawestskincare.com/api/ankawest-skincare/v1` olarak ayarlayın.
+- `NEXT_PUBLIC_SITE_URL` değerini `https://ankawestskincare.com` olarak ayarlayın.
+- Canlıda `NEXT_PUBLIC_ALLOW_INDEXING=true` kullanın.
 - HTTPS altında oturum cookie alanları otomatik olarak `Secure` işaretlenir.
 - API CORS ve parola sıfırlama URL ayarlarına web uygulamasının üretim adresini ekleyin.
 - Dağıtımdan önce `npm run lint` ve `npm run build` komutlarını çalıştırın.
