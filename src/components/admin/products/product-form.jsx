@@ -33,6 +33,44 @@ const imageAccept = {
   "image/webp": [".webp"],
 };
 
+const fieldTabs = {
+  categoryId: "general",
+  brand: "general",
+  name: "general",
+  slug: "general",
+  sku: "general",
+  sizeLabel: "general",
+  displayOrder: "general",
+  isFeatured: "general",
+  status: "publication",
+  homepageCarousel1: "publication",
+  homepageCarousel2: "publication",
+  carousel1Order: "publication",
+  carousel2Order: "publication",
+  shortDescription: "content",
+  description: "content",
+  benefitsText: "content",
+  activeIngredientsText: "content",
+  suitableForText: "content",
+  usageInstructions: "content",
+  warnings: "content",
+  internalNote: "content",
+  seoTitle: "seo",
+  seoDescription: "seo",
+  seoKeywordsText: "seo",
+  canonicalUrl: "seo",
+  ogTitle: "seo",
+  ogDescription: "seo",
+  ogImageUrl: "seo",
+};
+
+const fieldLabels = {
+  seoTitle: "SEO başlığı",
+  seoDescription: "SEO açıklaması",
+  ogTitle: "Sosyal paylaşım başlığı",
+  ogDescription: "Sosyal paylaşım açıklaması",
+};
+
 function joinLines(values) {
   return Array.isArray(values) ? values.join("\n") : "";
 }
@@ -115,6 +153,7 @@ function toProductPayload(values) {
 export default function ProductForm({ categories, product = null, userRole, returnTo = "/admin/products" }) {
   const router = useRouter();
   const previewUrlsRef = useRef(new Set());
+  const validationAlertRef = useRef(null);
   const [selectedImages, setSelectedImages] = useState({ cover: null, hover: null });
   const [existingImages, setExistingImages] = useState(() =>
     normalizeImages(product?.images).filter((image) => image.source !== "trendyol"),
@@ -151,6 +190,12 @@ export default function ProductForm({ categories, product = null, userRole, retu
     const previewUrls = previewUrlsRef.current;
     return () => previewUrls.forEach((url) => URL.revokeObjectURL(url));
   }, []);
+
+  useEffect(() => {
+    if (errors.root?.type !== "validation") return;
+
+    validationAlertRef.current?.focus();
+  }, [errors.root]);
 
   useEffect(() => {
     function warnAboutUnsavedChanges(event) {
@@ -309,8 +354,24 @@ export default function ProductForm({ categories, product = null, userRole, retu
     }
   }
 
+  function handleInvalidForm(validationErrors) {
+    const [fieldName] = Object.keys(validationErrors);
+    const tab = fieldTabs[fieldName];
+    const message = validationErrors[fieldName]?.message || "Formdaki hatalı alanları kontrol edin.";
+
+    if (tab) {
+      setActiveTab(tab);
+    }
+
+    setError("root", {
+      type: "validation",
+      message: `Kaydetmek için ${fieldLabels[fieldName] || "formdaki ilgili alanı"} düzeltin: ${message}`,
+    });
+
+  }
+
   return (
-    <form className="form-stack" onSubmit={handleSubmit(saveProduct)} noValidate>
+    <form className="form-stack" onSubmit={handleSubmit(saveProduct, handleInvalidForm)} noValidate>
       <div className="product-save-bar">
         <Link className="button button-secondary" href={returnTo}>
           <ArrowLeft size={17} aria-hidden="true" />
@@ -325,7 +386,7 @@ export default function ProductForm({ categories, product = null, userRole, retu
       </div>
 
       {errors.root ? (
-        <div className="feedback-message feedback-error" role="alert">
+        <div className="feedback-message feedback-error" role="alert" tabIndex={-1} ref={validationAlertRef}>
           <WarningCircle size={18} aria-hidden="true" />
           <span>{errors.root.message}</span>
         </div>

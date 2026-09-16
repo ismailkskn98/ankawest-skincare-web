@@ -6,12 +6,12 @@ const optionalNumber = (schema) =>
   z.preprocess((value) => (value === "" ? undefined : value), schema.optional());
 
 const seoFields = {
-  seoTitle: z.string().trim().max(70).optional(),
-  seoDescription: z.string().trim().max(170).optional(),
+  seoTitle: z.string().trim().max(70, "SEO başlığı en fazla 70 karakter olabilir.").optional(),
+  seoDescription: z.string().trim().max(170, "SEO açıklaması en fazla 170 karakter olabilir.").optional(),
   seoKeywordsText: z.string().optional(),
   canonicalUrl: z.string().trim().optional(),
-  ogTitle: z.string().trim().max(95).optional(),
-  ogDescription: z.string().trim().max(220).optional(),
+  ogTitle: z.string().trim().max(95, "Sosyal paylaşım başlığı en fazla 95 karakter olabilir.").optional(),
+  ogDescription: z.string().trim().max(220, "Sosyal paylaşım açıklaması en fazla 220 karakter olabilir.").optional(),
   ogImageUrl: z.string().trim().optional(),
 };
 

@@ -26,7 +26,7 @@ export function Community() {
               <div
                 className="community-fixed-visual relative mx-auto aspect-[4/5] w-[min(80vw,360px)] overflow-hidden rounded-[48%_52%_8%_8%/18%_20%_5%_5%] bg-[#d9e0db] md:absolute md:top-0 md:left-[52%] md:w-[min(62vw,520px)] md:-translate-x-1/2 lg:left-1/2 lg:w-[min(52vw,580px)] xl:w-[min(44vw,620px)] short-desktop:w-[min(42vw,480px)]"
                 style={{
-                  backgroundImage: "url('/images/home/kadin-resmi-1.jpg')",
+                  backgroundImage: "url('/images/center2.webp')",
                 }}
                 role="img"
                 aria-label="Doğal cilt görünümüne sahip kadın portresi"
@@ -37,7 +37,13 @@ export function Community() {
                 data-scroll-parallax-layer
                 data-parallax-distance="-96"
               >
-                <Image className="object-cover object-[50%_24%]" src="/images/home/kadin-resmi-2.jpg" alt="Yüzüne bakım kremi uygulayan kadın" fill sizes="(min-width: 64rem) 12vw, (min-width: 48rem) 14vw, 24vw" />
+                <Image
+                  className="object-cover object-[50%_24%]"
+                  src="/images/center5.webp"
+                  alt="Yüzüne bakım kremi uygulayan kadın"
+                  fill
+                  sizes="(min-width: 64rem) 12vw, (min-width: 48rem) 14vw, 24vw"
+                />
               </figure>
 
               <figure
@@ -47,7 +53,7 @@ export function Community() {
               >
                 <Image
                   className="object-cover object-[50%_22%]"
-                  src="/images/home/kadin-resmi-6.jpg"
+                  src="/images/center.webp"
                   alt="Yaprakla doğal bakım yaklaşımını temsil eden kadın"
                   fill
                   sizes="(min-width: 64rem) 13vw, (min-width: 48rem) 15vw, 28vw"

@@ -79,6 +79,18 @@
   }
 }
 
+@custom-variant page-hero-compact {
+  @media (max-height: 50rem) and (min-width: 64rem) {
+    @slot;
+  }
+}
+
+@media (max-height: 50rem) and (min-width: 64rem) {
+  .page-hero-desktop-arrow {
+    width: clamp(21rem, 28vw, 24rem);
+  }
+}
+
 /*
  * Breakout grid:
  * center column for content; .fluid children span full width.

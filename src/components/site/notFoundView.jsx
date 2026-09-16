@@ -32,10 +32,7 @@ export function NotFoundView() {
         aria-hidden="true"
       />
 
-      <section
-        className="relative z-1 mx-auto flex w-full max-w-[72rem] flex-col items-center text-center"
-        aria-labelledby="not-found-title"
-      >
+      <section className="relative z-1 mx-auto flex w-full max-w-[72rem] flex-col items-center text-center" aria-labelledby="not-found-title">
         <motion.div
           className="relative h-[clamp(11rem,38vw,26rem)] w-full max-w-[min(100%,58rem)]"
           initial={reduceMotion ? false : { opacity: 0, y: 18 }}
@@ -45,13 +42,7 @@ export function NotFoundView() {
           <h1 id="not-found-title" className="sr-only">
             404 — Sayfa bulunamadı
           </h1>
-          <VideoText
-            className="size-full"
-            src="/videos/hero-background3.mp4"
-            fontSize={98}
-            fontWeight={700}
-            fontFamily="ui-sans-serif, system-ui, sans-serif"
-          >
+          <VideoText className="size-full" src="/videos/hero-background.mp4" fontSize={98} fontWeight={700} fontFamily="ui-sans-serif, system-ui, sans-serif">
             404
           </VideoText>
         </motion.div>
@@ -76,18 +67,10 @@ export function NotFoundView() {
             href="/"
             aria-label="Ana sayfaya dön"
           >
-            <ArrowLeftIcon
-              className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-x-1"
-              size={22}
-              weight="light"
-              aria-hidden="true"
-            />
+            <ArrowLeftIcon className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-x-1" size={22} weight="light" aria-hidden="true" />
           </Link>
 
-          <Link
-            className="group relative inline-flex min-h-11 items-center text-[0.72rem] font-semibold tracking-[0.08em] text-site-ink uppercase"
-            href="/"
-          >
+          <Link className="group relative inline-flex min-h-11 items-center text-[0.72rem] font-semibold tracking-[0.08em] text-site-ink uppercase" href="/">
             Ana sayfaya dön
             <span
               className="absolute inset-x-0 bottom-2 h-px origin-right scale-x-0 bg-current transition-transform duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100 motion-reduce:transition-none"

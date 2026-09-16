@@ -1,15 +1,16 @@
 import "server-only";
 
 import { apiRequest } from "@/lib/api/server";
-import {
-  CARD_TONES,
-  TRANSPARENT_PRODUCT_IMAGES,
-  demoCategories,
-  demoProducts,
-} from "./demoProducts";
-
-// Demo verileri silinmeden geçici olarak devre dışı bırakıldı.
-const DEMO_CATALOG_FALLBACK_ENABLED = false;
+const CARD_TONES = [
+  "bg-[#dbe5e9]",
+  "bg-[#e8dfd9]",
+  "bg-[#efe0dc]",
+  "bg-[#e6e1d8]",
+  "bg-[#dce7df]",
+  "bg-[#e4e0ea]",
+  "bg-[#e9e4d8]",
+  "bg-[#dde6e3]",
+];
 const HOMEPAGE_CAROUSEL_LIMIT = 6;
 
 const HOMEPAGE_CAROUSEL_RULES = {
@@ -234,7 +235,6 @@ export function normalizeProduct(product, index = 0) {
     product.transparent_image_url ||
     product.cutoutImageUrl ||
     product.cutout_image_url ||
-    TRANSPARENT_PRODUCT_IMAGES[product.slug] ||
     "";
   const detailImageUrl =
     product.detailImageUrl ||
@@ -299,17 +299,6 @@ export async function getPublicCatalog() {
     fetchPublicList("/public/categories/list", "?limit=40&sort=displayOrder&direction=ASC"),
   ]);
 
-  if (
-    DEMO_CATALOG_FALLBACK_ENABLED &&
-    (!productRows || productRows.length === 0)
-  ) {
-    return {
-      source: "demo",
-      products: demoProducts.map(normalizeProduct),
-      categories: demoCategories,
-    };
-  }
-
   return {
     source: productRows === null ? "unavailable" : "api",
     products: (productRows || []).map(normalizeProduct),
@@ -320,9 +309,7 @@ export async function getPublicCatalog() {
             name: category.name,
             slug: category.slug,
           }))
-        : DEMO_CATALOG_FALLBACK_ENABLED
-          ? demoCategories
-          : [],
+        : [],
   };
 }
 
@@ -371,31 +358,8 @@ export async function getPublicProductBySlug(slug) {
       };
     }
   } catch {
-    // Demo kataloğa düş
-  }
-
-  if (!DEMO_CATALOG_FALLBACK_ENABLED) {
     return null;
   }
 
-  const demoProduct = demoProducts.find((product) => product.slug === slug);
-
-  if (!demoProduct) {
-    return null;
-  }
-
-  return {
-    source: "demo",
-    product: {
-      ...normalizeProduct(demoProduct),
-      description: demoProduct.description || demoProduct.shortDescription || "",
-      benefits: demoProduct.benefits || [],
-      activeIngredients: demoProduct.activeIngredients || [],
-      suitableFor: demoProduct.suitableFor || [],
-      usageInstructions: demoProduct.usageInstructions || "",
-      warnings: demoProduct.warnings || "",
-      images: demoProduct.images || [],
-      trendyolUrl: demoProduct.trendyolUrl || "",
-    },
-  };
+  return null;
 }

@@ -43,15 +43,12 @@ export function Visual() {
       data-parallax-centered="true"
     >
       <div className="relative z-1 mx-auto w-full max-w-[720px] md:max-w-[960px] lg:mt-[clamp(2rem,3vw,3.5rem)] lg:w-[min(62vw,64rem)] xl:w-[min(60vw,68rem)]">
-        <div
-          className="pointer-events-none absolute -top-[7%] -right-[7%] hidden h-[44%] w-[46%] rotate-[16deg] rounded-[50%] border-t border-r border-site-ink/35 lg:block"
-          aria-hidden="true"
-        />
+        <div className="pointer-events-none absolute -top-[7%] -right-[7%] hidden h-[44%] w-[46%] rotate-[16deg] rounded-[50%] border-t border-r border-site-ink/35 lg:block" aria-hidden="true" />
 
         <div
           className="approach-fixed-visual relative aspect-[4/5] overflow-hidden rounded-[52%_48%_44%_56%/31%_37%_63%_69%] bg-[#d9e0e1] shadow-[0_42px_100px_rgba(38,46,44,0.12)] md:aspect-[6/5] md:rounded-[47%_53%_39%_61%/31%_34%_66%_69%]"
           style={{
-            backgroundImage: "url('/images/home/approach-skin/image-1.jpg')",
+            backgroundImage: "url('/images/home/approach-skin/image-1.webp')",
           }}
           role="img"
           aria-label="Cilt bakım rutininde yüzüne nazikçe dokunan kadın"

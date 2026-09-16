@@ -144,11 +144,11 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
   return (
     <section
       ref={catalogTopRef}
-      className="scroll-mt-[96px] pt-[clamp(4rem,7vw,6.5rem)] pb-[clamp(4rem,9vw,8rem)]"
+      className="scroll-mt-[96px] pt-[clamp(3.25rem,min(7vw,9vh),6.5rem)] pb-[clamp(4rem,min(9vw,11vh),8rem)]"
       aria-label="Ürün listesi"
     >
-      <div className="grid gap-8 sm:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-[clamp(3.25rem,5vw,6rem)] xl:grid-cols-[17rem_minmax(0,1fr)]">
-        <aside className="lg:sticky lg:top-[100px] xl:top-[108px]">
+      <div className="grid gap-[clamp(2rem,4vw,3rem)] lg:grid-cols-[clamp(12.5rem,18vw,17rem)_minmax(0,1fr)] lg:items-start lg:gap-[clamp(2.25rem,4vw,5rem)]">
+        <aside className="lg:sticky lg:top-[clamp(6.25rem,8vw,6.75rem)]">
           <CategoryFilter
             categories={availableCategories}
             activeCategory={activeCategory}
@@ -160,7 +160,7 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
         <div>
           <div
             ref={productGridRef}
-            className="grid grid-cols-2 gap-3 sm:gap-[clamp(1.25rem,2vw,2rem)] xl:grid-cols-3"
+            className="grid grid-cols-2 gap-x-[clamp(0.75rem,2vw,2rem)] gap-y-[clamp(1.25rem,3vw,2.75rem)] xl:grid-cols-3"
           >
             {filteredProducts.map((product) => (
               <div key={product.id} data-product-card-reveal>
@@ -170,7 +170,7 @@ export function ProductsCatalog({ products, categories, revealDirection = "right
           </div>
 
           {filteredProducts.length === 0 ? (
-            <p className="mt-16 text-center text-[1rem] text-site-copy">
+            <p className="mt-[clamp(3rem,7vw,5rem)] text-center text-[clamp(0.92rem,1.2vw,1rem)] leading-[1.6] text-site-copy">
               Bu kategoride henüz ürün bulunmuyor.
             </p>
           ) : null}

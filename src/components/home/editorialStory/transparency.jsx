@@ -6,13 +6,13 @@ import { ingredientStories } from "@/config/site-content";
 
 const formulaImages = [
   {
-    src: "/images/urunler-png-ham/GLOW%20THERAPY%20AMPOULE/GLUTANEX-Glow-Therapy-Ampoule-sadece-urun.webp",
+    src: "/images/home/GLUTANEX-Glow-Therapy-Ampoule-sadece-urun.webp",
     alt: "GLUTANEX Glow Therapy Ampoule şeffaf ürün görseli",
     className: "lg:mt-6 xl:mt-10",
     distance: -130,
   },
   {
-    src: "/images/urunler-png-ham/AQUA%20BOOSTER/AQUA-BOOSTER.webp",
+    src: "/images/home/AQUA-BOOSTER.webp",
     alt: "GLUTANEX Aqua Booster şeffaf ürün görseli",
     className: "lg:mb-6 xl:mb-10",
     distance: 145,
@@ -49,7 +49,12 @@ export function Transparency() {
         </div>
 
         <div className="mt-10 grid gap-7 md:mt-12 lg:mt-14 lg:grid-cols-12 lg:gap-[clamp(1.5rem,3vw,3.75rem)]">
-          <div className="mx-auto grid w-full max-w-[42rem] grid-cols-2 items-center gap-3 lg:col-span-6 lg:gap-4" data-scroll-parallax-section data-parallax-desktop-only="true" data-parallax-strength="1.35">
+          <div
+            className="mx-auto grid w-full max-w-[42rem] grid-cols-2 items-center gap-3 lg:col-span-6 lg:gap-4"
+            data-scroll-parallax-section
+            data-parallax-desktop-only="true"
+            data-parallax-strength="1.35"
+          >
             {formulaImages.map((image) => (
               <figure className={`relative aspect-[5/6] overflow-hidden ${image.className}`} key={image.src} data-scroll-parallax-layer data-parallax-distance={image.distance}>
                 <Image

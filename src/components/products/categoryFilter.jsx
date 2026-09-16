@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 function CategoryButton({ label, isActive, indicatorId, onClick, reduceMotion }) {
   return (
     <button
-      className={`relative block w-full py-2.5 pr-1 pl-4 text-left text-[0.96rem] leading-[1.35] tracking-[-0.02em] transition-[color,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none motion-reduce:transition-none ${
+      className={`relative block w-full py-[clamp(0.55rem,1.15vh,0.75rem)] pr-1 pl-[clamp(0.875rem,1.5vw,1.125rem)] text-left text-[clamp(0.88rem,1.25vw,0.98rem)] leading-[1.35] tracking-[-0.02em] transition-[color,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none motion-reduce:transition-none ${
         isActive ? "font-medium text-site-ink" : "font-light text-site-copy hover:opacity-70"
       }`}
       type="button"
@@ -19,7 +19,7 @@ function CategoryButton({ label, isActive, indicatorId, onClick, reduceMotion })
       {label}
       {isActive ? (
         <motion.span
-          className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-site-ink"
+          className="absolute inset-y-[clamp(0.45rem,1vh,0.65rem)] left-0 w-0.5 rounded-full bg-site-ink"
           layoutId={indicatorId}
           transition={
             reduceMotion
@@ -140,11 +140,11 @@ export function CategoryFilter({ categories, activeCategory, activeCategoryName,
   return (
     <nav aria-label="Ürün kategorileri">
       <div className="hidden lg:block" data-section-reveal>
-        <p className="text-[0.62rem] font-semibold tracking-[0.14em] text-site-copy uppercase">Kategoriler</p>
-        <div className="relative mt-5">
+        <p className="text-[clamp(0.6rem,0.75vw,0.66rem)] font-semibold tracking-[0.14em] text-site-copy uppercase">Kategoriler</p>
+        <div className="relative mt-[clamp(1rem,2vh,1.5rem)]">
           <div
             ref={desktopScrollRef}
-            className="category-scroll-content max-h-[min(50dvh,23rem)] overflow-y-auto overscroll-contain pr-5 xl:max-h-[min(54dvh,25rem)]"
+            className="category-scroll-content max-h-[min(52dvh,26rem)] overflow-y-auto overscroll-contain pr-[clamp(1rem,2vw,1.5rem)]"
             data-lenis-prevent
           >
             <CategoryList
@@ -157,14 +157,14 @@ export function CategoryFilter({ categories, activeCategory, activeCategoryName,
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-4 lg:hidden" data-section-reveal>
+      <div className="flex items-center justify-between gap-[clamp(0.75rem,3vw,1rem)] lg:hidden" data-section-reveal>
         <div className="min-w-0">
-          <p className="text-[0.62rem] font-semibold tracking-[0.12em] text-site-copy uppercase">{activeCategoryName}</p>
+          <p className="text-[clamp(0.6rem,2.5vw,0.66rem)] font-semibold tracking-[0.12em] text-site-copy uppercase">{activeCategoryName}</p>
         </div>
 
         <button
           ref={triggerRef}
-          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-site-ink px-4 py-2 text-[0.66rem] font-semibold tracking-[0.08em] text-site-paper uppercase outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-2 focus-visible:ring-site-ink/25 focus-visible:ring-offset-2 focus-visible:ring-offset-site-paper active:scale-[0.98] motion-reduce:transition-none"
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-site-ink px-[clamp(0.9rem,4vw,1.15rem)] py-2 text-[clamp(0.62rem,2.4vw,0.68rem)] font-semibold tracking-[0.08em] text-site-paper uppercase outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:ring-2 focus-visible:ring-site-ink/25 focus-visible:ring-offset-2 focus-visible:ring-offset-site-paper active:scale-[0.98] motion-reduce:transition-none"
           type="button"
           aria-haspopup="dialog"
           aria-expanded={isOpen}
@@ -187,7 +187,7 @@ export function CategoryFilter({ categories, activeCategory, activeCategoryName,
           }
         }}
       >
-        <div className="flex max-h-[min(80dvh,45rem)] flex-col overflow-hidden rounded-t-[1.75rem] bg-site-paper px-[clamp(1.25rem,5vw,1.75rem)] pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-18px_48px_rgba(20,20,18,0.12)]">
+        <div className="flex max-h-[min(82dvh,45rem)] flex-col overflow-hidden rounded-t-[clamp(1.25rem,6vw,1.75rem)] bg-site-paper px-[clamp(1.1rem,5vw,1.75rem)] pt-[clamp(1rem,3vh,1.35rem)] pb-[calc(clamp(1.25rem,4vh,1.75rem)+env(safe-area-inset-bottom))] shadow-[0_-18px_48px_rgba(20,20,18,0.12)]">
           <div className="flex shrink-0 items-center justify-between gap-4">
             <div>
               <p id="category-filter-title" className="text-[0.66rem] font-semibold tracking-[0.14em] text-site-copy uppercase">
@@ -207,7 +207,7 @@ export function CategoryFilter({ categories, activeCategory, activeCategoryName,
           </div>
 
           <div
-            className="mt-5 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-site-ink/10 pt-3 pr-2"
+            className="mt-[clamp(1rem,3vh,1.25rem)] min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-site-ink/10 pt-[clamp(0.65rem,2vh,0.9rem)] pr-2"
             data-lenis-prevent
           >
             <CategoryList

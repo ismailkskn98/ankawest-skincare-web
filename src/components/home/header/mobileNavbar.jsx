@@ -9,23 +9,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { SiteLink } from "@/components/site/siteLink";
 import { INSTAGRAM_URL } from "@/config/site-content";
 
-const linkEnterDelayClasses = [
-  "[animation-delay:80ms]",
-  "[animation-delay:140ms]",
-  "[animation-delay:200ms]",
-  "[animation-delay:260ms]",
-];
+const linkEnterDelayClasses = ["[animation-delay:80ms]", "[animation-delay:140ms]", "[animation-delay:200ms]", "[animation-delay:260ms]"];
 
 function MenuLink({ item, index, onNavigate }) {
   const className = `group/link block w-fit py-2.5 font-sentient text-[clamp(2.35rem,11vw,3.4rem)] leading-[0.95] font-light tracking-[-0.04em] text-site-ink outline-none transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-55 focus-visible:opacity-55 motion-reduce:transition-none group-open:animate-mobile-link-enter motion-reduce:group-open:animate-none ${linkEnterDelayClasses[index] ?? linkEnterDelayClasses.at(-1)}`;
 
   return (
-    <SiteLink
-      className={className}
-      href={item.href}
-      external={item.external}
-      onClick={onNavigate}
-    >
+    <SiteLink className={className} href={item.href} external={item.external} onClick={onNavigate}>
       <span className="relative">
         {item.label}
         <span
@@ -114,9 +104,7 @@ export function MobileNavbar({ items }) {
         aria-expanded={isOpen}
         onClick={openMenu}
       >
-        <span className="text-[0.66rem] font-semibold tracking-[0.06em] uppercase">
-          Menü
-        </span>
+        <span className="text-[0.66rem] font-semibold tracking-[0.06em] uppercase">Menü</span>
         <span
           className="relative grid size-9 place-items-center rounded-full bg-[#2f322f] transition-colors duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[scrolled=true]/header:bg-[rgba(247,246,241,0.12)] motion-reduce:transition-none"
           aria-hidden="true"
@@ -143,22 +131,9 @@ export function MobileNavbar({ items }) {
       >
         <div className="relative flex min-h-full flex-col px-[clamp(1.25rem,6vw,2rem)] pt-4 pb-7">
           <div className="flex min-h-14 items-center justify-between gap-4">
-            <Link
-              className="inline-flex min-h-12 w-fit items-center outline-none"
-              href="/"
-              aria-label="Anka West Skincare anasayfa"
-              onClick={() => closeMenu()}
-            >
-              <span className="relative block h-[44px] w-[132px] overflow-hidden">
-                <Image
-                  className="absolute top-[-19px] left-0 h-auto w-[132px] max-w-none"
-                  src="/images/logo/ankawestskincare-logo.webp"
-                  alt="Anka West Skincare"
-                  width={465}
-                  height={287}
-                  sizes="132px"
-                  priority
-                />
+            <Link className="inline-flex min-h-12 w-fit items-center outline-none" href="/" aria-label="Anka West Skincare anasayfa" onClick={() => closeMenu()}>
+              <span className="relative block h-[44px] w-[132px]">
+                <Image className="absolute h-auto w-[132px] max-w-none" src="/images/logo/ankawestskincare-logo.webp" alt="Anka West Skincare" width={465} height={287} sizes="132px" priority />
               </span>
             </Link>
             <p id="mobile-menu-title" className="sr-only">
@@ -173,27 +148,16 @@ export function MobileNavbar({ items }) {
               onClick={() => closeMenu()}
             >
               Kapat
-              <span
-                className="relative grid size-9 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink"
-                aria-hidden="true"
-              >
+              <span className="relative grid size-9 place-items-center overflow-hidden rounded-full bg-site-paper text-site-ink" aria-hidden="true">
                 <span className="absolute h-px w-3.5 rotate-45 bg-current transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/close:rotate-[225deg] motion-reduce:transition-none" />
                 <span className="absolute h-px w-3.5 -rotate-45 bg-current transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/close:-rotate-[225deg] motion-reduce:transition-none" />
               </span>
             </button>
           </div>
 
-          <nav
-            className="mt-[clamp(2.5rem,12vh,5.5rem)] grid gap-1"
-            aria-label="Mobil ana menü"
-          >
+          <nav className="mt-[clamp(2.5rem,12vh,5.5rem)] grid gap-1" aria-label="Mobil ana menü">
             {primaryItems.map((item, index) => (
-              <MenuLink
-                key={item.href}
-                item={item}
-                index={index}
-                onNavigate={() => closeMenu()}
-              />
+              <MenuLink key={item.href} item={item} index={index} onNavigate={() => closeMenu()} />
             ))}
           </nav>
 
@@ -221,9 +185,7 @@ export function MobileNavbar({ items }) {
             </Link>
 
             <div className="flex items-end justify-between gap-4 border-t border-site-ink/10 pt-5">
-              <p className="max-w-[18ch] text-[0.78rem] leading-[1.45] text-site-copy">
-                Cildini dinleyen bakım, sana özgü.
-              </p>
+              <p className="max-w-[18ch] text-[0.78rem] leading-[1.45] text-site-copy">Cildini dinleyen bakım, sana özgü.</p>
 
               <a
                 className="inline-flex min-h-10 items-center gap-2 text-[0.66rem] font-semibold tracking-[0.08em] text-site-ink uppercase outline-none opacity-80 transition-opacity duration-300 hover:opacity-100 focus-visible:opacity-100 motion-reduce:transition-none"
